@@ -1,0 +1,10 @@
+/bin
+/lib
+/cmake*
+**/CMakeFiles
+/download
+/*-build
+/*-src
+*.cmake
+Makefile
+**/CMakeCache.txt
