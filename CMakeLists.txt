@@ -1,6 +1,10 @@
 # this cmake modified from lab-04 and lab-06
 
 cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_TOOLCHAIN_FILE ${PROJECT_BINARY_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
+include(./vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 project(what_is_going_on)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -33,11 +37,29 @@ add_subdirectory (
   ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/googletest-build
   EXCLUDE_FROM_ALL
 )
-#add_subdirectory (
-#  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/uwebsockets-src
-#  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/uwebsockets-build
-#  EXCLUDE_FROM_ALL
-#)
-set(UWEBSOCKETS_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/uwebsockets-src/src)
+
+set(LIB_SRCS
+  src/dummy.cpp
+)
+add_library(libraries ${LIB_SRCS})
+target_include_directories(libraries
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+find_library(USOCKETS_LIB_DEBUG usocketsd)
+find_library(USOCKETS_LIB_RELEASE usockets)
+find_path(USOCKETS_INCLUDE_DIR include/libusockets.h)
+
+target_include_directories(libraries PRIVATE ${USOCKETS_INCLUDE_DIR})
+target_link_libraries(libraries PRIVATE $<$<CONFIG:Debug>:${USOCKETS_LIB_DEBUG}> $<$<CONFIG:Release>:${USOCKETS_LIB_RELEASE}>)
+
+set(CMAKE_LIBRARY_PATH ./vcpkg/installed/x64-linux/lib)
+include_directories(./vcpkg/installed/x64-linux/include) # this makes include happy but some vcpkg things arent there??
+
+target_link_libraries(libraries PRIVATE z)
 
 add_subdirectory(server)

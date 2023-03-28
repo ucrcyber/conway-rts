@@ -1,10 +1,11 @@
+# output
 /bin
-/lib
+/build
+/vcpkg
+
+# cmake
 /cmake*
 **/CMakeFiles
-/download
-/*-build
-/*-src
 *.cmake
 Makefile
-**/CMakeCache.txt
+CMakeCache.txt

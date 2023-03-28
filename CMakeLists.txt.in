@@ -14,13 +14,4 @@ ExternalProject_Add(googletest
   TEST_COMMAND      ""
 )
 
-ExternalProject_Add(uWebSockets
-  GIT_REPOSITORY    https://github.com/uWebSockets/uWebSockets.git
-  GIT_TAG           v19
-  SOURCE_DIR        "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/uwebsockets-src"
-  BINARY_DIR        "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/uwebsockets-build"
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND     ""
-  INSTALL_COMMAND   ""
-  TEST_COMMAND      ""
-)
+# uWebSockets handled by vcpkg
