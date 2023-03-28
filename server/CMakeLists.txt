@@ -6,6 +6,6 @@ set(SRCS main.cpp)
 
 add_executable(${PROJECT_NAME} ${SRCS})
 
-# find_path(UWEBSOCKETS_INCLUDE_DIRS uwebsockets/App.h ./vcpkg REQUIRED)
+# find_path(UWEBSOCKETS_INCLUDE_DIRS uwebsockets/App.h REQUIRED)
 # target_include_directories(${PROJECT_NAME} PRIVATE ${UWEBSOCKETS_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} libraries)
+target_link_libraries(${PROJECT_NAME} uWebSockets)

@@ -2,9 +2,6 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_TOOLCHAIN_FILE ${PROJECT_BINARY_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
-include(./vcpkg/scripts/buildsystems/vcpkg.cmake)
-
 project(what_is_going_on)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -50,17 +47,5 @@ target_include_directories(libraries
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-find_library(USOCKETS_LIB_DEBUG usocketsd)
-find_library(USOCKETS_LIB_RELEASE usockets)
-find_path(USOCKETS_INCLUDE_DIR include/libusockets.h)
-
-target_include_directories(libraries PRIVATE ${USOCKETS_INCLUDE_DIR})
-target_link_libraries(libraries PRIVATE $<$<CONFIG:Debug>:${USOCKETS_LIB_DEBUG}> $<$<CONFIG:Release>:${USOCKETS_LIB_RELEASE}>)
-
 add_subdirectory(external)
-
-include_directories(./vcpkg/installed/x64-linux/include) # this makes include happy but some vcpkg things arent there??
-
-target_link_libraries(libraries PRIVATE z uWebSockets)
-
 add_subdirectory(server)
