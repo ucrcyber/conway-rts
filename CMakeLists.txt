@@ -57,9 +57,10 @@ find_path(USOCKETS_INCLUDE_DIR include/libusockets.h)
 target_include_directories(libraries PRIVATE ${USOCKETS_INCLUDE_DIR})
 target_link_libraries(libraries PRIVATE $<$<CONFIG:Debug>:${USOCKETS_LIB_DEBUG}> $<$<CONFIG:Release>:${USOCKETS_LIB_RELEASE}>)
 
-set(CMAKE_LIBRARY_PATH ./vcpkg/installed/x64-linux/lib)
+add_subdirectory(external)
+
 include_directories(./vcpkg/installed/x64-linux/include) # this makes include happy but some vcpkg things arent there??
 
-target_link_libraries(libraries PRIVATE z)
+target_link_libraries(libraries PRIVATE z uWebSockets)
 
 add_subdirectory(server)
