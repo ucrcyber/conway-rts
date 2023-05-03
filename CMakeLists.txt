@@ -49,3 +49,4 @@ target_include_directories(libraries
 
 add_subdirectory(external)
 add_subdirectory(server)
+add_subdirectory(tests)
