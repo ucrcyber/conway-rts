@@ -1,3 +1,7 @@
+# vs code
+/.vs
+/.vscode
+
 # output
 /bin
 /build
