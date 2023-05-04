@@ -2,13 +2,18 @@
 #define CW_LIFETEMPLATE_H
 
 #include <vector>
+#include <string>
 
-/// a cell configuration "template" to be loaded onto a LifeGrid
+/// a cell configuration "template" to be loaded onto a LifeGrid (immutable)
 class LifeTemplate {
     private:
         int width, height;
         std::vector<std::vector<bool>> grid;
     public:
+        /// @brief generates LifeTemplate from a string (new line is a row, '.' is empty, '#' is active)
+        /// @param  string to be read from
+        LifeTemplate(std::string);
+
         /// @return width of template
         const int getWidth() const;
         

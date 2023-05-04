@@ -22,6 +22,8 @@ class Vector2 {
 
         Vector2 operator+(const Vector2& rhs) const;
         Vector2 operator-(const Vector2& rhs) const;
+        // Vector2& operator+=(const Vector2& rhs);
+        // Vector2& operator-=(const Vector2& rhs);
         friend std::ostream& operator<<(std::ostream &out, const Vector2 &rhs);
 };
 

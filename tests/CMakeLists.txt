@@ -4,6 +4,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 add_executable(runAllTests
   sampleTest.cpp
+  Vector2.cpp
+  LifeTemplate.cpp
+  LifeGrid.cpp
 )
 
 target_link_libraries(runAllTests gmock gtest gtest_main libraries)
