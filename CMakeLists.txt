@@ -37,6 +37,10 @@ add_subdirectory (
 
 set(LIB_SRCS
   src/dummy.cpp
+  src/ILifeGrid.cpp
+  src/LifeGrid.cpp
+  src/LifeTemplate.cpp
+  src/Vector2.cpp
 )
 add_library(libraries ${LIB_SRCS})
 target_include_directories(libraries
