@@ -46,7 +46,7 @@ TEST(LifeGrid, nextGeneration){
     LifeTemplate glider(".#.\n..#\n###"),
         glider2("...\n#.#\n.##\n.#."),
         glider3("...\n..#\n#.#\n.##"),
-        glider4("\n..#\n...#\n.###");
+        glider4(".\n.#\n..##\n.##");
     // .#.. .... .... .... ....
     // ..#. #.#. ..#. .#.. ..#.
     // ###. .##. #.#. ..## ...#
