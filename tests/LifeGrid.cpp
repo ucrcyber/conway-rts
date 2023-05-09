@@ -17,7 +17,7 @@ TEST(LifeGrid, templateLoading_setCell){
             x.setCell(Vector2(i, j), LifeState::ALIVE);
             EXPECT_EQ(x.getCell(Vector2(i, j)), LifeState::ALIVE) << "setCell should've updated the cell to be alive";
             x.setCell(Vector2(i, j), LifeState::DEAD);
-            EXPECT_EQ(x.getCell(Vector2(i, j)), LifeState::ALIVE) << "setCell should've re-updated the cell to be dead";
+            EXPECT_EQ(x.getCell(Vector2(i, j)), LifeState::DEAD) << "setCell should've re-updated the cell to be dead";
         }
     }
 }

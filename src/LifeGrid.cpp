@@ -7,7 +7,7 @@ LifeGrid::LifeGrid(int w, int h) : ILifeGrid() {
 }
 
 LifeState LifeGrid::getCell(const Vector2& coordinate) const {
-    return LifeState::ALIVE;
+    return (LifeState)this->grid[coordinate.getY()][coordinate.getX()];
 }
 
 void LifeGrid::setCell(const Vector2& coordinate, const LifeState state) {
@@ -39,5 +39,26 @@ int LifeGrid::compareTemplate(const Vector2& offset, const LifeTemplate& lifeTem
 }
 
 void LifeGrid::step() {
+    //very unoptimized code
+    int ny,nx,liveNeighbors;
+    std::vector<std::vector<bool>> newGrid(this->height,std::vector<bool>(this->width));
+    for(int i = 0; i < this->height; i++) {
+        for(int j = 0; j < this->width; j++) {
+            //count live neighbors
+            liveNeighbors = 0;
+            for(int dy = -1; dy <= 1; dy++) {
+                for(int dx = -1; dx <= 1; dx++) {
+                    if(dx==0 && dy==0) continue;
+                    ny = i+dy;
+                    nx = j+dx;
+                    if(ny<0 || nx<0 || ny>=this->height || nx>=this->width) continue;
+                    if(this->grid[ny][nx]) liveNeighbors++;
+                }
+            }
 
+            //rules
+            newGrid[i][j] = (this->grid[i][j] && (liveNeighbors==2||liveNeighbors==3)) || (!this->grid[i][j] && liveNeighbors==3);
+        }
+    }
+    grid = newGrid;
 }
