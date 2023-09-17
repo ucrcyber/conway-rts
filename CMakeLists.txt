@@ -10,11 +10,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 set(LIB_SRCS
-  src/dummy.cpp
-  src/ILifeGrid.cpp
-  src/LifeGrid.cpp
-  src/LifeTemplate.cpp
-  src/Structure.cpp
+  # src/ILifeGrid.cpp
+  # src/LifeGrid.cpp
+  # src/LifeTemplate.cpp
+  # src/Structure.cpp
   src/Vector2.cpp
 )
 add_library(libraries ${LIB_SRCS})
