@@ -22,6 +22,8 @@ class StructureProperties: public ISerializable<StructureProperties> {
 
     StructureProperties();
     StructureProperties(const std::string& name, const int activation_cost, const LifeGrid& grid, const int income, const int build_area);
+
+    friend std::istream& operator>>(std::istream &in, StructureProperties &rhs);
 };
 
 #endif // CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
