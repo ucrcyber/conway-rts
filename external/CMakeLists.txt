@@ -5,3 +5,6 @@ add_subdirectory(libuv)
 add_subdirectory(zlib)
 add_subdirectory(uSockets)
 add_subdirectory(uWebSockets)
+
+include_directories(${external_include_dirs})
+set(external_include_dirs ${external_include_dirs} PARENT_SCOPE)

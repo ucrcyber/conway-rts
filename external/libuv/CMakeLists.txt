@@ -10,3 +10,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libuv_content)
 target_link_libraries(uv uv_a)
+
+set(external_include_dirs
+  ${external_include_dirs}
+  ${libuv_content_SOURCE_DIR}/include
+)
+include_directories(${external_include_dirs})
+set(external_include_dirs ${external_include_dirs} PARENT_SCOPE)

@@ -9,5 +9,5 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(uWebSockets_content)
 add_library(uWebSockets INTERFACE)
-target_include_directories(uWebSockets INTERFACE ${uwebsockets_content_SOURCE_DIR}/src/)
+target_include_directories(uWebSockets INTERFACE ${uwebsockets_content_SOURCE_DIR}/src/ ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY})
 target_link_libraries(uWebSockets INTERFACE uSockets uv zlibstatic)

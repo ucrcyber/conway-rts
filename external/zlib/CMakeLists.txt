@@ -9,3 +9,11 @@ FetchContent_Declare(
   GIT_SUBMODULES ""
 )
 FetchContent_MakeAvailable(zlib_content)
+
+set(external_include_dirs
+  ${external_include_dirs}
+  ${zlib_content_SOURCE_DIR} # some weird renaming business happens here with zconf.h -> zconf.h.included
+  ${zlib_content_BINARY_DIR} # zconf.h is untouched here though
+)
+include_directories(${external_include_dirs})
+set(external_include_dirs ${external_include_dirs} PARENT_SCOPE)
