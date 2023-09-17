@@ -23,10 +23,17 @@ class Vector2: public ISerializable<Vector2> {
     /// create (x,y) vector
     Vector2(int x, int y);
 
-    Vector2 operator+(const Vector2& rhs) const;
-    Vector2 operator-(const Vector2& rhs) const;
+    Vector2 operator+ (const Vector2& rhs) const;
+    Vector2 operator- (const Vector2& rhs) const;
     // Vector2& operator+=(const Vector2& rhs);
     // Vector2& operator-=(const Vector2& rhs);
+    bool operator== (const Vector2& rhs) const;
+    bool operator!= (const Vector2& rhs) const;
+
+    friend std::ostream& operator<< (std::ostream &out, const Vector2 &rhs);
+    friend std::istream& operator>> (std::istream &in, Vector2 &rhs);
+    bool SerializeToOstream(std::ostream &out) const;
+    bool ParseFromIstream(std::istream &in);
 };
 
 #endif // CONWAY_INCLUDE_VECTOR2_HPP

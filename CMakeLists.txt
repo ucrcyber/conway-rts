@@ -15,7 +15,7 @@ set(LIB_SRCS
   src/Vector2.cpp
 )
 add_library(libraries ${LIB_SRCS})
-target_include_directories(libraries include)
+include_directories(include/)
 target_include_directories(libraries
   PUBLIC
     $<INSTALL_INTERFACE:include>
