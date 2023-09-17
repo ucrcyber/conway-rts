@@ -1,4 +1,5 @@
 #include "../include/Vector2.hpp"
+
 #include <exception>
 
 Vector2::Vector2() : Vector2(0, 0) {}
