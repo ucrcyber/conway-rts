@@ -2,8 +2,8 @@
 #define CONWAY_INCLUDE_LIFESTATE_HPP
 
 enum class LifeState {
-  ALIVE,
-  DEAD,
+  DEAD = 0,
+  ALIVE = 1,
 };
 
 #endif // CONWAY_INCLUDE_LIFESTATE_HPP
