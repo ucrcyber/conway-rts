@@ -5,7 +5,7 @@
 
 #include "ISerializable.hpp"
 #include "Vector2.hpp"
-#include "LifeState.hpp"
+#include "LifeState.h"
 
 // TODO: write iterators (they should exist?)
 

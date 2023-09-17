@@ -1,5 +1,5 @@
-#ifndef CONWAY_INCLUDE_MAGICBYTES_HPP
-#define CONWAY_INCLUDE_MAGICBYTES_HPP
+#ifndef CONWAY_INCLUDE_MAGICBYTES_H
+#define CONWAY_INCLUDE_MAGICBYTES_H
 
 /// @brief bytes used when doing serialization for network
 enum class MagicBytes {
@@ -18,4 +18,4 @@ enum class MagicBytes {
   VECTOR = 2048,
 };
 
-#endif // CONWAY_INCLUDE_MAGICBYTES_HPP
+#endif // CONWAY_INCLUDE_MAGICBYTES_H

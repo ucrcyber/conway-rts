@@ -1,0 +1,9 @@
+#ifndef CONWAY_INCLUDE_LIFESTATE_H
+#define CONWAY_INCLUDE_LIFESTATE_H
+
+enum class LifeState {
+  DEAD = 0,
+  ALIVE = 1,
+};
+
+#endif // CONWAY_INCLUDE_LIFESTATE_H
