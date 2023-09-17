@@ -1,5 +1,5 @@
-#ifndef CONWAY_ISERIALIZABLE_HPP
-#define CONWAY_ISERIALIZABLE_HPP
+#ifndef CONWAY_INCLUDE_ISERIALIZABLE_HPP
+#define CONWAY_INCLUDE_ISERIALIZABLE_HPP
 
 #include <ostream>
 #include <istream>
@@ -21,4 +21,4 @@ class ISerializable {
 // https://stackoverflow.com/a/8513537
 // ISerializable<>::~ISerializable() { } // all destructors must exist
 
-#endif
+#endif // CONWAY_INCLUDE_ISERIALIZABLE_HPP

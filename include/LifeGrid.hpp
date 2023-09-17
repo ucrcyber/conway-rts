@@ -1,5 +1,5 @@
-#ifndef CONWAY_LIFE_GRID_HPP
-#define CONWAY_LIFE_GRID_HPP
+#ifndef CONWAY_INCLUDE_LIFEGRID_HPP
+#define CONWAY_INCLUDE_LIFEGRID_HPP
 
 #include <vector>
 
@@ -44,4 +44,4 @@ class LifeGrid: public ISerializable<LifeGrid> {
     void tick();
 };
 
-#endif
+#endif // CONWAY_INCLUDE_LIFEGRID_HPP

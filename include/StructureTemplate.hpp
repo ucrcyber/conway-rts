@@ -1,5 +1,5 @@
-#ifndef CONWAY_STRUCTURE_TEMPLATE_HPP
-#define CONWAY_STRUCTURE_TEMPLATE_HPP
+#ifndef CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP
+#define CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP
 
 #include <string>
 
@@ -24,4 +24,4 @@ class StructureTemplate: public ISerializable<StructureTemplate> {
     StructureTemplate(const std::string& name, const int activation_cost, const LifeGrid& grid, const int income, const int build_area);
 };
 
-#endif
+#endif // CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP

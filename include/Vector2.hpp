@@ -1,5 +1,5 @@
-#ifndef CONWAY_VECTOR2_HPP
-#define CONWAY_VECTOR2_HPP
+#ifndef CONWAY_INCLUDE_VECTOR2_HPP
+#define CONWAY_INCLUDE_VECTOR2_HPP
 
 #include "ISerializable.hpp"
 
@@ -29,4 +29,4 @@ class Vector2: public ISerializable<Vector2> {
     // Vector2& operator-=(const Vector2& rhs);
 };
 
-#endif
+#endif // CONWAY_INCLUDE_VECTOR2_HPP
