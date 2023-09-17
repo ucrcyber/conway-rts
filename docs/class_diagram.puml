@@ -31,7 +31,7 @@ class Vector2 {
   #int y
 }
 
-class StructureTemplate {
+class StructureProperties {
   #string name
   #int activation_cost
   #LifeGrid template
@@ -45,7 +45,7 @@ class Structure {
   +bool checkIntegrity(const& LifeGrid)
 }
 Structure *-- Vector2
-Structure -right-|> StructureTemplate
+Structure -right-|> StructureProperties
 
 enum LifeState {
   ALIVE
@@ -86,7 +86,7 @@ class Room {
   -int team_size_limit
   -bool visible
   ..cache..
-  -StructureTemplate[] templates
+  -StructureProperties[] templates
   ..game state..
   -int time
   -Client&[] clients
@@ -103,10 +103,10 @@ ISerializable <|. Client
 ISerializable <|. Event
 ISerializable <|. Team
 ISerializable <|. Structure
-ISerializable <|. StructureTemplate
+ISerializable <|. StructureProperties
 Room o- Client
 Room o-down- Team
-Room *-down-- StructureTemplate
+Room *-down-- StructureProperties
 
 class main
 main *-down- Room

@@ -1,12 +1,12 @@
-#ifndef CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP
-#define CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP
+#ifndef CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
+#define CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 
 #include <string>
 
 #include "ISerializable.hpp"
 #include "LifeGrid.hpp"
 
-class StructureTemplate: public ISerializable<StructureTemplate> {
+class StructureProperties: public ISerializable<StructureProperties> {
   private:
     std::string _name;
     int _activation_cost;
@@ -20,8 +20,8 @@ class StructureTemplate: public ISerializable<StructureTemplate> {
     const int& income = _income;
     const int& build_area = _build_area;
 
-    StructureTemplate();
-    StructureTemplate(const std::string& name, const int activation_cost, const LifeGrid& grid, const int income, const int build_area);
+    StructureProperties();
+    StructureProperties(const std::string& name, const int activation_cost, const LifeGrid& grid, const int income, const int build_area);
 };
 
-#endif // CONWAY_INCLUDE_STRUCTURETEMPLATE_HPP
+#endif // CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
