@@ -7,6 +7,8 @@
 #include "Vector2.hpp"
 #include "LifeState.hpp"
 
+// TODO: write iterators (they should exist?)
+
 /// @brief basic implementation of a Life grid
 class LifeGrid: public ISerializable<LifeGrid> {
   private:
@@ -20,6 +22,15 @@ class LifeGrid: public ISerializable<LifeGrid> {
   public:
     /// @brief public readonly width and height of the grid
     const Vector2& dimensions = _dimensions;
+    
+    /// @brief constructs an empty life grid
+    /// @param width 
+    /// @param height 
+    LifeGrid(const int width, const int height);
+
+    /// @brief constructors a lifegrid from the given `grid`
+    /// @param grid a square vector
+    LifeGrid(const std::vector<std::vector<bool>>& grid);
 
     /// @brief query the status of a single cell
     /// @param position which cell
