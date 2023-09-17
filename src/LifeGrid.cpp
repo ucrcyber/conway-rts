@@ -1,4 +1,4 @@
-#include "../include/LifeGrid.h"
+#include "LifeGrid.hpp"
 
 LifeGrid::LifeGrid(int w, int h) : ILifeGrid() {
     this->width = w;

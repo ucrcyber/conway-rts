@@ -1,5 +1,3 @@
-# this cmake modified from lab-04 and lab-06
-
 cmake_minimum_required(VERSION 3.15)
 
 project(what_is_going_on)
@@ -17,6 +15,7 @@ set(LIB_SRCS
   src/Vector2.cpp
 )
 add_library(libraries ${LIB_SRCS})
+target_include_directories(libraries include)
 target_include_directories(libraries
   PUBLIC
     $<INSTALL_INTERFACE:include>
