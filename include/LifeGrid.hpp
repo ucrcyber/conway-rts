@@ -24,24 +24,24 @@ class LifeGrid: public ISerializable<LifeGrid> {
     /// @brief query the status of a single cell
     /// @param position which cell
     /// @return whether the cell is alive or dead
-    LifeState getCell(const Vector2& position) const;
+    LifeState GetCell(const Vector2& position) const;
 
     /// @brief loads a payload LifeGrid onto the LifeGrid;
     /// used for loading templates when players build something
     /// @param offset where to load
     /// @param payload what to load
     /// @return whether the operation was successful
-    bool load(const Vector2& offset, const LifeGrid& payload);
+    bool Load(const Vector2& offset, const LifeGrid& payload);
 
     /// @brief compare the payload LifeGrid with the current LifeGrid;
     /// the difference in cells is used to calculate build cost
     /// @param offset where to compare
     /// @param payload what to compare
     /// @return amount of cells that differ
-    int compare(const Vector2& offset, const LifeGrid& payload) const;
+    int Compare(const Vector2& offset, const LifeGrid& payload) const;
 
     /// @brief advances the game of life one generation
-    void tick();
+    void Tick();
 };
 
 #endif // CONWAY_INCLUDE_LIFEGRID_HPP
