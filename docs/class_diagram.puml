@@ -1,0 +1,119 @@
+@startuml
+!theme vibrant
+
+skin rose
+
+title Relationships - Class Diagram
+
+interface ISerializable <generic> {
+  ..serialize..
+  +friend std::ostream& operator<< (std::ostream &o, T x)
+  ..deserialize..
+  +friend std::istream& operator>> (std::istream i, T& x)
+}
+
+class Event {
+  +int time
+  +int id
+  +char[] data
+}
+
+class Client {
+  #string name
+  #int id
+  #Event[] events
+  +addBuildEvent()
+}
+Client *-- Event
+
+class Vector2 {
+  #int x
+  #int y
+}
+
+class StructureTemplate {
+  #string name
+  #int activation_cost
+  #LifeGrid template
+  #int income
+  #int buildArea
+}
+
+class Structure {
+  -bool active
+  -Vector2 position
+  +bool checkIntegrity(const& LifeGrid)
+}
+Structure *-- Vector2
+Structure -right-|> StructureTemplate
+
+enum LifeState {
+  ALIVE
+  DEAD
+}
+
+class LifeGrid {
+  #Vector2 dimensions
+  -bool[][] grid
+  +LifeState getCell(Vector2 position)
+  +void load(Vector2 offset, LifeGrid template)
+  +int compare(Vector2 offset, LifeGrid template)
+  +void tick()
+}
+LifeGrid <-- Vector2
+LifeGrid <- Structure
+LifeGrid -down-> LifeState
+
+class Team {
+  -int id
+  -int leader
+  -Client&[] members
+  -Structure[] structures
+  -int resources
+  -int income
+  #Event[] events
+  +void tick()
+}
+Team *- Event
+Team o-left- Client
+Team *-- Structure
+
+class Room {
+  ..configuration..
+  -int host
+  -std::string name
+  -int team_limit
+  -int team_size_limit
+  -bool visible
+  ..cache..
+  -StructureTemplate[] templates
+  ..game state..
+  -int time
+  -Client&[] clients
+  -Team[] teams
+  -LifeGrid life_grid
+  #Event[] events
+  +void tick()
+}
+Room *- Event
+Room *--- LifeGrid
+
+ISerializable <|.. Room
+ISerializable <|. Client
+ISerializable <|. Event
+ISerializable <|. Team
+ISerializable <|. Structure
+ISerializable <|. StructureTemplate
+Room o- Client
+Room o-down- Team
+Room *-down-- StructureTemplate
+
+class main
+main *-down- Room
+main *-down- Client
+
+package Frame <<UI>> {
+  class 
+}
+
+@enduml
