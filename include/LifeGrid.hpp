@@ -30,6 +30,9 @@ class LifeGrid: public ISerializable<LifeGrid> {
     /// @brief constructs an 1x1 empty life grid
     LifeGrid();
 
+    LifeGrid(const LifeGrid& other);
+    LifeGrid& operator=(const LifeGrid& rhs);
+
     /// @brief constructs an empty life grid
     /// @param width 
     /// @param height 

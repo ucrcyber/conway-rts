@@ -12,6 +12,7 @@ set(LIB_SRCS
   src/LifeGrid.cpp
   # src/LifeTemplate.cpp
   # src/Structure.cpp
+  src/StructureProperties.cpp
   src/Vector2.cpp
 )
 add_library(libraries ${LIB_SRCS})

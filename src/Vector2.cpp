@@ -6,9 +6,15 @@ Vector2::Vector2() : Vector2(0, 0) {}
 
 Vector2::Vector2(int x, int y) : _x(x), _y(y) {}
 
+Vector2::Vector2(const Vector2& other): Vector2() {
+  *this = other;
+}
+
 Vector2& Vector2::operator=(const Vector2& rhs) {
-  _x = rhs.x;
-  _y = rhs.y;
+  if(this != &rhs) {
+    _x = rhs.x;
+    _y = rhs.y;
+  }
   return *this;
 }
 

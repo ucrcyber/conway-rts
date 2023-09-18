@@ -23,6 +23,7 @@ class Vector2: public ISerializable<Vector2> {
     /// create (x,y) vector
     Vector2(int x, int y);
 
+    Vector2(const Vector2& other);
     Vector2& operator= (const Vector2& rhs);
 
     Vector2 operator+(const Vector2& rhs) const;

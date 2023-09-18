@@ -10,8 +10,20 @@ LifeGrid::LifeGrid(const std::vector<std::vector<bool>>& new_grid) {
   Initialize(new_grid);
 }
 
+LifeGrid::LifeGrid(const LifeGrid& other): LifeGrid() {
+  *this = other;
+}
+
+LifeGrid& LifeGrid::operator=(const LifeGrid& other) {
+  if(this != &other) {
+    _dimensions = other.dimensions;
+    grid = other.grid;
+  }
+  return *this;
+}
+
 void LifeGrid::Initialize(const std::vector<std::vector<bool>>& new_grid) {
-  _dimensions = Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size());
+  _dimensions = std::move(Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size()));
   grid = new_grid;
 }
 

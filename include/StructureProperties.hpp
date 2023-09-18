@@ -2,9 +2,11 @@
 #define CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 
 #include <string>
+#include <vector>
 
 #include "ISerializable.hpp"
 #include "LifeGrid.hpp"
+#include "Vector2.hpp"
 
 class StructureProperties: public ISerializable<StructureProperties> {
   private:
@@ -13,6 +15,7 @@ class StructureProperties: public ISerializable<StructureProperties> {
     LifeGrid _grid;
     int _income;
     int _build_area;
+    std::vector<Vector2> _checks;
   public:
     const std::string& name = _name;
     const int& activation_cost = _activation_cost;
@@ -20,8 +23,17 @@ class StructureProperties: public ISerializable<StructureProperties> {
     const int& income = _income;
     const int& build_area = _build_area;
 
+    /// @brief coordinate offsets to check during an structure integrity check
+    // (this *should* be sorted by y first then x from construction)
+    const std::vector<Vector2>& checks = _checks;
+
+    /// @brief default constructor makes an empty 1x1 structure
     StructureProperties();
-    StructureProperties(const std::string& name, const int activation_cost, const LifeGrid& grid, const int income, const int build_area);
+
+    StructureProperties(
+      const std::string& name, const int activation_cost, const int income,
+      const int build_area, const LifeGrid& grid, const std::vector<Vector2>& checks
+    );
 
     friend std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs);
     friend std::istream& operator>>(std::istream &in, StructureProperties &rhs);
