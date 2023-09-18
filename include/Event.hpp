@@ -25,6 +25,11 @@ class Event: public ISerializable<Event> {
 
     Event();
     Event(const int time, const int id, const std::vector<char>& data);
+
+    friend std::ostream& operator<<(std::ostream &out, const Event &rhs);
+    friend std::istream& operator>>(std::istream &in, Event &rhs);
+    bool SerializeToOstream(std::ostream &out) const;
+    bool ParseFromIstream(std::istream &in);
 };
 
 #endif // CONWAY_INCLUDE_EVENT_HPP

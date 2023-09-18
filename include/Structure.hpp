@@ -24,6 +24,11 @@ class Structure: public ISerializable<Structure> {
     bool CheckIntegrity(const LifeGrid& life_grid);
 
     Structure(const StructureProperties& structure_template);
+
+    friend std::ostream& operator<<(std::ostream &out, const Structure &rhs);
+    friend std::istream& operator>>(std::istream &in, Structure &rhs);
+    bool SerializeToOstream(std::ostream &out) const;
+    bool ParseFromIstream(std::istream &in);
 };
 
 #endif // CONWAY_INCLUDE_STRUCTURE_HPP
