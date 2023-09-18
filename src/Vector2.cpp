@@ -6,6 +6,12 @@ Vector2::Vector2() : Vector2(0, 0) {}
 
 Vector2::Vector2(int x, int y) : _x(x), _y(y) {}
 
+Vector2& Vector2::operator=(const Vector2& rhs) {
+  _x = rhs.x;
+  _y = rhs.y;
+  return *this;
+}
+
 Vector2 Vector2::operator+(const Vector2& rhs) const {
   return Vector2(x + rhs.x, y + rhs.y);
 }

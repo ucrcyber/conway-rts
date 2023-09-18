@@ -19,10 +19,17 @@ class LifeGrid: public ISerializable<LifeGrid> {
     /// @brief grid to represent the game of life grid
     /// (feel free to change the type if you want)
     std::vector<std::vector<bool>> grid;
+
+    /// @brief sets the internal grid to the given grid
+    /// @param new_grid 
+    void Initialize(const std::vector<std::vector<bool>>& new_grid);
   public:
     /// @brief public readonly width and height of the grid
     const Vector2& dimensions = _dimensions;
     
+    /// @brief constructs an 1x1 empty life grid
+    LifeGrid();
+
     /// @brief constructs an empty life grid
     /// @param width 
     /// @param height 
@@ -53,6 +60,11 @@ class LifeGrid: public ISerializable<LifeGrid> {
 
     /// @brief advances the game of life one generation
     void Tick();
+
+    friend std::ostream& operator<< (std::ostream &out, const LifeGrid &rhs);
+    friend std::istream& operator>> (std::istream &in, LifeGrid &rhs);
+    bool SerializeToOstream(std::ostream &out) const;
+    bool ParseFromIstream(std::istream &in);
 };
 
 #endif // CONWAY_INCLUDE_LIFEGRID_HPP

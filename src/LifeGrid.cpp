@@ -1,13 +1,18 @@
 #include "LifeGrid.hpp"
 
+LifeGrid::LifeGrid(): LifeGrid::LifeGrid(1, 1) {}
+
 LifeGrid::LifeGrid(int width, int height):
   LifeGrid::LifeGrid(std::vector<std::vector<bool>>(height, std::vector<bool>(width, false)))
 {}
 
-LifeGrid::LifeGrid(const std::vector<std::vector<bool>>& grid):
-  _dimensions(Vector2(grid.front().size(), grid.size()))
-{
-  this->grid = grid;
+LifeGrid::LifeGrid(const std::vector<std::vector<bool>>& new_grid) {
+  Initialize(new_grid);
+}
+
+void LifeGrid::Initialize(const std::vector<std::vector<bool>>& new_grid) {
+  _dimensions = Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size());
+  grid = new_grid;
 }
 
 LifeState LifeGrid::GetCell(const Vector2& coordinate) const {
@@ -71,4 +76,54 @@ void LifeGrid::Tick() {
     }
   }
   grid = new_grid;
+}
+
+// ### Format
+// ```
+//     [height] [width]
+//     [...lines]
+// ```
+// `.` dead
+// `#` alive
+// ### Example
+// ```
+//     3 5
+//     ..##.
+//     ##..#
+//     ..##.
+// ```
+std::ostream& operator<<(std::ostream &out, const LifeGrid &rhs) {
+  out << rhs.dimensions.y << ' ' << rhs.dimensions.x << '\n';
+  for(const auto &row : rhs.grid) {
+    for(auto x : row) {
+      out << (x ? '#' : '.');
+    }
+    out << '\n';
+  }
+  return out;
+}
+
+std::istream& operator>>(std::istream &in, LifeGrid &rhs) {
+  int height, width;
+  in >> height >> width;
+  std::vector<std::vector<bool>> new_grid(height, std::vector<bool>(width));
+  for(int i = 0; i < height; i ++) {
+    for(int j = 0; j < width; j ++) {
+      char x;
+      in >> x;
+      new_grid[i][j] = x == '#';
+    }
+  }
+  rhs.Initialize(new_grid);
+  return in;
+}
+
+bool LifeGrid::SerializeToOstream(std::ostream &out) const {
+  out << *this;
+  return true;
+}
+
+bool LifeGrid::ParseFromIstream(std::istream &in) {
+  in >> *this;
+  return true;
 }
