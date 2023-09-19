@@ -22,7 +22,7 @@ StructureProperties::StructureProperties(const StructureProperties& other): Stru
 }
 
 StructureProperties& StructureProperties::operator=(const StructureProperties& rhs) {
-  if(this != &rhs) {
+  if(this !=& rhs) {
     _name = rhs.name;
     _activation_cost = rhs.activation_cost;
     _grid = rhs.grid;
@@ -51,7 +51,7 @@ StructureProperties& StructureProperties::operator=(const StructureProperties& r
 //     %#
 //     ##
 // ```
-std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs){
+std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs){
   out << rhs.name << "\n" << rhs.activation_cost << " " << rhs.income << " "
     << rhs.build_area << "\n"
     << rhs.grid.dimensions.y << " " << rhs.grid.dimensions.x << "\n";
@@ -79,7 +79,7 @@ std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs){
   return out;
 }
 
-std::istream& operator>>(std::istream &in, StructureProperties &rhs){
+std::istream& operator>>(std::istream& in, StructureProperties& rhs){
   int height, width;
 
   std::getline(in >> std::ws, rhs._name);
@@ -116,12 +116,12 @@ std::istream& operator>>(std::istream &in, StructureProperties &rhs){
   return in;
 }
 
-bool StructureProperties::SerializeToOstream(std::ostream &out) const {
+bool StructureProperties::SerializeToOstream(std::ostream& out) const {
   out << *this;
   return true;
 }
 
-bool StructureProperties::ParseFromIstream(std::istream &in) {
+bool StructureProperties::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }

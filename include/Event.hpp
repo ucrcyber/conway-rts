@@ -29,10 +29,10 @@ class Event: public ISerializable<Event> {
     Event(const Event& other);
     Event& operator=(const Event& rhs);
 
-    friend std::ostream& operator<<(std::ostream &out, const Event &rhs);
-    friend std::istream& operator>>(std::istream &in, Event &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const Event& rhs);
+    friend std::istream& operator>>(std::istream& in, Event& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_EVENT_HPP

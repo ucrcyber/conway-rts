@@ -19,7 +19,7 @@ Structure::Structure(const Structure& other): Structure() {
 }
 
 Structure& Structure::operator=(const Structure& rhs) {
-  if(this != &rhs) {
+  if(this !=& rhs) {
     _active = rhs.active;
     _position = rhs.position;
     _properties = rhs.properties;
@@ -49,23 +49,23 @@ bool Structure::CheckIntegrity(const LifeGrid& life_grid) {
 //     ##
 //     0 (5 10)
 // ```
-std::ostream& operator<<(std::ostream &out, const Structure &rhs) {
+std::ostream& operator<<(std::ostream& out, const Structure& rhs) {
   out << rhs.properties
   << rhs.active << ' ' << rhs.position;
   return out;
 }
 
-std::istream& operator>>(std::istream &in, Structure &rhs) {
+std::istream& operator>>(std::istream& in, Structure& rhs) {
   in >> rhs._properties >> rhs._active >> rhs._position;
   return in;
 }
 
-bool Structure::SerializeToOstream(std::ostream &out) const {
+bool Structure::SerializeToOstream(std::ostream& out) const {
   out << *this;
   return true;
 }
 
-bool Structure::ParseFromIstream(std::istream &in) {
+bool Structure::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }

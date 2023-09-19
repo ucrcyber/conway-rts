@@ -35,10 +35,10 @@ class Vector2: public ISerializable<Vector2> {
     bool operator==(const Vector2& rhs) const;
     bool operator!=(const Vector2& rhs) const;
 
-    friend std::ostream& operator<<(std::ostream &out, const Vector2 &rhs);
-    friend std::istream& operator>>(std::istream &in, Vector2 &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const Vector2& rhs);
+    friend std::istream& operator>>(std::istream& in, Vector2& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 
     // structured bindings -- https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
     template<std::size_t Index>

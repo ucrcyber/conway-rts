@@ -33,13 +33,13 @@ Event& Event::operator=(const Event& other) {
 //     5 10 10
 //     abcde
 // ```
-std::ostream& operator<<(std::ostream &out, const Event &rhs) {
+std::ostream& operator<<(std::ostream& out, const Event& rhs) {
   out << rhs.data.size() << " " << rhs.time << " " << rhs.id << "\n";
   for(const auto c : rhs.data) out << c;
   return out;
 }
 
-std::istream& operator>>(std::istream &in, Event &rhs) {
+std::istream& operator>>(std::istream& in, Event& rhs) {
   int data_size;
   in >> data_size >> rhs._time >> rhs._id;
   std::vector<char> new_data(data_size);
@@ -49,12 +49,12 @@ std::istream& operator>>(std::istream &in, Event &rhs) {
   return in;
 }
 
-bool Event::SerializeToOstream(std::ostream &out) const {
+bool Event::SerializeToOstream(std::ostream& out) const {
   out << *this;
   return true;
 }
 
-bool Event::ParseFromIstream(std::istream &in) {
+bool Event::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }

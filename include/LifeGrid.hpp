@@ -64,10 +64,10 @@ class LifeGrid: public ISerializable<LifeGrid> {
     /// @brief advances the game of life one generation
     void Tick();
 
-    friend std::ostream& operator<<(std::ostream &out, const LifeGrid &rhs);
-    friend std::istream& operator>>(std::istream &in, LifeGrid &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const LifeGrid& rhs);
+    friend std::istream& operator>>(std::istream& in, LifeGrid& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_LIFEGRID_HPP

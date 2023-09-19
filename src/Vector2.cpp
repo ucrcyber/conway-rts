@@ -11,7 +11,7 @@ Vector2::Vector2(const Vector2& other): Vector2() {
 }
 
 Vector2& Vector2::operator=(const Vector2& rhs) {
-  if(this != &rhs) {
+  if(this !=& rhs) {
     _x = rhs.x;
     _y = rhs.y;
   }
@@ -42,23 +42,23 @@ bool Vector2::operator!=(const Vector2& rhs) const {
 // ```
 //     (7 27)
 // ```
-std::ostream& operator<<(std::ostream &out, const Vector2 &rhs) {
+std::ostream& operator<<(std::ostream& out, const Vector2& rhs) {
   out << '(' << rhs.x << " " << rhs.y << ')';
   return out;
 }
 
-std::istream& operator>>(std::istream &in, Vector2 &rhs) {
+std::istream& operator>>(std::istream& in, Vector2& rhs) {
   char dummy;
   in >> dummy >> rhs._x >> rhs._y >> dummy;
   return in;
 }
 
-bool Vector2::SerializeToOstream(std::ostream &out) const {
+bool Vector2::SerializeToOstream(std::ostream& out) const {
   out << *this;
   return true;
 }
 
-bool Vector2::ParseFromIstream(std::istream &in) {
+bool Vector2::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }

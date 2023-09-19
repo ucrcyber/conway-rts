@@ -29,10 +29,10 @@ class Structure: public ISerializable<Structure> {
     Structure(const Structure& other);
     Structure& operator=(const Structure& rhs);
 
-    friend std::ostream& operator<<(std::ostream &out, const Structure &rhs);
-    friend std::istream& operator>>(std::istream &in, Structure &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const Structure& rhs);
+    friend std::istream& operator>>(std::istream& in, Structure& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_STRUCTURE_HPP

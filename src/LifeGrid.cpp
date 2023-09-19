@@ -104,7 +104,7 @@ void LifeGrid::Tick() {
 //     ##..#
 //     ..##.
 // ```
-std::ostream& operator<<(std::ostream &out, const LifeGrid &rhs) {
+std::ostream& operator<<(std::ostream& out, const LifeGrid& rhs) {
   out << rhs.dimensions.y << ' ' << rhs.dimensions.x << '\n';
   for(const auto &row : rhs.grid) {
     for(auto x : row) {
@@ -115,7 +115,7 @@ std::ostream& operator<<(std::ostream &out, const LifeGrid &rhs) {
   return out;
 }
 
-std::istream& operator>>(std::istream &in, LifeGrid &rhs) {
+std::istream& operator>>(std::istream& in, LifeGrid& rhs) {
   int height, width;
   in >> height >> width;
   std::vector<std::vector<bool>> new_grid(height, std::vector<bool>(width));
@@ -130,12 +130,12 @@ std::istream& operator>>(std::istream &in, LifeGrid &rhs) {
   return in;
 }
 
-bool LifeGrid::SerializeToOstream(std::ostream &out) const {
+bool LifeGrid::SerializeToOstream(std::ostream& out) const {
   out << *this;
   return true;
 }
 
-bool LifeGrid::ParseFromIstream(std::istream &in) {
+bool LifeGrid::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }

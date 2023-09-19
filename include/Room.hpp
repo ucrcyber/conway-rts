@@ -17,10 +17,10 @@ class Room: public ISerializable<Room> {
   public:
     /// TODO: set up after other classes have been implemented
 
-    friend std::ostream& operator<<(std::ostream &out, const Room &rhs);
-    friend std::istream& operator>>(std::istream &in, Room &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const Room& rhs);
+    friend std::istream& operator>>(std::istream& in, Room& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_ROOM_HPP

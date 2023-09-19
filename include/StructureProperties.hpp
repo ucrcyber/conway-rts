@@ -38,10 +38,10 @@ class StructureProperties: public ISerializable<StructureProperties> {
     StructureProperties(const StructureProperties& other);
     StructureProperties& operator=(const StructureProperties& rhs);
 
-    friend std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs);
-    friend std::istream& operator>>(std::istream &in, StructureProperties &rhs);
-    bool SerializeToOstream(std::ostream &out) const;
-    bool ParseFromIstream(std::istream &in);
+    friend std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs);
+    friend std::istream& operator>>(std::istream& in, StructureProperties& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
