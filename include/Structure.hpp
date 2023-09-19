@@ -23,7 +23,11 @@ class Structure: public ISerializable<Structure> {
     /// @return `active`
     bool CheckIntegrity(const LifeGrid& life_grid);
 
-    Structure(const StructureProperties& structure_template);
+    Structure();
+    Structure(const StructureProperties& structure_template, const Vector2& position);
+
+    Structure(const Structure& other);
+    Structure& operator=(const Structure& rhs);
 
     friend std::ostream& operator<<(std::ostream &out, const Structure &rhs);
     friend std::istream& operator>>(std::istream &in, Structure &rhs);

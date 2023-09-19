@@ -17,9 +17,26 @@ StructureProperties::StructureProperties(
   _build_area(build_area), _grid(grid), _checks(checks)
 {}
 
+StructureProperties::StructureProperties(const StructureProperties& other): StructureProperties() {
+  *this = other;
+}
+
+StructureProperties& StructureProperties::operator=(const StructureProperties& rhs) {
+  if(this != &rhs) {
+    _name = rhs.name;
+    _activation_cost = rhs.activation_cost;
+    _grid = rhs.grid;
+    _income = rhs.income;
+    _build_area = rhs.build_area;
+    _checks = rhs.checks;
+  }
+  return *this;
+}
+
 // ### Format
 // ```
-//     [name] [cost] [income] [area]
+//     [name]
+//     [cost] [income] [area]
 //     [height] [width]
 //     [...lines]
 // ```
@@ -35,7 +52,7 @@ StructureProperties::StructureProperties(
 //     ##
 // ```
 std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs){
-  out << rhs.name << " " << rhs.activation_cost << " " << rhs.income << " "
+  out << rhs.name << "\n" << rhs.activation_cost << " " << rhs.income << " "
     << rhs.build_area << "\n"
     << rhs.grid.dimensions.y << " " << rhs.grid.dimensions.x << "\n";
   const std::string grid_symbols = ".#:%";
@@ -65,7 +82,9 @@ std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs){
 std::istream& operator>>(std::istream &in, StructureProperties &rhs){
   int height, width;
 
-  in >> rhs._name >> rhs._activation_cost >> rhs._income >> rhs._build_area;
+  std::getline(in >> std::ws, rhs._name);
+  
+  in >> rhs._activation_cost >> rhs._income >> rhs._build_area;
   in >> height >> width;
 
   std::ostringstream grid_filtered;

@@ -11,7 +11,7 @@ set(LIB_SRCS
   # src/ILifeGrid.cpp
   src/LifeGrid.cpp
   # src/LifeTemplate.cpp
-  # src/Structure.cpp
+  src/Structure.cpp
   src/StructureProperties.cpp
   src/Vector2.cpp
 )

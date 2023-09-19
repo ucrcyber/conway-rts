@@ -27,10 +27,10 @@ TEST(StructureProperties, initialization_block) {
 }
 
 TEST(StructureProperties, istream_extraction) {
-  std::istringstream buffer("Block 65535 65535 65535 2 2 ## %#");
+  std::istringstream buffer("Block 2x2\n65535 65535 65535 2 2 ## %#");
   StructureProperties props;
   buffer >> props;
-  EXPECT_EQ(props.name, "Block");
+  EXPECT_EQ(props.name, "Block 2x2");
   EXPECT_EQ(props.activation_cost, 65535);
   EXPECT_EQ(props.build_area, 65535);
   EXPECT_EQ(props.income, 65535);
@@ -43,7 +43,7 @@ TEST(StructureProperties, istream_extraction) {
 
 TEST(StructureProperties, ostream_insertion) {
   // theres this funky stuff to ignore whitespace (any space is good enough)
-  std::string base = "Block 65535 65535 65535 2 2 ## %#";
+  std::string base = "Block 2x2\n65535 65535 65535 2 2 ## %#";
   std::istringstream buffer(base), buffer_validate(base);
   std::ostringstream output_validate;
   StructureProperties props;

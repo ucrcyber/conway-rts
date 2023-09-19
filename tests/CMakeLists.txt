@@ -6,6 +6,7 @@ add_executable(runAllTests
   Vector2.cpp
   LifeGrid.cpp
   StructureProperties.cpp
+  Structure.cpp
 )
 
 target_link_libraries(runAllTests gmock gtest gtest_main libraries)

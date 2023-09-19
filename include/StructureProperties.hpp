@@ -35,6 +35,9 @@ class StructureProperties: public ISerializable<StructureProperties> {
       const int build_area, const LifeGrid& grid, const std::vector<Vector2>& checks
     );
 
+    StructureProperties(const StructureProperties& other);
+    StructureProperties& operator=(const StructureProperties& rhs);
+
     friend std::ostream& operator<<(std::ostream &out, const StructureProperties &rhs);
     friend std::istream& operator>>(std::istream &in, StructureProperties &rhs);
     bool SerializeToOstream(std::ostream &out) const;
