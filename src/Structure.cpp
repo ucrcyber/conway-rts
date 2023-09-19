@@ -19,7 +19,7 @@ Structure::Structure(const Structure& other): Structure() {
 }
 
 Structure& Structure::operator=(const Structure& rhs) {
-  if(this !=& rhs) {
+  if (this !=& rhs) {
     _active = rhs.active;
     _position = rhs.position;
     _properties = rhs.properties;
@@ -27,11 +27,25 @@ Structure& Structure::operator=(const Structure& rhs) {
   return *this;
 }
 
+bool Structure::operator<(const Structure& other) const {
+  if (*this == other) return false;
+  if (position.x != other.position.x) return position.x < other.position.x;
+  if (position.y != other.position.y) return position.y < other.position.y;
+  if (properties.grid.dimensions.x != other.properties.grid.dimensions.x) return properties.grid.dimensions.x < other.properties.grid.dimensions.x;
+  if (properties.grid.dimensions.y != other.properties.grid.dimensions.y) return properties.grid.dimensions.y < other.properties.grid.dimensions.y;
+  return false;
+}
+
+bool Structure::operator>(const Structure& other) const {
+  if (*this == other) return false;
+  return !(*this < other);
+}
+
 bool Structure::operator==(const Structure& other) const {
-  if(this == &other) return true;
-  if(active != other.active) return false;
-  if(position != other.position) return false;
-  if(properties != other.properties) return false;
+  if (this == &other) return true;
+  if (active != other.active) return false;
+  if (position != other.position) return false;
+  if (properties != other.properties) return false;
   return true;
 }
 
@@ -40,8 +54,8 @@ bool Structure::operator!=(const Structure& other) const {
 }
 
 bool Structure::CheckIntegrity(const LifeGrid& life_grid) {
-  for(const auto offset : properties.checks){
-    if(life_grid.GetCell(position + offset) != properties.grid.GetCell(offset)){
+  for (const auto offset : properties.checks) {
+    if (life_grid.GetCell(position + offset) != properties.grid.GetCell(offset)) {
       return false;
     }
   }

@@ -29,6 +29,8 @@ class Structure: public ISerializable<Structure> {
     Structure(const Structure& other);
     Structure& operator=(const Structure& rhs);
 
+    bool operator<(const Structure& other) const;
+    bool operator>(const Structure& other) const;
     bool operator==(const Structure& other) const;
     bool operator!=(const Structure& other) const;
 
