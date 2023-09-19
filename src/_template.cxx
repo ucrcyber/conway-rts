@@ -9,6 +9,17 @@
 
 // method implementations
 
+CLASSNAME::CLASSNAME(const CLASSNAME& other): CLASSNAME() {
+  *this = other;
+}
+
+CLASSNAME& CLASSNAME::operator=(const CLASSNAME& other) {
+  if(this != &other) {
+    grid = other.grid;
+  }
+  return *this;
+}
+
 // ### Format
 // ```
 //     AAAAAAA
