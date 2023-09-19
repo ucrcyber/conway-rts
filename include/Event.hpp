@@ -17,7 +17,9 @@ class Event: public ISerializable<Event> {
     /// @brief readonly time
     const int& time = _time;
 
-    /// @brief readonly id
+    /// @brief readonly id -- ids are not assigned until they are broadcast
+    // to determine the order they should be processed in, and to detect
+    // missing events
     const int& id = _id;
 
     /// @brief readonly data
@@ -28,6 +30,9 @@ class Event: public ISerializable<Event> {
 
     Event(const Event& other);
     Event& operator=(const Event& rhs);
+
+    bool operator<(const Event& rhs) const;
+    bool operator>(const Event& rhs) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Event& rhs);
     friend std::istream& operator>>(std::istream& in, Event& rhs);

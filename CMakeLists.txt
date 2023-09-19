@@ -8,10 +8,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 set(LIB_SRCS
-  # src/ILifeGrid.cpp
+  src/Client.cpp
   src/Event.cpp
   src/LifeGrid.cpp
-  # src/LifeTemplate.cpp
   src/Structure.cpp
   src/StructureProperties.cpp
   src/Vector2.cpp

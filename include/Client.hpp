@@ -18,7 +18,19 @@ class Client: public ISerializable<Client> {
     const std::string& name = _name;
     const int& id = _id;
 
-    void AddBuildEvent(const EventQueue& queue, const int time, const StructureProperties& building, const Vector2& position);
+    Client();
+    Client(const int id, const std::string& name);
+
+    Client(const Client& other);
+    Client& operator=(const Client& rhs);
+
+    // adds a build event to the given `queue`
+    // ### Event Format
+    // 4 bytes
+    // ```
+    // [client_id] [x] [y] [building_id]
+    // ```
+    void AddBuildEvent(EventQueue& queue, const int time, const int building_id, const Vector2& position);
 
     friend std::ostream& operator<<(std::ostream& out, const Client& rhs);
     friend std::istream& operator>>(std::istream& in, Client& rhs);

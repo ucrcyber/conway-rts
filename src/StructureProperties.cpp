@@ -46,7 +46,8 @@ StructureProperties& StructureProperties::operator=(const StructureProperties& r
 // `%` filled (checked)
 // ### Example
 // ```
-//     Block 0 0 0
+//     Block
+//     0 0 0
 //     2 2
 //     %#
 //     ##

@@ -23,6 +23,17 @@ Event& Event::operator=(const Event& other) {
   return *this;
 }
 
+bool Event::operator<(const Event& other) const {
+  return false;
+  // if(id != other.id) return id < other.id;
+  // else if(time != other.time) return time < other.time;
+  // else return false;
+}
+
+bool Event::operator>(const Event& other) const {
+  return false;
+}
+
 // ### Format
 // ```
 //     [data size] [time] [id]
