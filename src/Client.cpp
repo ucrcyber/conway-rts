@@ -34,7 +34,7 @@ void Client::AddBuildEvent(
   EventQueue& queue, const int time, const int building_id,
   const Vector2& position
 ) {
-  std::vector<char> payload;
+  ArrayBuffer payload {id, position.x, position.y, building_id};
   Event event(time, 0, payload);
   queue.push(EventWithTime(time, event));
 }

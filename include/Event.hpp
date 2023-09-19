@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "ArrayBuffer.hpp"
 #include "ISerializable.hpp"
 
 /// 2D vector for positional coordinates (immutable)
@@ -10,7 +11,7 @@ class Event: public ISerializable<Event> {
   private:
     int _time = 0;
     int _id = 0;
-    std::vector<char> _data;
+    ArrayBuffer _data;
   public:
     // https://stackoverflow.com/a/5424521/21507383 public readonly, private variables
 
@@ -23,10 +24,10 @@ class Event: public ISerializable<Event> {
     const int& id = _id;
 
     /// @brief readonly data
-    const std::vector<char>& data = _data;
+    const ArrayBuffer& data = _data;
 
     Event();
-    Event(const int time, const int id, const std::vector<char>& data);
+    Event(const int time, const int id, const ArrayBuffer& data);
 
     Event(const Event& other);
     Event& operator=(const Event& rhs);

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+#include "ArrayBuffer.hpp"
 #include "ISerializable.hpp"
 #include "StructureProperties.hpp"
 #include "Event.hpp"
@@ -29,7 +30,7 @@ class Client: public ISerializable<Client> {
 
     // adds a build event to the given `queue`
     // ### Event Format
-    // 4 bytes
+    // 4 ints (16? bytes)
     // ```
     // [client_id] [x] [y] [building_id]
     // ```

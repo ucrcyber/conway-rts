@@ -3,10 +3,10 @@
 #include <limits>
 #include <vector>
 
-Event::Event(): Event(0, 0, std::vector<char>())
+Event::Event(): Event(0, 0, ArrayBuffer())
 {}
 
-Event::Event(const int time, const int id, const std::vector<char>& data):
+Event::Event(const int time, const int id, const ArrayBuffer& data):
   _time(time), _id(id), _data(data)
 {}
 
@@ -54,20 +54,20 @@ bool Event::operator!=(const Event& other) const {
 // ### Example
 // ```
 //     5 10 10
-//     abcde
+//     1 2 3 4 5
 // ```
 std::ostream& operator<<(std::ostream& out, const Event& rhs) {
   out << rhs.data.size() << " " << rhs.time << " " << rhs.id << "\n";
-  for(const auto c : rhs.data) out << c;
+  for(const auto c : rhs.data) out << c << " ";
   return out;
 }
 
 std::istream& operator>>(std::istream& in, Event& rhs) {
   int data_size;
   in >> data_size >> rhs._time >> rhs._id;
-  std::vector<char> new_data(data_size);
+  ArrayBuffer new_data(data_size);
   in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-  for(auto &c : new_data) in.get(c);
+  for(auto &c : new_data) in >> c; // in.get(c);
   rhs._data = new_data;
   return in;
 }
