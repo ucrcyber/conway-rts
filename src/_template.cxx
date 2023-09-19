@@ -20,6 +20,16 @@ CLASSNAME& CLASSNAME::operator=(const CLASSNAME& other) {
   return *this;
 }
 
+bool CLASSNAME::operator==(const CLASSNAME& other) const {
+  if(this == &other) return true;
+  
+  return true;
+}
+
+bool CLASSNAME::operator!=(const CLASSNAME& other) const {
+  return !(*this == other);
+}
+
 // ### Format
 // ```
 //     AAAAAAA

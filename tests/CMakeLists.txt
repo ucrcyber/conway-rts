@@ -10,6 +10,7 @@ add_executable(runAllTests
 
   Event.cpp
   Client.cpp
+  Team.cpp
 )
 
 target_link_libraries(runAllTests gmock gtest gtest_main libraries)

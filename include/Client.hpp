@@ -8,7 +8,6 @@
 #include "ISerializable.hpp"
 #include "StructureProperties.hpp"
 #include "Event.hpp"
-#include "EventQueue.hpp"
 
 /// @brief a single client and the actions they want to do
 class Client: public ISerializable<Client> {
@@ -34,7 +33,7 @@ class Client: public ISerializable<Client> {
     // ```
     // [client_id] [x] [y] [building_id]
     // ```
-    void AddBuildEvent(EventQueue& queue, const int time, const int building_id, const Vector2& position);
+    const Event CreateBuildEvent(const int time, const int building_id, const Vector2& position) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Client& rhs);
     friend std::istream& operator>>(std::istream& in, Client& rhs);

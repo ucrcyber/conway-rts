@@ -24,16 +24,24 @@ class Team: public ISerializable<Team> {
     const std::vector<Client>& members = _members;
     const EventQueue& events = _events;
 
-    bool operator==(const Client& other) const;
-    bool operator!=(const Client& other) const;
+    // shouldn't have copy constructor since events, event_queue shouldn't
+    // be copied since the main program only has a reference to one at the
+    // beginning; workaround might be possible though with pointers?
+    Team();
+    Team(const int id);
+    Team(const int id, const std::vector<Client>& members);
+
+    bool operator==(const Team& other) const;
+    bool operator!=(const Team& other) const;
 
     /// @brief adds a new `Client` to `members`
     /// @param new_member 
     /// @return whether `new member` could be added or not (fails if already in team)
     bool AddMember(const Client& new_member);
 
-    /// @brief returns the leader of the team, located at `members.front()`
-    /// @return 
+    /// @brief returns the leader of the team, located at `members.front()`.
+    // please don't call this on something with no members
+    /// @return `members.front()`, or throws `std::logic_error` when there are no members
     const Client& GetLeader() const;
 
     /// @brief sets a new leader of the team
@@ -49,6 +57,11 @@ class Team: public ISerializable<Team> {
     /// @param time 
     /// @param event_queue place to push events to be processed into
     void Tick(const int time, const EventQueue& event_queue);
+
+    friend std::ostream& operator<<(std::ostream& out, const Team& rhs);
+    friend std::istream& operator>>(std::istream& in, Team& rhs);
+    bool SerializeToOstream(std::ostream& out) const;
+    bool ParseFromIstream(std::istream& in);
 };
 
 #endif // CONWAY_INCLUDE_TEAM_HPP
