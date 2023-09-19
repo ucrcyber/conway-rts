@@ -23,4 +23,5 @@ TEST(Client, iostream) {
   i_buffer >> client2;
   EXPECT_EQ(client.id, client2.id);
   EXPECT_EQ(client.name, client2.name);
+  EXPECT_EQ(client, client2);
 }

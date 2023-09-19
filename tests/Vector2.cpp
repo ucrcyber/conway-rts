@@ -10,6 +10,12 @@ TEST(Vector2, initialization) {
   EXPECT_EQ(v.y, 0);
   EXPECT_EQ(w.x, 5);
   EXPECT_EQ(w.y, -5);
+  EXPECT_NE(v, w);
+
+  Vector2 a(1, 2), b(a);
+  EXPECT_EQ(a, b);
+  EXPECT_EQ(a, a);
+  EXPECT_EQ(b, b);
 }
 
 TEST(Vector2, operator){
@@ -20,6 +26,8 @@ TEST(Vector2, operator){
   EXPECT_EQ(sum.y, 7);
   EXPECT_EQ(difference.x, 4);
   EXPECT_EQ(difference.y, 5);
+  EXPECT_EQ(v + w, Vector2(6, 7));
+  EXPECT_EQ(v - w, Vector2(4, 5));
 }
 
 TEST(Vector2, ostreamInsertion){

@@ -25,4 +25,5 @@ TEST(Event, iostream) {
   EXPECT_EQ(event.id, event2.id);
   EXPECT_EQ(event.time, event2.time);
   EXPECT_EQ(event.data, event2.data);
+  EXPECT_EQ(event, event2);
 }
