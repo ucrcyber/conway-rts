@@ -27,6 +27,18 @@ Structure& Structure::operator=(const Structure& rhs) {
   return *this;
 }
 
+bool Structure::operator==(const Structure& other) const {
+  if(this == &other) return true;
+  if(active != other.active) return false;
+  if(position != other.position) return false;
+  if(properties != other.properties) return false;
+  return true;
+}
+
+bool Structure::operator!=(const Structure& other) const {
+  return !(*this == other);
+}
+
 bool Structure::CheckIntegrity(const LifeGrid& life_grid) {
   for(const auto offset : properties.checks){
     if(life_grid.GetCell(position + offset) != properties.grid.GetCell(offset)){

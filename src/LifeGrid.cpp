@@ -22,6 +22,17 @@ LifeGrid& LifeGrid::operator=(const LifeGrid& other) {
   return *this;
 }
 
+bool LifeGrid::operator==(const LifeGrid& other) const {
+  if(this == &other) return true;
+  if(dimensions != other.dimensions) return false;
+  if(Compare(other, Vector2(0, 0)) > 0) return false;
+  return true;
+}
+
+bool LifeGrid::operator!=(const LifeGrid& other) const {
+  return !(*this == other);
+}
+
 void LifeGrid::Initialize(const std::vector<std::vector<bool>>& new_grid) {
   _dimensions = std::move(Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size()));
   grid = new_grid;

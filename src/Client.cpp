@@ -19,6 +19,17 @@ Client& Client::operator=(const Client& other) {
   return *this;
 }
 
+bool Client::operator==(const Client& other) const {
+  if(this == &other) return true;
+  if(id != other.id) return false;
+  if(name != other.name) return false;
+  return true;
+}
+
+bool Client::operator!=(const Client& other) const {
+  return !(*this == other);
+}
+
 void Client::AddBuildEvent(
   EventQueue& queue, const int time, const int building_id,
   const Vector2& position

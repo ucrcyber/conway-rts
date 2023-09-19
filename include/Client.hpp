@@ -24,6 +24,9 @@ class Client: public ISerializable<Client> {
     Client(const Client& other);
     Client& operator=(const Client& rhs);
 
+    bool operator==(const Client& other) const;
+    bool operator!=(const Client& other) const;
+
     // adds a build event to the given `queue`
     // ### Event Format
     // 4 bytes

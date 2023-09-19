@@ -33,6 +33,21 @@ StructureProperties& StructureProperties::operator=(const StructureProperties& r
   return *this;
 }
 
+bool StructureProperties::operator==(const StructureProperties& other) const {
+  if(this == &other) return true;
+  if(activation_cost != other.activation_cost) return false;
+  if(build_area != other.build_area) return false;
+  if(checks != other.checks) return false;
+  if(income != other.income) return false;
+  if(name != other.name) return false;
+  if(grid != other.grid) return false;
+  return true;
+}
+
+bool StructureProperties::operator!=(const StructureProperties& other) const {
+  return !(*this == other);
+}
+
 // ### Format
 // ```
 //     [name]

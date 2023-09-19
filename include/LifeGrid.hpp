@@ -33,6 +33,9 @@ class LifeGrid: public ISerializable<LifeGrid> {
     LifeGrid(const LifeGrid& other);
     LifeGrid& operator=(const LifeGrid& rhs);
 
+    bool operator==(const LifeGrid& other) const;
+    bool operator!=(const LifeGrid& other) const;
+
     /// @brief constructs an empty life grid
     /// @param width 
     /// @param height 

@@ -31,8 +31,10 @@ class Event: public ISerializable<Event> {
     Event(const Event& other);
     Event& operator=(const Event& rhs);
 
-    bool operator<(const Event& rhs) const;
-    bool operator>(const Event& rhs) const;
+    bool operator<(const Event& other) const;
+    bool operator>(const Event& other) const;
+    bool operator==(const Event& other) const;
+    bool operator!=(const Event& other) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Event& rhs);
     friend std::istream& operator>>(std::istream& in, Event& rhs);

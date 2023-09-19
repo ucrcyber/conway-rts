@@ -38,6 +38,9 @@ class StructureProperties: public ISerializable<StructureProperties> {
     StructureProperties(const StructureProperties& other);
     StructureProperties& operator=(const StructureProperties& rhs);
 
+    bool operator==(const StructureProperties& other) const;
+    bool operator!=(const StructureProperties& other) const;
+
     friend std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs);
     friend std::istream& operator>>(std::istream& in, StructureProperties& rhs);
     bool SerializeToOstream(std::ostream& out) const;

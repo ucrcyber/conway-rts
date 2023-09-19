@@ -29,6 +29,9 @@ class Structure: public ISerializable<Structure> {
     Structure(const Structure& other);
     Structure& operator=(const Structure& rhs);
 
+    bool operator==(const Structure& other) const;
+    bool operator!=(const Structure& other) const;
+
     friend std::ostream& operator<<(std::ostream& out, const Structure& rhs);
     friend std::istream& operator>>(std::istream& in, Structure& rhs);
     bool SerializeToOstream(std::ostream& out) const;

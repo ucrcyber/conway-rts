@@ -34,6 +34,18 @@ bool Event::operator>(const Event& other) const {
   return false;
 }
 
+bool Event::operator==(const Event& other) const {
+  if(this == &other) return true;
+  if(id != other.id) return false;
+  if(time != other.time) return false;
+  if(data != other.data) return false;
+  return true;
+}
+
+bool Event::operator!=(const Event& other) const {
+  return !(*this == other);
+}
+
 // ### Format
 // ```
 //     [data size] [time] [id]

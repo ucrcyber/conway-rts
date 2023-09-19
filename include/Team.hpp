@@ -24,6 +24,9 @@ class Team: public ISerializable<Team> {
     const std::vector<Client>& members = _members;
     const EventQueue& events = _events;
 
+    bool operator==(const Client& other) const;
+    bool operator!=(const Client& other) const;
+
     /// @brief adds a new `Client` to `members`
     /// @param new_member 
     /// @return whether `new member` could be added or not (fails if already in team)
