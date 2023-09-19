@@ -9,8 +9,12 @@ Team::Team(const int id): Team::Team(id, std::vector<Client>())
 {}
 
 Team::Team(const int id, const std::vector<Client>& members):
-  _id(id), _members(members)
+  _id(id), _members(members), _income(0), _resources(0)
 {}
+
+Team::Team(const int id, const int initial_resources): Team::Team(id) {
+  _resources = initial_resources;
+}
 
 // Team::Team(const Team& other): Team() {
 //   *this = other;
@@ -61,11 +65,30 @@ bool Team::SetLeader(const Client& new_leader) {
 }
 
 void Team::AddEventToQueue(const Event& event) {
-  event_queue.push({event.time, event});
+  _event_queue.push_back(event);
 }
 
-void Team::Tick(const int time, const EventQueue& event_queue) {
-
+void Team::Tick(const int current_time, EventQueue& next_queue, const std::vector<StructureProperties>& structure_lookup) {
+  if (current_time > _last_income_update) {
+    _resources += (_last_income_update - current_time) * income;
+    _last_income_update = current_time;
+  }
+  while (!event_queue.empty() && event_queue.front().time <= current_time) {
+    const Event event = std::move(event_queue.front());
+    _event_queue.pop_front();
+    // client event validation before passing to the next queue (room)
+    
+    if(event.data.size() != 4) throw std::logic_error("invalid event data");
+    const int building_id = event.data[3];
+    if(building_id < 0 || building_id >= event.data.size()) throw std::logic_error("invalid event building_id");
+    const StructureProperties props = structure_lookup[building_id];
+    const int cost = props.grid.dimensions.x * props.grid.dimensions.y + props.activation_cost;
+    if(resources >= cost){
+      _resources -= cost;
+      next_queue.push_back(event);
+      _income += props.income;
+    }
+  }
 }
 
 // ### Format

@@ -4,6 +4,9 @@
 
 #include "gtest/gtest.h"
 
+#include "Structure.hpp"
+#include "StructureProperties.hpp"
+
 TEST(Team, initialization) {
   Team team;
   EXPECT_EQ(team.id, 0);
@@ -61,4 +64,75 @@ TEST(Team, member_management) {
   team.SetLeader(client3);
   EXPECT_EQ(team.members.size(), 3) << "members should'nt've been removed";
   EXPECT_EQ(team.GetLeader(), client3) << "client 3 reassigned as leader";
+}
+
+TEST(Team, client_event_processing_static_structures) {
+  constexpr int INITIAL_RESOURCES = 2; // 2 since we build 2, then fail the third
+  EventQueue events;
+  Client client1(1, "c1"), client2(2, "c2");
+  Team team(9999, INITIAL_RESOURCES);
+  team.AddMember(client1);
+  team.AddMember(client2);
+
+  constexpr int OFF = 0, ON = 1;
+  const std::vector<StructureProperties> props = {
+    StructureProperties("OFF 1x1", LifeGrid(1, 1)),
+    StructureProperties("ON 1x1", LifeGrid(std::vector<std::vector<bool>>{{true}})),
+  };
+  Vector2 pos1(1, 0), pos2(1, 2);
+  team.AddEventToQueue(client1.CreateBuildEvent(0, OFF, pos1));
+  team.AddEventToQueue(client2.CreateBuildEvent(1, OFF, pos2));
+  team.AddEventToQueue(client2.CreateBuildEvent(9, ON, pos1));
+  EXPECT_EQ(team.event_queue.size(), 3)
+    << "events should be added but not yet processed";
+
+  team.Tick(0, events, props);
+  EXPECT_EQ(team.event_queue.size(), 2)
+    << "of the three added events, one should be processed, leaving two left";
+  ASSERT_EQ(events.size(), 1)
+    << "the initial build event at time=0 should've been accepted (it does nothing)";
+  EXPECT_EQ(team.resources, INITIAL_RESOURCES-1)
+    << "1 resource has been spent in building 1 'OFF 1x1' (to be refunded)";
+  EXPECT_EQ(events.front(), Event(0, 0, ArrayBuffer{client1.id, pos1.x, pos1.y, OFF}))
+    << "the processed placement event should be from client1";
+
+  team.Tick(0, events, props);
+  EXPECT_EQ(team.event_queue.size(), 2)
+    << "of the three added events, two still should be left (time did not change)";
+  EXPECT_EQ(events.size(), 1)
+    << "no events were processed, so the processed events should stay the same";
+  EXPECT_EQ(team.resources, INITIAL_RESOURCES-1)
+    << "1 resource has been spent in building 1 'OFF 1x1' (to be refunded)";
+
+  team.Tick(2, events, props);
+  EXPECT_EQ(team.event_queue.size(), 1)
+    << "of the three added events, one is left";
+  EXPECT_EQ(events.size(), 2)
+    << "of the two added events, both should be processed (both were valid, doing nothing)";
+  EXPECT_EQ(team.resources, INITIAL_RESOURCES-2)
+    << "2 resource has been spent in building 2 'OFF 1x1' (to be refunded)";
+  EXPECT_EQ(events.back(), Event(1, 0, ArrayBuffer{client2.id, pos2.x, pos2.y, OFF}))
+    << "the 2nd placement should be processed and from client2";
+  
+  // events.clear();
+  // ASSERT_EQ(events.size(), 0) << "event list should be cleared";
+
+  team.Tick(9, events, props);
+  EXPECT_EQ(team.event_queue.size(), 0)
+    << "of the three added events, all of them should be processed by now";
+  EXPECT_EQ(team.resources, 0)
+    << "the team has expended all of its resources (though 2 should be refunded, tested in tests/Room.cpp)";
+  EXPECT_EQ(events.size(), 2)
+    << "the last processed event should have been rejected due to insufficient funds";
+}
+
+TEST(Team, client_event_processing_dynamic_structures) {
+  constexpr int INCOME_RATE = 42;
+  EventQueue events;
+  Client client(1, "c1");
+  Team team(9999, 1);
+  team.AddMember(client);
+
+  EXPECT_EQ(false, true)
+    << "hi plz move this to Room.cpp; which has access to the StructureProperties array";
 }

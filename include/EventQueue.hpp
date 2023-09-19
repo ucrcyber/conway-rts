@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <queue>
+#include <deque>
 
 #include "Event.hpp"
 
@@ -11,6 +12,8 @@ typedef std::priority_queue<
   EventWithTime,
   std::vector<EventWithTime>,
   std::greater<EventWithTime>
-> EventQueue;
+> EventPriorityQueue;
+
+typedef std::deque<Event> EventQueue;
 
 #endif // CONWAY_INCLUDE_EVENTQUEUE_HPP

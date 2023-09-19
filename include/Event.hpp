@@ -6,7 +6,14 @@
 #include "ArrayBuffer.hpp"
 #include "ISerializable.hpp"
 
-/// 2D vector for positional coordinates (immutable)
+// TODO: maybe make individual classes if there are more events in the future?
+// enum class EventType {
+//   EMPTY = 0,
+
+//   BUILD,
+// };
+
+/// this is exclusively the BUILD EVENT (for now)
 class Event: public ISerializable<Event> {
   private:
     int _time = 0;

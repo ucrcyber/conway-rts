@@ -15,14 +15,21 @@ class Team: public ISerializable<Team> {
   private:
     int _id = 0;
     std::vector<Client> _members;
-    EventQueue _events;
 
     /// @brief events from `Client`s to process
-    EventQueue event_queue;
+    EventQueue _event_queue;
+
+    int _resources = 0;
+    int _income = 0;
+
+    /// @brief when the last income update was processed
+    int _last_income_update = 0;
   public:
     const int& id = _id;
     const std::vector<Client>& members = _members;
-    const EventQueue& events = _events;
+    const EventQueue& event_queue = _event_queue;
+    const int& resources = _resources;
+    const int& income = _income;
 
     // shouldn't have copy constructor since events, event_queue shouldn't
     // be copied since the main program only has a reference to one at the
@@ -30,6 +37,10 @@ class Team: public ISerializable<Team> {
     Team();
     Team(const int id);
     Team(const int id, const std::vector<Client>& members);
+
+    // team with initial resources for testing; might be used in future as
+    // part of configuration settings
+    Team(const int id, const int initial_resources);
 
     bool operator==(const Team& other) const;
     bool operator!=(const Team& other) const;
@@ -56,7 +67,8 @@ class Team: public ISerializable<Team> {
     /// @brief processes a tick for income and also any events that are happening now
     /// @param time 
     /// @param event_queue place to push events to be processed into
-    void Tick(const int time, const EventQueue& event_queue);
+    /// @param structure_lookup structure lookup table to figure out what's going on so it can process it there
+    void Tick(const int time, EventQueue& event_queue, const std::vector<StructureProperties>& structure_lookup);
 
     friend std::ostream& operator<<(std::ostream& out, const Team& rhs);
     friend std::istream& operator>>(std::istream& in, Team& rhs);
