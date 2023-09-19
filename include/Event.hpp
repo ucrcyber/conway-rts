@@ -26,6 +26,9 @@ class Event: public ISerializable<Event> {
     Event();
     Event(const int time, const int id, const std::vector<char>& data);
 
+    Event(const Event& other);
+    Event& operator=(const Event& rhs);
+
     friend std::ostream& operator<<(std::ostream &out, const Event &rhs);
     friend std::istream& operator>>(std::istream &in, Event &rhs);
     bool SerializeToOstream(std::ostream &out) const;

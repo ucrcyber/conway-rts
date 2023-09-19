@@ -9,6 +9,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 set(LIB_SRCS
   # src/ILifeGrid.cpp
+  src/Event.cpp
   src/LifeGrid.cpp
   # src/LifeTemplate.cpp
   src/Structure.cpp

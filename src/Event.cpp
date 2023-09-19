@@ -1,0 +1,60 @@
+#include "Event.hpp"
+
+#include <limits>
+#include <vector>
+
+Event::Event(): Event(0, 0, std::vector<char>())
+{}
+
+Event::Event(const int time, const int id, const std::vector<char>& data):
+  _time(time), _id(id), _data(data)
+{}
+
+Event::Event(const Event& other): Event() {
+  *this = other;
+}
+
+Event& Event::operator=(const Event& other) {
+  if(this != &other) {
+    _id = other.id;
+    _time = other.time;
+    _data = other.data;
+  }
+  return *this;
+}
+
+// ### Format
+// ```
+//     [data size] [time] [id]
+//     [... data]
+// ```
+// ### Example
+// ```
+//     5 10 10
+//     abcde
+// ```
+std::ostream& operator<<(std::ostream &out, const Event &rhs) {
+  out << rhs.data.size() << " " << rhs.time << " " << rhs.id << "\n";
+  for(const auto c : rhs.data) out << c;
+  return out;
+}
+
+std::istream& operator>>(std::istream &in, Event &rhs) {
+  int data_size;
+  in >> data_size >> rhs._time >> rhs._id;
+  std::vector<char> new_data(data_size);
+  in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  for(auto &c : new_data) in.get(c);
+  rhs._data = new_data;
+  return in;
+}
+
+bool Event::SerializeToOstream(std::ostream &out) const {
+  out << *this;
+  return true;
+}
+
+bool Event::ParseFromIstream(std::istream &in) {
+  in >> *this;
+  return true;
+}
