@@ -31,7 +31,7 @@ LifeState LifeGrid::GetCell(const Vector2& coordinate) const {
   return grid[coordinate.y][coordinate.x] ? LifeState::ALIVE : LifeState::DEAD;
 }
 
-bool LifeGrid::Load(const Vector2& offset, const LifeGrid& life_grid) {
+bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
   const Vector2 bottom_right = offset + life_grid.dimensions;
   if(bottom_right.x > dimensions.x || bottom_right.y > dimensions.y) return false;
 
@@ -45,7 +45,7 @@ bool LifeGrid::Load(const Vector2& offset, const LifeGrid& life_grid) {
   return true;
 }
 
-int LifeGrid::Compare(const Vector2& offset, const LifeGrid& life_grid) const {
+int LifeGrid::Compare(const LifeGrid& life_grid, const Vector2& offset) const {
   int diff_count = 0;
   int oy = offset.y;
   int ox = offset.x;

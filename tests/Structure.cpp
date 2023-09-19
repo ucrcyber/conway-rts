@@ -18,7 +18,7 @@ TEST(Structure, CheckIntegrity) {
   
   EXPECT_EQ(structure.CheckIntegrity(grid), false)
     << "structure has not been loaded yet (so it should fail the check)";
-  grid.Load(position, props.grid);
+  grid.Load(props.grid, position);
   EXPECT_EQ(structure.CheckIntegrity(grid), true)
     << "structure is not loaded, check should pass";
 }

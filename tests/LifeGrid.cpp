@@ -25,7 +25,7 @@ TEST(LifeGrid, load_small) {
   LifeGrid grid(5, 5), small_grid(single);
   for(int i = 0; i < 5; i ++){
     for(int j = 0; j < 5; j ++){
-      grid.Load(Vector2(i, j), small_grid);
+      grid.Load(small_grid, Vector2(i, j));
       EXPECT_EQ(grid.GetCell(Vector2(i, j)), LifeState::ALIVE) 
         << "loadTemplate should've updated the cell to alive"
         " at " << Vector2(i, j);
@@ -62,17 +62,17 @@ TEST(LifeGrid, templateDifference) {
   // std::cout << single << "\n" << large << std::endl;
 
   LifeGrid grid(5, 5);
-  EXPECT_EQ(grid.Compare(Vector2(0, 0), single), 1)
+  EXPECT_EQ(grid.Compare(single, Vector2(0, 0)), 1)
     << "initial board is all dead";
-  EXPECT_EQ(grid.Compare(Vector2(0, 0), large), 11)
+  EXPECT_EQ(grid.Compare(large, Vector2(0, 0)), 11)
     << "initial board is all dead so there should be 5+3+3=11 alive"
       "from the template (that aren't alive on the board)";
-  grid.Load(Vector2(1, 1), block);
-  EXPECT_EQ(grid.Compare(Vector2(1, 1), block), 0)
+  grid.Load(block, Vector2(1, 1));
+  EXPECT_EQ(grid.Compare(block, Vector2(1, 1)), 0)
     << "template should've been loaded correctly (so now difference is zero)";
-  EXPECT_EQ(grid.Compare(Vector2(0, 0), block), 3)
+  EXPECT_EQ(grid.Compare(block, Vector2(0, 0)), 3)
     << "only one of the original set cells is alive in this shifted offset";
-  EXPECT_EQ(grid.Compare(Vector2(0, 0), hamburger), 3+2+1);
+  EXPECT_EQ(grid.Compare(hamburger, Vector2(0, 0)), 3+2+1);
 }
 
 TEST(LifeGrid, nextGeneration){
@@ -91,15 +91,15 @@ TEST(LifeGrid, nextGeneration){
 
   LifeGrid grid(10, 10);
   Vector2 offset(2, 2);
-  grid.Load(offset, glider1);
+  grid.Load(glider1, offset);
   for(int steps = 0; steps < 3; steps ++){
-    EXPECT_EQ(grid.Compare(offset, glider1), 0);
+    EXPECT_EQ(grid.Compare(glider1, offset), 0);
     grid.Tick();
-    EXPECT_EQ(grid.Compare(offset, glider2), 0);
+    EXPECT_EQ(grid.Compare(glider2, offset), 0);
     grid.Tick();
-    EXPECT_EQ(grid.Compare(offset, glider3), 0);
+    EXPECT_EQ(grid.Compare(glider3, offset), 0);
     grid.Tick();
-    EXPECT_EQ(grid.Compare(offset, glider4), 0);
+    EXPECT_EQ(grid.Compare(glider4, offset), 0);
     grid.Tick();
     offset = offset + Vector2(1, 1);
   }

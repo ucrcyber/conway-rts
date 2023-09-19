@@ -49,17 +49,17 @@ class LifeGrid: public ISerializable<LifeGrid> {
 
     /// @brief loads a payload LifeGrid onto the LifeGrid;
     /// used for loading templates when players build something
-    /// @param offset where to load
     /// @param payload what to load
+    /// @param offset where to load
     /// @return whether the operation was successful
-    bool Load(const Vector2& offset, const LifeGrid& payload);
+    bool Load(const LifeGrid& payload, const Vector2& offset);
 
     /// @brief compare the payload LifeGrid with the current LifeGrid;
     /// the difference in cells is used to calculate build cost
-    /// @param offset where to compare
     /// @param payload what to compare
+    /// @param offset where to compare
     /// @return amount of cells that differ
-    int Compare(const Vector2& offset, const LifeGrid& payload) const;
+    int Compare(const LifeGrid& payload, const Vector2& offset) const;
 
     /// @brief advances the game of life one generation
     void Tick();
