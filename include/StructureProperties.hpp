@@ -30,6 +30,18 @@ class StructureProperties: public ISerializable<StructureProperties> {
     /// @brief default constructor makes an empty 1x1 structure
     StructureProperties();
 
+    /// @brief static one-time structure
+    /// @param name 
+    /// @param grid 
+    StructureProperties(const std::string& name, const LifeGrid& grid);
+
+    /// @brief dynamic structure
+    /// @param name 
+    /// @param activation_cost 
+    /// @param income 
+    /// @param build_area 
+    /// @param grid 
+    /// @param checks 
     StructureProperties(
       const std::string& name, const int activation_cost, const int income,
       const int build_area, const LifeGrid& grid, const std::vector<Vector2>& checks

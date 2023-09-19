@@ -5,7 +5,15 @@
 
 StructureProperties::StructureProperties():
   StructureProperties::StructureProperties(
-    "Empty 1x1", 0, 0, 0, LifeGrid(), std::vector<Vector2>()
+    "Empty 1x1", LifeGrid()
+  )
+{}
+
+StructureProperties::StructureProperties(
+  const std::string& name, const LifeGrid& grid
+):
+  StructureProperties::StructureProperties(
+    name, 0, 0, 0, grid, std::vector<Vector2>()
   )
 {}
 
