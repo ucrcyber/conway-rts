@@ -1,6 +1,11 @@
 # conway-rts
 conway rts cyber project (but still being designed)
 
+# required libraries
+```
+libprotobuf-dev protobuf-compiler
+```
+
 # Rough UML Diagram
 ![Conway UML (rough outline)](https://user-images.githubusercontent.com/12877445/228439601-63ad39d7-092e-426e-adc2-eb87175a0ccd.jpeg)
 

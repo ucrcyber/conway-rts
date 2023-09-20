@@ -7,6 +7,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
+find_package(Protobuf REQUIRED)
+add_subdirectory(proto)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${Protobuf_INCLUDE_DIRS})
+
 set(LIB_SRCS
   src/Client.cpp
   src/Team.cpp
@@ -29,5 +34,7 @@ target_include_directories(libraries
 )
 
 add_subdirectory(external)
+
+link_libraries(proto ${Protobuf_LIBRARIES})
 add_subdirectory(server)
 add_subdirectory(tests)
