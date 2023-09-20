@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "ISerializable.hpp"
 #include "Client.hpp"
@@ -16,6 +17,8 @@ class Team: public ISerializable<Team> {
     int _id = 0;
     std::vector<Client> _members;
 
+    std::map<StructureKey, Structure> _structures;
+
     /// @brief events from `Client`s to process
     EventQueue _event_queue;
 
@@ -27,6 +30,7 @@ class Team: public ISerializable<Team> {
   public:
     const int& id = _id;
     const std::vector<Client>& members = _members;
+    const std::map<StructureKey, Structure>& structures = _structures;
     const EventQueue& event_queue = _event_queue;
     const int& resources = _resources;
     const int& income = _income;
@@ -67,8 +71,17 @@ class Team: public ISerializable<Team> {
     /// @brief processes a tick for income and also any events that are happening now
     /// @param time 
     /// @param event_queue place to push events to be processed into
+    /// @param grid
     /// @param structure_lookup structure lookup table to figure out what's going on so it can process it there
-    void Tick(const int time, EventQueue& event_queue, const std::vector<StructureProperties>& structure_lookup);
+    void Tick(const int time, EventQueue& event_queue, const LifeGrid& grid, const std::vector<StructureProperties>& structure_lookup);
+
+    /// @brief check integrity and update all structures
+    /// @param grid 
+    void CheckStructureIntegrity(const LifeGrid& grid);
+
+    /// @brief add a new structure to the set of structures managed by this team
+    /// @param new_structure
+    void AddStructure(const Structure& new_structure);
 
     friend std::ostream& operator<<(std::ostream& out, const Team& rhs);
     friend std::istream& operator>>(std::istream& in, Team& rhs);

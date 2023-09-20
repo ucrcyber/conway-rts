@@ -5,6 +5,10 @@
 TEST(Structure, initialization) {
   LifeGrid empty(5, 5);
   Structure structure;
+
+  EXPECT_EQ(structure.active, false)
+    << "structures should be initially inactive";
+  // after the first check, it'll be enabled and that'll modify Team::_income
 }
 
 TEST(Structure, CheckIntegrity) {

@@ -67,6 +67,7 @@ TEST(Team, member_management) {
 }
 
 TEST(Team, client_event_processing_static_structures) {
+  const LifeGrid grid;
   constexpr int INITIAL_RESOURCES = 2; // 2 since we build 2, then fail the third
   EventQueue events;
   Client client1(1, "c1"), client2(2, "c2");
@@ -86,7 +87,7 @@ TEST(Team, client_event_processing_static_structures) {
   EXPECT_EQ(team.event_queue.size(), 3)
     << "events should be added but not yet processed";
 
-  team.Tick(0, events, props);
+  team.Tick(0, events, grid, props);
   EXPECT_EQ(team.event_queue.size(), 2)
     << "of the three added events, one should be processed, leaving two left";
   ASSERT_EQ(events.size(), 1)
@@ -96,7 +97,7 @@ TEST(Team, client_event_processing_static_structures) {
   EXPECT_EQ(events.front(), Event(0, 0, ArrayBuffer{client1.id, pos1.x, pos1.y, OFF}))
     << "the processed placement event should be from client1";
 
-  team.Tick(0, events, props);
+  team.Tick(0, events, grid, props);
   EXPECT_EQ(team.event_queue.size(), 2)
     << "of the three added events, two still should be left (time did not change)";
   EXPECT_EQ(events.size(), 1)
@@ -104,7 +105,7 @@ TEST(Team, client_event_processing_static_structures) {
   EXPECT_EQ(team.resources, INITIAL_RESOURCES-1)
     << "1 resource has been spent in building 1 'OFF 1x1' (to be refunded)";
 
-  team.Tick(2, events, props);
+  team.Tick(2, events, grid, props);
   EXPECT_EQ(team.event_queue.size(), 1)
     << "of the three added events, one is left";
   EXPECT_EQ(events.size(), 2)
@@ -117,7 +118,7 @@ TEST(Team, client_event_processing_static_structures) {
   // events.clear();
   // ASSERT_EQ(events.size(), 0) << "event list should be cleared";
 
-  team.Tick(9, events, props);
+  team.Tick(9, events, grid, props);
   EXPECT_EQ(team.event_queue.size(), 0)
     << "of the three added events, all of them should be processed by now";
   EXPECT_EQ(team.resources, 0)
@@ -127,12 +128,78 @@ TEST(Team, client_event_processing_static_structures) {
 }
 
 TEST(Team, client_event_processing_dynamic_structures) {
+  LifeGrid grid(10, 10);
   constexpr int INCOME_RATE = 42;
+  constexpr int INITIAL_RESOURCES = 9;
   EventQueue events;
   Client client(1, "c1");
-  Team team(9999, 1);
+  Team team(9999, INITIAL_RESOURCES);
   team.AddMember(client);
 
-  EXPECT_EQ(false, true)
-    << "hi plz move this to Room.cpp; which has access to the StructureProperties array";
+  constexpr int GENERATOR = 0, EXPENSIVE = 1;
+  const LifeGrid block(std::vector<std::vector<bool>>{{true, true}, {true, true}});
+  const std::vector<Vector2> checks(1, Vector2(0, 0));
+  const std::vector<StructureProperties> props = {
+    StructureProperties("GENERATOR", 0, INCOME_RATE, 0, block, checks),
+    StructureProperties("EXPENSIVE", 420, 0, 0, block, checks),
+  };
+  Vector2 pos1(1, 2), pos2(2, 3), pos3(3, 4);
+  
+  team.AddEventToQueue(client.CreateBuildEvent(0, GENERATOR, pos1));
+  team.AddEventToQueue(client.CreateBuildEvent(1, GENERATOR, pos1));
+  team.AddEventToQueue(client.CreateBuildEvent(5, EXPENSIVE, pos2));
+  team.AddEventToQueue(client.CreateBuildEvent(15, EXPENSIVE, pos3));
+  EXPECT_EQ(team.event_queue.size(), 4)
+    << "events should be added but not yet processed";
+
+  team.Tick(0, events, grid, props);
+  EXPECT_EQ(team.event_queue.size(), 3)
+    << "1 of 4 events have been processed";
+  EXPECT_EQ(events.size(), 1)
+    << "1 of 1 processed events have been accepted";
+  EXPECT_EQ(team.income, 0)
+    << "income has not been updated yet";
+  
+  // load template as if you built it (this is handled in Room:Tick)
+  grid.Load(block, pos1);
+
+  team.Tick(1, events, grid, props);
+  EXPECT_EQ(team.event_queue.size(), 2)
+    << "2 of 4 events have been processed";
+  EXPECT_EQ(events.size(), 1)
+    << "1 of 2 processed events have been accepted (rejected since duplicate location)";
+  EXPECT_EQ(team.income, INCOME_RATE)
+    << "income rate should have been updated (structure is active)";
+  EXPECT_EQ(team.resources, INCOME_RATE + INITIAL_RESOURCES-4)
+    << "resources should have been granted (-4 for the initial build cost)";
+  
+  team.Tick(5, events, grid, props);
+  EXPECT_EQ(team.event_queue.size(), 1)
+    << "3 of 4 events have been processed";
+  EXPECT_EQ(events.size(), 1)
+    << "1 of 3 processed events have been accepted (rejected since duplicate location)";
+  EXPECT_EQ(team.income, INCOME_RATE)
+    << "income rate should have been updated (structure is active)";
+  EXPECT_EQ(team.resources, 5*INCOME_RATE + INITIAL_RESOURCES-4)
+    << "generator has lasted for 5 ticks";
+
+  team.Tick(10, events, grid, props);
+  EXPECT_EQ(team.event_queue.size(), 1)
+    << "3 of 4 events have been processed";
+  EXPECT_EQ(events.size(), 1)
+    << "1 of 3 processed events have been accepted (rejected since duplicate location)";
+  EXPECT_EQ(team.income, INCOME_RATE)
+    << "income rate should be the same";
+  EXPECT_EQ(team.resources, 10*INCOME_RATE + INITIAL_RESOURCES-4)
+    << "generator has lasted for 10 ticks";
+  
+  team.Tick(15, events, grid, props);
+  EXPECT_EQ(team.event_queue.size(), 0)
+    << "4 of 4 events have been processed";
+  EXPECT_EQ(events.size(), 2)
+    << "2 of 4 processed events have been accepted (rejected since duplicate location)";
+  EXPECT_EQ(team.income, INCOME_RATE)
+    << "income rate should be the same";
+  EXPECT_EQ(team.resources, 15*INCOME_RATE + INITIAL_RESOURCES - 420 -8)
+    << "generator has lasted for 15 ticks, and purchased one expensive (1000) item";
 }

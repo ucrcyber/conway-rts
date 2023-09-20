@@ -9,7 +9,7 @@ Structure::Structure(): Structure::Structure(StructureProperties(), Vector2(0, 0
 {}
 
 Structure::Structure(const StructureProperties& structure_properties, const Vector2& position):
-  _active(true),
+  _active(false),
   _position(position),
   _properties(structure_properties)
 {}
@@ -54,12 +54,20 @@ bool Structure::operator!=(const Structure& other) const {
 }
 
 bool Structure::CheckIntegrity(const LifeGrid& life_grid) {
+  _active = true;
   for (const auto offset : properties.checks) {
     if (life_grid.GetCell(position + offset) != properties.grid.GetCell(offset)) {
-      return false;
+      _active = false;
+      break;
     }
   }
-  return true;
+  return _active;
+}
+
+const StructureKey Structure::GetKey() const {
+  const auto& [x1, y1] = position;
+  const auto& [x2, y2] = properties.grid.dimensions;
+  return std::make_tuple(x1, y1, x2, y2);
 }
 
 // ### Format

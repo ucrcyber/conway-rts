@@ -68,9 +68,10 @@ void Team::AddEventToQueue(const Event& event) {
   _event_queue.push_back(event);
 }
 
-void Team::Tick(const int current_time, EventQueue& next_queue, const std::vector<StructureProperties>& structure_lookup) {
+void Team::Tick(const int current_time, EventQueue& next_queue, const LifeGrid& grid, const std::vector<StructureProperties>& structure_lookup) {
+  CheckStructureIntegrity(grid);
   if (current_time > _last_income_update) {
-    _resources += (_last_income_update - current_time) * income;
+    _resources += (current_time - _last_income_update) * income;
     _last_income_update = current_time;
   }
   while (!event_queue.empty() && event_queue.front().time <= current_time) {
@@ -83,12 +84,26 @@ void Team::Tick(const int current_time, EventQueue& next_queue, const std::vecto
     if(building_id < 0 || building_id >= event.data.size()) throw std::logic_error("invalid event building_id");
     const StructureProperties props = structure_lookup[building_id];
     const int cost = props.grid.dimensions.x * props.grid.dimensions.y + props.activation_cost;
-    if(resources >= cost){
+    const Structure new_structure(props, Vector2(event.data[1], event.data[2]));
+    if(resources >= cost && structures.count(new_structure.GetKey()) == 0){
       _resources -= cost;
       next_queue.push_back(event);
-      _income += props.income;
+      // TODO: add some easier way of determining whether it is static (does not need to be tracked) or dynamic structure (needs to be tracked)
+      if(!props.checks.empty()) AddStructure(new_structure);
     }
   }
+}
+
+void Team::CheckStructureIntegrity(const LifeGrid& grid) { 
+  for (auto& [k, structure] : _structures) {
+    int before = structure.active;
+    int after = structure.CheckIntegrity(grid);
+    _income += (after - before) * structure.properties.income;
+  }
+}
+
+void Team::AddStructure(const Structure& new_structure) {
+  _structures[new_structure.GetKey()] = new_structure;
 }
 
 // ### Format

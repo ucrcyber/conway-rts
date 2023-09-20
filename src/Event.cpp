@@ -24,14 +24,15 @@ Event& Event::operator=(const Event& other) {
 }
 
 bool Event::operator<(const Event& other) const {
-  return false;
-  // if(id != other.id) return id < other.id;
-  // else if(time != other.time) return time < other.time;
-  // else return false;
+  if(*this == other) return false;
+  if(id != other.id) return id < other.id;
+  else if(time != other.time) return time < other.time;
+  else return false;
 }
 
 bool Event::operator>(const Event& other) const {
-  return false;
+  if(*this == other) return false;
+  return !(*this < other);
 }
 
 bool Event::operator==(const Event& other) const {
