@@ -36,11 +36,19 @@ class Room: public ISerializable<Room> {
     Room(const std::string& name);
     Room(const std::string& name, const Vector2& dimensions);
 
+    /// @brief resets the grid and team statuses
     void Initialize();
+
+    /// @brief update room name
+    /// @param new_name 
     void SetName(const std::string& new_name);
+
+    /// @brief updates structure_lookup vector
+    /// @param new_structures 
     void LoadStructures(const std::vector<StructureProperties>& new_structures);
 
-    void Tick();
+    /// @brief advances one tick (increments `_time`), pushes accepted events into `event_queue` to be broadcasted
+    void Tick(EventQueue& next_queue);
 
     friend std::ostream& operator<<(std::ostream& out, const Room& rhs);
     friend std::istream& operator>>(std::istream& in, Room& rhs);

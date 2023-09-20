@@ -6,6 +6,10 @@ LifeGrid::LifeGrid(int width, int height):
   LifeGrid::LifeGrid(std::vector<std::vector<bool>>(height, std::vector<bool>(width, false)))
 {}
 
+LifeGrid::LifeGrid(const Vector2& dimensions):
+  LifeGrid::LifeGrid(dimensions.x, dimensions.y)
+{}
+
 LifeGrid::LifeGrid(const std::vector<std::vector<bool>>& new_grid) {
   Initialize(new_grid);
 }

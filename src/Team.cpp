@@ -75,14 +75,14 @@ void Team::Tick(const int current_time, EventQueue& next_queue, const LifeGrid& 
     _last_income_update = current_time;
   }
   while (!event_queue.empty() && event_queue.front().time <= current_time) {
-    const Event event = std::move(event_queue.front());
+    const Event event = std::move(_event_queue.front());
     _event_queue.pop_front();
     // client event validation before passing to the next queue (room)
     
     if(event.data.size() != 4) throw std::logic_error("invalid event data");
     const int building_id = event.data[3];
     if(building_id < 0 || building_id >= event.data.size()) throw std::logic_error("invalid event building_id");
-    const StructureProperties props = structure_lookup[building_id];
+    const StructureProperties& props = structure_lookup[building_id];
     const int cost = props.grid.dimensions.x * props.grid.dimensions.y + props.activation_cost;
     const Structure new_structure(props, Vector2(event.data[1], event.data[2]));
     if(resources >= cost && structures.count(new_structure.GetKey()) == 0){

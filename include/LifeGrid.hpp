@@ -41,6 +41,10 @@ class LifeGrid: public ISerializable<LifeGrid> {
     /// @param height 
     LifeGrid(const int width, const int height);
 
+    /// @brief constructors an empty life grid
+    /// @param dimensions 
+    LifeGrid(const Vector2& dimensions);
+
     /// @brief constructors a lifegrid from the given `grid`
     /// @param grid a square vector
     LifeGrid(const std::vector<std::vector<bool>>& grid);

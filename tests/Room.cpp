@@ -12,9 +12,10 @@ TEST(Room, initialization) {
 }
 
 TEST(Room, updating_grid_from_events) {
-  constexpr int INCOME_RATE = 42;
   EventQueue events;
   Client client(1, "c1");
-  Team team(9999, 1);
+  Team team(9999, 1000);
   team.AddMember(client);
+
+  
 }
