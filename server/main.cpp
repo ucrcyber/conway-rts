@@ -9,10 +9,11 @@ constexpr bool using_SSL = true;
 struct PerSocketData {
   int counter = 0; // counts how many messages a client sent (for testing)
 };
-typedef uWS::WebSocket<using_SSL, true, PerSocketData> WebSocket;
+
+// typedef uWS::WebSocket<using_SSL, true, PerSocketData> WebSocket;
+// this type is really buggy with vscode intellisense
 
 int main() {
-  /* Overly simple hello world app */
   uWS::SSLApp({
     .key_file_name = "misc/key.pem",
     .cert_file_name = "misc/cert.pem",
@@ -30,16 +31,16 @@ int main() {
     .sendPingsAutomatically = true,
     /* Handlers */
     .upgrade = nullptr,
-    .open = [](auto *ws) {
-      /* Open event here, you may access ws->getUserData() which points to a PerSocketData struct */
-      std::cout << "open" << ws->getUserData()->counter << std::endl;
+    .open = [](auto *ws) -> void {
+      PerSocketData& user_data = *(ws->getUserData());
+      std::cout << "open" << user_data.counter << std::endl;
     },
     .message = [](auto *ws, std::string_view message, uWS::OpCode opCode) {
-      /* This is the opposite of what you probably want; compress if message is LARGER than 16 kb
-        * the reason we do the opposite here; compress if SMALLER than 16 kb is to allow for 
-        * benchmarking of large message sending without compression */
-      ws->send(message, opCode, message.length() < 16 * 1024);
-      ++(ws->getUserData()->counter);
+      PerSocketData& user_data = *(ws->getUserData());
+      ++(user_data.counter);
+
+      // echo message back
+      ws->send(message, opCode, message.length() > 16 * 1024);
     },
     .drain = [](auto */*ws*/) {
       /* Check ws->getBufferedAmount() here */
@@ -51,8 +52,8 @@ int main() {
       /* Not implemented yet */
     },
     .close = [](auto *ws, int /*code*/, std::string_view /*message*/) {
-      /* You may access ws->getUserData() here */
-      std::cout << "close" << ws->getUserData()->counter << std::endl;
+      PerSocketData& user_data = *(ws->getUserData());
+      std::cout << "close" << user_data.counter << std::endl;
     }
   }).listen(PORT, [](auto *listen_socket) {
     if (listen_socket) {
