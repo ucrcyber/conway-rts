@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package conway;
+
+import "client.proto";
+import "structure.proto";
+
+message Team {
+  int32 id = 1;
+  string name = 2;
+  int32 resources = 3;
+  int32 income = 4;
+  repeated conway.Client members = 5;
+  repeated conway.Structure structures = 6;
+}

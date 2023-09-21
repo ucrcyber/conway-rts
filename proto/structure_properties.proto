@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package conway;
+
+import "life_grid.proto";
+import "vector2.proto";
+
+message StructureProperties {
+  conway.LifeGrid grid = 1;
+  string name = 2;
+  int32 activation_cost = 3;
+  int32 income = 4;
+  int32 build_area = 5;
+  repeated conway.Vector2 checks = 6;
+}

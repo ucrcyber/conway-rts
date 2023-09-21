@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package conway;
+
+// used for translational coordinates or dimensions
+message Vector2 {
+  int32 x = 1;
+  int32 y = 2; 
+}
