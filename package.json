@@ -1,0 +1,29 @@
+{
+  "name": "conway-rts",
+  "version": "0.0.1",
+  "description": "a realtime strategy game based on conway's game of life",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "npx http-server client/public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucrcyber/conway-rts.git"
+  },
+  "author": "NovaSagittarii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ucrcyber/conway-rts/issues"
+  },
+  "homepage": "https://github.com/ucrcyber/conway-rts#readme",
+  "devDependencies": {
+    "@bazel/bazelisk": "^1.18.0",
+    "@bazel/ibazel": "^0.23.7",
+    "@bazel/typescript": "^5.8.1"
+  }
+}
