@@ -2,6 +2,9 @@
 /.vs
 /.vscode
 
+# node
+/node_modules
+
 # output
 /bin
 /build
