@@ -6,6 +6,9 @@
 template<typename T>
 class ISerializable {
   public:
+    // https://stackoverflow.com/a/8513537
+    virtual ~ISerializable() {} // all destructors must exist (necessary for bazel)
+
     // https://stackoverflow.com/a/437507/21507383
     // friendship is not transitive or inherited, so these have to
     // be redeclared if private access is needed
@@ -20,8 +23,5 @@ class ISerializable {
     /// @return whether it was successful or not
     virtual bool ParseFromIstream(std::istream& in) = 0;
 };
-
-// https://stackoverflow.com/a/8513537
-// ISerializable<>::~ISerializable() { } // all destructors must exist
 
 #endif // CONWAY_INCLUDE_ISERIALIZABLE_HPP

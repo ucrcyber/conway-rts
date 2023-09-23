@@ -46,6 +46,12 @@ class Vector2: public ISerializable<Vector2> {
       if constexpr (Index == 0) return x;
       if constexpr (Index == 1) return y;
     }
+
+    // embind stuff
+    int GetX() const { return _x; }
+    int GetY() const { return _y; }
+    void SetX(int x) { _x = x; }
+    void SetY(int y) { _y = y; }
 };
 
 // https://www.albertogramaglia.com/modern-cpp-structured-binding/
