@@ -1,0 +1,17 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+devDependencies:
+  '@bazel/bazelisk':
+    specifier: ^1.18.0
+    version: 1.18.0
+
+packages:
+
+  /@bazel/bazelisk@1.18.0:
+    resolution: {integrity: sha512-WqlTatsGKypeHYidqe3/6W8dkqkgJ13sMCEers/vH7dNwxojHrMQcuaH26sOnQG1eVn8UfHo78fy34yGAF3zsw==}
+    hasBin: true
+    dev: true

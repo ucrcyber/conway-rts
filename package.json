@@ -22,8 +22,6 @@
   },
   "homepage": "https://github.com/ucrcyber/conway-rts#readme",
   "devDependencies": {
-    "@bazel/bazelisk": "^1.18.0",
-    "@bazel/ibazel": "^0.23.7",
-    "@bazel/typescript": "^5.8.1"
+    "@bazel/bazelisk": "^1.18.0"
   }
 }
