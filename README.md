@@ -6,6 +6,8 @@ conway rts cyber project (but still being designed)
 libprotobuf-dev protobuf-compiler
 ```
 
+Installing protobuf on windows [link](https://chromium.googlesource.com/external/github.com/google/protobuf/+/HEAD/cmake/README.md) ??? (kinda broken)
+
 # Rough UML Diagram
 ![Conway UML (rough outline)](https://user-images.githubusercontent.com/12877445/228439601-63ad39d7-092e-426e-adc2-eb87175a0ccd.jpeg)
 

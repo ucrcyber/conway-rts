@@ -3,6 +3,11 @@ workspace(
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+####
+# aspect rules JS (for emscripten)
+####
 http_archive(
   name = "aspect_rules_js",
   sha256 = "77c4ea46c27f96e4aadcc580cd608369208422cf774988594ae8a01df6642c82",
@@ -19,8 +24,9 @@ nodejs_register_toolchains(
   node_version = DEFAULT_NODE_VERSION,
 )
 
-# Emscripten toolchain
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+########################
+# Emscripten toolchain #
+########################
 http_archive(
     name = "emsdk",
     sha256 = "5dd94e557b720800a60387ec078bf3b3a527cbd916ad74a696fe399f1544474f",
@@ -36,3 +42,26 @@ emsdk_emscripten_deps(emscripten_version = "3.1.46")
 
 load("@emsdk//:toolchains.bzl", "register_emscripten_toolchains")
 register_emscripten_toolchains()
+
+############
+# Protobuf #
+############
+# Release: v2.0.1
+# TargetCommitish: master
+# Date: 2022-10-20 02:38:27 +0000 UTC
+# URL: https://github.com/stackb/rules_proto/releases/tag/v2.0.1
+# Size: 2071295 (2.1 MB)
+http_archive(
+    name = "build_stack_rules_proto",
+    sha256 = "ac7e2966a78660e83e1ba84a06db6eda9a7659a841b6a7fd93028cd8757afbfb",
+    strip_prefix = "rules_proto-2.0.1",
+    urls = ["https://github.com/stackb/rules_proto/archive/v2.0.1.tar.gz"],
+)
+
+register_toolchains("@build_stack_rules_proto//toolchain:standard")
+
+load("@build_stack_rules_proto//deps:core_deps.bzl", "core_deps")
+core_deps()
+
+load("@build_stack_rules_proto//deps:protobuf_core_deps.bzl", "protobuf_core_deps")
+protobuf_core_deps()

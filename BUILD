@@ -8,3 +8,11 @@ cc_library(
   hdrs = ["include/Vector2.hpp", "include/ISerializable.hpp"],
   copts = ["-I include"],
 )
+
+filegroup(
+  name = "conway",
+  srcs = [
+    "//client:conway_lib_wasm",
+    "//proto:vector2_proto_js",
+  ],
+)

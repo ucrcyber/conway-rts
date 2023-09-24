@@ -21,20 +21,25 @@ DEFAULT_EMSCRIPTEN_LINKOPTS = [
 ]
 
 WASM_LINKOPTS = [
-  "-s WASM=0",          # Specify wasm output
+  "-s WASM=1",          # Specify wasm output
 ]
 
 cc_binary(
-  name = "lib-wasm.js",
+  name = "conway_lib_wasm_embind",
   srcs = ["bindings.cpp"],
+  features = ["emcc_debug_link"], # idk what this does
   linkopts = DEFAULT_EMSCRIPTEN_LINKOPTS + WASM_LINKOPTS,
   deps = [
     "//:vector2",
     # "//hello-world/cpp:localtime",
   ],
+  # This target won't build successfully on its own because of missing emscripten
+  # headers etc. Therefore, we hide it from wildcards.
+  tags = ["manual"],
+  # this isn't a problem as long as you don't wildcard... wildcarding still breaks this though
 )
 
 wasm_cc_binary(
-  name = "lib-wasm",
-  cc_target = ":lib-wasm.js",
+  name = "conway_lib_wasm",
+  cc_target = ":conway_lib_wasm_embind",
 )

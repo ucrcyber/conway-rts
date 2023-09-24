@@ -47,7 +47,7 @@ class Vector2: public ISerializable<Vector2> {
       if constexpr (Index == 1) return y;
     }
 
-    // embind stuff
+    // getters & setters for embind
     int GetX() const { return _x; }
     int GetY() const { return _y; }
     void SetX(int x) { _x = x; }
