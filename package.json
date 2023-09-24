@@ -9,6 +9,8 @@
   },
   "scripts": {
     "dev": "npx http-server client/public",
+    "build": "npm run build:bazel",
+    "build:bazel": "npx bazel build //:conway",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
