@@ -1,3 +1,7 @@
+# Utility classes
+
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
 cc_library(
     name = "vector2",
     srcs = ["vector2.cc"],
@@ -9,4 +13,10 @@ cc_test(
     size = "small",
     srcs = ["vector2_test.cc"],
     deps = ["@com_google_googletest//:gtest_main", "vector2"],
+)
+
+proto_library(
+    name = "vector2_proto",
+    srcs = ["vector2.proto"],
+    visibility = [], # set later
 )
