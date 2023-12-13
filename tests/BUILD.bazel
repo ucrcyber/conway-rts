@@ -1,0 +1,6 @@
+cc_test(
+    name = "client_test",
+    size = "small",
+    srcs = ["Client.cpp"],
+    deps = ["@com_google_googletest//:gtest_main"],
+)
