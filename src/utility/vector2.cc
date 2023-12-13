@@ -1,4 +1,4 @@
-#include "Vector2.hpp"
+#include "vector2.hh"
 
 #include <exception>
 

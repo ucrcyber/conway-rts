@@ -1,0 +1,12 @@
+cc_library(
+    name = "vector2",
+    srcs = ["vector2.cc"],
+    hdrs = ["vector2.hh"],
+)
+
+cc_test(
+    name = "vector2_test",
+    size = "small",
+    srcs = ["vector2_test.cc"],
+    deps = ["@com_google_googletest//:gtest_main", "vector2"],
+)

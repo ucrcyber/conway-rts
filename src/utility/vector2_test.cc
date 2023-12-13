@@ -1,8 +1,8 @@
-#include "Vector2.hpp"
+#include "vector2.hh"
 
 #include <array>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(Vector2, initialization) {
   Vector2 v, w(5, -5);
