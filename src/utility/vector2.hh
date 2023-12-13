@@ -1,12 +1,11 @@
 #ifndef CONWAY_INCLUDE_VECTOR2_HPP
 #define CONWAY_INCLUDE_VECTOR2_HPP
 
+#include <iostream>
 #include <utility>
 
-#include "ISerializable.hpp"
-
 /// 2D vector for positional coordinates (immutable)
-class Vector2: public ISerializable<Vector2> {
+class Vector2 {
   private:
     int _x = 0;
     int _y = 0;
