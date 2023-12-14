@@ -1,5 +1,5 @@
 #include "emscripten/bind.h"
-#include "include/Vector2.hpp"
+#include "utility/vector2.hh"
 
 EMSCRIPTEN_BINDINGS(Vector2) {
   emscripten::class_<Vector2>("Vector2")
