@@ -1,6 +1,5 @@
-#include "StructureProperties.hpp"
+#include "conway/structure_properties.hh"
 
-#include <sstream>
 #include <map>
 
 StructureProperties::StructureProperties():
@@ -95,7 +94,7 @@ std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs){
           ++k;
         }
       }
-      out << grid_symbols[2*(ok) | set];
+      out << grid_symbols[2*(ok) | (int)set];
     }
     out << "\n";
   }

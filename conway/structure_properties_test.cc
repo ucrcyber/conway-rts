@@ -1,4 +1,4 @@
-#include "StructureProperties.hpp"
+#include "conway/structure_properties.hh"
 
 #include "gtest/gtest.h"
 

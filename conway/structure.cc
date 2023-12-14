@@ -1,9 +1,6 @@
-#include "Structure.hpp"
+#include "conway/structure.hh"
 
-#include <istream>
-#include <ostream>
-
-#include "StructureProperties.hpp"
+#include "conway/structure_properties.hh"
 
 Structure::Structure(): Structure::Structure(StructureProperties(), Vector2(0, 0))
 {}

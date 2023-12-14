@@ -3,15 +3,49 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 cc_library(
+    name = "life_state",
+    srcs = [],
+    hdrs = ["life_state.hh"],
+)
+
+cc_library(
     name = "life_grid",
     srcs = ["life_grid.cc"],
-    hdrs = ["life_grid.hh", "life_state.hh"],
-    deps = ["//utility:vector2"],
+    hdrs = ["life_grid.hh"],
+    deps = ["//utility:vector2", ":life_state"],
 )
 
 cc_test(
     name = "life_grid_test",
     size = "small",
-    srcs = ["life_grid.cc"],
+    srcs = ["life_grid_test.cc"],
     deps = ["@com_google_googletest//:gtest_main", ":life_grid"],
+)
+
+cc_library(
+    name = "structure",
+    srcs = ["structure.cc"],
+    hdrs = ["structure.hh"],
+    deps = ["//utility:vector2", ":structure_properties", ":life_grid"],
+)
+
+cc_test(
+    name = "structure_test",
+    size = "small",
+    srcs = ["structure_test.cc"],
+    deps = ["@com_google_googletest//:gtest_main", ":structure"],
+)
+
+cc_library(
+    name = "structure_properties",
+    srcs = ["structure_properties.cc"],
+    hdrs = ["structure_properties.hh"],
+    deps = ["//utility:vector2", ":life_grid", ":life_state"],
+)
+
+cc_test(
+    name = "structure_properties_test",
+    size = "small",
+    srcs = ["structure_properties_test.cc"],
+    deps = ["@com_google_googletest//:gtest_main", ":structure_properties"],
 )

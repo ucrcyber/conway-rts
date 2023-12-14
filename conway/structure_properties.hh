@@ -1,14 +1,14 @@
 #ifndef CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 #define CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 
+#include <sstream>
 #include <string>
 #include <vector>
 
-#include "ISerializable.hpp"
-#include "LifeGrid.hpp"
-#include "Vector2.hpp"
+#include "conway/life_grid.hh"
+#include "utility/vector2.hh"
 
-class StructureProperties: public ISerializable<StructureProperties> {
+class StructureProperties {
   private:
     std::string _name;
     int _activation_cost;

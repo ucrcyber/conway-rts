@@ -3,17 +3,17 @@
 
 #include <string>
 #include <tuple>
+#include <iostream>
 
-#include "ISerializable.hpp"
-#include "StructureProperties.hpp"
-#include "Vector2.hpp"
+#include "conway/structure_properties.hh"
+#include "utility/vector2.hh"
 
 /// @brief used for sorting, but when you still want to modify non-sort properties
 // `[position] [properties.grid.dimensions]`
 typedef std::tuple<int, int, int, int> StructureKey;
 
 /// @brief an instance of a structure type
-class Structure: public ISerializable<Structure> {
+class Structure {
   private:
     bool _active = false; // initially off, afte
     Vector2 _position;

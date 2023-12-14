@@ -1,4 +1,4 @@
-#include "Structure.hpp"
+#include "conway/structure.hh"
 
 #include "gtest/gtest.h"
 
