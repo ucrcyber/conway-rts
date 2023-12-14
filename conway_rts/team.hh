@@ -1,18 +1,18 @@
 #ifndef CONWAY_INCLUDE_TEAM_HPP
 #define CONWAY_INCLUDE_TEAM_HPP
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 
-#include "ISerializable.hpp"
-#include "Client.hpp"
-#include "Structure.hpp"
-#include "Event.hpp"
-#include "EventQueue.hpp"
+#include "conway/structure.hh"
+#include "conway_rts/client.hh"
+#include "conway_rts/event.hh"
+#include "conway_rts/event_queue.hh"
 
 /// @brief a single team and the actions it wants to do (controlled from client actions)
-class Team: public ISerializable<Team> {
+class Team {
   private:
     int _id = 0;
     std::vector<Client> _members;

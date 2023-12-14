@@ -1,9 +1,9 @@
-#include "Room.hpp"
+#include "conway_rts/room.hh"
 
 #include "gtest/gtest.h"
 
-#include "Structure.hpp"
-#include "StructureProperties.hpp"
+#include "conway/structure.hh"
+#include "conway/structure_properties.hh"
 
 TEST(Room, initialization) {
   Room room("kitchen");

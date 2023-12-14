@@ -5,7 +5,7 @@
 #include <queue>
 #include <deque>
 
-#include "Event.hpp"
+#include "conway_rts/event.hh"
 
 typedef std::pair<int, Event> EventWithTime;
 typedef std::priority_queue<

@@ -1,4 +1,4 @@
-#include "Team.hpp"
+#include "conway_rts/team.hh"
 
 #include <utility>
 

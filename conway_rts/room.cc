@@ -1,4 +1,4 @@
-#include "Room.hpp"
+#include "conway_rts/room.hh"
 
 // stl includes
 

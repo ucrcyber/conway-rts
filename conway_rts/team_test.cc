@@ -1,11 +1,11 @@
-#include "Team.hpp"
+#include "conway_rts/team.hh"
 
 #include <iostream>
 
 #include "gtest/gtest.h"
 
-#include "Structure.hpp"
-#include "StructureProperties.hpp"
+#include "conway/structure.hh"
+#include "conway/structure_properties.hh"
 
 TEST(Team, initialization) {
   Team team;

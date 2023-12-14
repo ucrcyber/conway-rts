@@ -1,18 +1,18 @@
 #ifndef CONWAY_INCLUDE_ROOM_HPP
 #define CONWAY_INCLUDE_ROOM_HPP
 
+#include <iostream>
 #include <string>
 #include <vector>
 
-#include "ISerializable.hpp"
-#include "Client.hpp"
-#include "Team.hpp"
-#include "StructureProperties.hpp"
-#include "Event.hpp"
-#include "EventQueue.hpp"
+#include "conway_rts/client.hh"
+#include "conway_rts/team.hh"
+#include "conway/structure_properties.hh"
+#include "conway_rts/event.hh"
+#include "conway_rts/event_queue.hh"
 
 /// @brief game instance
-class Room: public ISerializable<Room> {
+class Room {
   private:
     std::string _name;
     // TODO: room size limits
