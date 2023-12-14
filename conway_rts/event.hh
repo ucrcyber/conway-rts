@@ -1,10 +1,10 @@
 #ifndef CONWAY_INCLUDE_EVENT_HPP
 #define CONWAY_INCLUDE_EVENT_HPP
 
+#include <iostream>
 #include <vector>
 
-#include "ArrayBuffer.hpp"
-#include "ISerializable.hpp"
+#include "conway_rts/array_buffer.hh"
 
 // TODO: maybe make individual classes if there are more events in the future?
 // enum class EventType {
@@ -14,7 +14,7 @@
 // };
 
 /// this is exclusively the BUILD EVENT (for now)
-class Event: public ISerializable<Event> {
+class Event {
   private:
     int _time = 0;
     int _id = 0;

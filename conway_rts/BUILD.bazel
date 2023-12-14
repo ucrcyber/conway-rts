@@ -1,0 +1,35 @@
+# game logic for handling player interactions
+
+cc_library(
+    name = "array_buffer",
+    srcs = [],
+    hdrs = ["array_buffer.hh"],
+)
+
+cc_library(
+    name = "client",
+    srcs = ["client.cc"],
+    hdrs = ["client.hh"],
+    deps = ["//conway:structure", ":array_buffer", ":event"],
+)
+
+cc_test(
+    name = "client_test",
+    size = "small",
+    srcs = ["client_test.cc"],
+    deps = ["@com_google_googletest//:gtest_main", ":client"],
+)
+
+cc_library(
+    name = "event",
+    srcs = ["event.cc"],
+    hdrs = ["event.hh"],
+    deps = [":array_buffer"],
+)
+
+cc_test(
+    name = "event_test",
+    size = "small",
+    srcs = ["event_test.cc"],
+    deps = ["@com_google_googletest//:gtest_main", ":event"],
+)

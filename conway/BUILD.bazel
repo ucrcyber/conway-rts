@@ -13,6 +13,7 @@ cc_library(
     srcs = ["life_grid.cc"],
     hdrs = ["life_grid.hh"],
     deps = ["//utility:vector2", ":life_state"],
+    visibility = ["//conway_rts:__pkg__"],
 )
 
 cc_test(
@@ -27,6 +28,7 @@ cc_library(
     srcs = ["structure.cc"],
     hdrs = ["structure.hh"],
     deps = ["//utility:vector2", ":structure_properties", ":life_grid"],
+    visibility = ["//conway_rts:__pkg__"],
 )
 
 cc_test(
@@ -41,6 +43,7 @@ cc_library(
     srcs = ["structure_properties.cc"],
     hdrs = ["structure_properties.hh"],
     deps = ["//utility:vector2", ":life_grid", ":life_state"],
+    visibility = ["//conway_rts:__pkg__"],
 )
 
 cc_test(

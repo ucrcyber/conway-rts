@@ -1,4 +1,4 @@
-#include "Event.hpp"
+#include "conway_rts/event.hh"
 
 #include "gtest/gtest.h"
 

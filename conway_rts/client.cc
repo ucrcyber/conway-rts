@@ -1,4 +1,4 @@
-#include "Client.hpp"
+#include "conway_rts/client.hh"
 
 Client::Client(): Client::Client(0, "")
 {}

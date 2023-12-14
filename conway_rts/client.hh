@@ -4,13 +4,12 @@
 #include <vector>
 #include <string>
 
-#include "ArrayBuffer.hpp"
-#include "ISerializable.hpp"
-#include "StructureProperties.hpp"
-#include "Event.hpp"
+#include "conway/structure.hh"
+#include "conway_rts/array_buffer.hh"
+#include "conway_rts/event.hh"
 
 /// @brief a single client and the actions they want to do
-class Client: public ISerializable<Client> {
+class Client {
   private:
     std::string _name;
     int _id;
