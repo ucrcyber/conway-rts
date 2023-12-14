@@ -1,6 +1,7 @@
 # Utility classes
 
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 
 cc_library(
     name = "vector2",
@@ -20,4 +21,9 @@ proto_library(
     name = "vector2_proto",
     srcs = ["vector2.proto"],
     visibility = [], # set later
+)
+
+cc_proto_library(
+    name = "vector2_cc_proto",
+    deps = [":vector2_proto"],
 )
