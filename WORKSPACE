@@ -1,5 +1,5 @@
 workspace(
-  name = "conway_rts",
+    name = "conway_rts",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -9,12 +9,12 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 # gcc toolchain
 ####
 http_archive(
-  name = "aspect_gcc_toolchain",
-  sha256 = "3341394b1376fb96a87ac3ca01c582f7f18e7dc5e16e8cf40880a31dd7ac0e1e",
-  strip_prefix = "gcc-toolchain-0.4.2",
-  urls = [
-    "https://github.com/aspect-build/gcc-toolchain/archive/refs/tags/0.4.2.tar.gz",
-  ],
+    name = "aspect_gcc_toolchain",
+    sha256 = "3341394b1376fb96a87ac3ca01c582f7f18e7dc5e16e8cf40880a31dd7ac0e1e",
+    strip_prefix = "gcc-toolchain-0.4.2",
+    urls = [
+        "https://github.com/aspect-build/gcc-toolchain/archive/refs/tags/0.4.2.tar.gz",
+    ],
 )
 
 load("@aspect_gcc_toolchain//toolchain:repositories.bzl", "gcc_toolchain_dependencies")
@@ -24,27 +24,27 @@ gcc_toolchain_dependencies()
 load("@aspect_gcc_toolchain//toolchain:defs.bzl", "gcc_register_toolchain", "ARCHS")
 
 gcc_register_toolchain(
-  name = "gcc_toolchain_x86_64",
-  target_arch = ARCHS.x86_64,
+    name = "gcc_toolchain_x86_64",
+    target_arch = ARCHS.x86_64,
 )
 
 ####
 # google test
 ####
 http_archive(
-  name = "com_google_googletest",
-  urls = ["https://github.com/google/googletest/archive/5ab508a01f9eb089207ee87fd547d290da39d015.zip"],
-  strip_prefix = "googletest-5ab508a01f9eb089207ee87fd547d290da39d015",
+    name = "com_google_googletest",
+    urls = ["https://github.com/google/googletest/archive/5ab508a01f9eb089207ee87fd547d290da39d015.zip"],
+    strip_prefix = "googletest-5ab508a01f9eb089207ee87fd547d290da39d015",
 )
 
 ####
 # aspect rules JS (for emscripten)
 ####
 http_archive(
-  name = "aspect_rules_js",
-  sha256 = "77c4ea46c27f96e4aadcc580cd608369208422cf774988594ae8a01df6642c82",
-  strip_prefix = "rules_js-1.32.2",
-  url = "https://github.com/aspect-build/rules_js/releases/download/v1.32.2/rules_js-v1.32.2.tar.gz",
+    name = "aspect_rules_js",
+    sha256 = "77c4ea46c27f96e4aadcc580cd608369208422cf774988594ae8a01df6642c82",
+    strip_prefix = "rules_js-1.32.2",
+    url = "https://github.com/aspect-build/rules_js/releases/download/v1.32.2/rules_js-v1.32.2.tar.gz",
 )
 
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
@@ -52,8 +52,8 @@ rules_js_dependencies()
 
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 nodejs_register_toolchains(
-  name = "nodejs",
-  node_version = DEFAULT_NODE_VERSION,
+    name = "nodejs",
+    node_version = DEFAULT_NODE_VERSION,
 )
 
 ########################
