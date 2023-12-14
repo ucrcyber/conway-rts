@@ -1,8 +1,10 @@
 #include "vector2.hh"
 
 #include <array>
+#include <cstdlib>
 
 #include <gtest/gtest.h>
+#include "utility/vector2.pb.h"
 
 TEST(Vector2, initialization) {
   Vector2 v, w(5, -5);
@@ -42,4 +44,23 @@ TEST(Vector2, istreamExtraction){
   std::array<Vector2, 3> b {Vector2(10, 20), Vector2(-5, 0), Vector2(7, 27)};
   for(auto &x : a) in >> x;
   for(int i = 0; i < 3; i ++) EXPECT_EQ(a[i], b[i]);
+}
+
+TEST(Vector2, cc_proto){
+  conway::Vector2 protobuf;
+  protobuf.set_x(5);
+  protobuf.set_y(10);
+  EXPECT_EQ(protobuf.x(), 5) << "protobuf vector2 x should've been set to 5";
+  EXPECT_EQ(protobuf.y(), 10) << "protobuf vector2 y should've been set to 10";
+
+  size_t size = protobuf.ByteSizeLong(); 
+  void *buffer = malloc(size);
+  protobuf.SerializeToArray(buffer, size);
+
+  conway::Vector2 decoded;
+  decoded.ParseFromArray(buffer, size);
+  EXPECT_EQ(protobuf.x(), decoded.x()) << "protobuf vector2 x should match source after being encoded and decoded";
+  EXPECT_EQ(protobuf.y(), decoded.y()) << "protobuf vector2 y should match source after being encoded and decoded";
+  
+  free(buffer);
 }
