@@ -42,4 +42,5 @@ cc_binary(
 wasm_cc_binary(
     name = "conway_lib_wasm",
     cc_target = ":conway_lib_wasm_embind",
+    simd = True,
 )
