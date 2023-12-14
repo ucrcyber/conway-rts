@@ -12,7 +12,7 @@ cc_test(
     name = "vector2_test",
     size = "small",
     srcs = ["vector2_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", "vector2"],
+    deps = ["@com_google_googletest//:gtest_main", ":vector2"],
 )
 
 proto_library(
