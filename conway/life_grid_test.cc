@@ -1,6 +1,6 @@
-#include "LifeGrid.hpp"
+#include "conway/life_grid.hh"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(LifeGrid, initialization) {
   LifeGrid grid(5, 5);

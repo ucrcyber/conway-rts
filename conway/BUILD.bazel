@@ -1,0 +1,17 @@
+# Base game logic
+
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+cc_library(
+    name = "life_grid",
+    srcs = ["life_grid.cc"],
+    hdrs = ["life_grid.hh", "life_state.hh"],
+    deps = ["//utility:vector2"],
+)
+
+cc_test(
+    name = "life_grid_test",
+    size = "small",
+    srcs = ["life_grid.cc"],
+    deps = ["@com_google_googletest//:gtest_main", ":life_grid"],
+)

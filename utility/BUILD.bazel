@@ -6,6 +6,7 @@ cc_library(
     name = "vector2",
     srcs = ["vector2.cc"],
     hdrs = ["vector2.hh"],
+    visibility = ["//conway:__pkg__"],
 )
 
 cc_test(

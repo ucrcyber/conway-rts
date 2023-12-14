@@ -1,4 +1,4 @@
-#include "LifeGrid.hpp"
+#include "conway/life_grid.hh"
 
 LifeGrid::LifeGrid(): LifeGrid::LifeGrid(1, 1) {}
 

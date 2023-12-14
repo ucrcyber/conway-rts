@@ -3,14 +3,13 @@
 
 #include <vector>
 
-#include "ISerializable.hpp"
-#include "Vector2.hpp"
-#include "LifeState.h"
+#include "conway/life_state.hh"
+#include "utility/vector2.hh"
 
 // TODO: write iterators (they should exist?)
 
 /// @brief basic implementation of a Life grid
-class LifeGrid: public ISerializable<LifeGrid> {
+class LifeGrid {
   private:
     /// @brief width and height of the grid
     /// (yes it's finite, at least for now)
