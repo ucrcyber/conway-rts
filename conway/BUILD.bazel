@@ -1,6 +1,7 @@
 # Base game logic
 
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//:cc_config.bzl", "CC_OPTS")
 
 cc_library(
     name = "life_state",
@@ -28,6 +29,7 @@ cc_library(
     srcs = ["structure.cc"],
     hdrs = ["structure.hh"],
     deps = ["//utility:vector2", ":structure_properties", ":life_grid"],
+    copts = CC_OPTS,
     visibility = ["//conway_rts:__pkg__"],
 )
 

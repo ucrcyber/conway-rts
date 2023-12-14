@@ -1,5 +1,7 @@
 # game logic for handling player interactions
 
+load("//:cc_config.bzl", "CC_OPTS")
+
 cc_library(
     name = "array_buffer",
     srcs = [],
@@ -59,6 +61,7 @@ cc_library(
     srcs = ["team.cc"],
     hdrs = ["team.hh"],
     deps = ["//conway:structure", ":client", ":event", ":event_queue"],
+    copts = CC_OPTS,
 )
 
 cc_test(
