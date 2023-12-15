@@ -5,7 +5,10 @@ conway rts cyber project (but still being designed)
 Install [bazelisk](https://github.com/bazelbuild/bazelisk)
 ```
 bazelisk # installs bazel with specific version
-bazel query ... # list targets
+bazel query ...             # list targets
+bazel test ... --config=cl  # run all tests (windows, cl.exe)
+bazel test ... --config=gcc # run all tests (linux, gcc)
+balze build ...             # build all targets (config pattern still applies)
 ```
 
 # Rough UML Diagram
