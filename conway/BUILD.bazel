@@ -1,7 +1,8 @@
 # Base game logic
 
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//:cc_config.bzl", "CC_OPTS")
+load("//:cc_config.bzl", "get_cc_opts")
+CC_OPTS = get_cc_opts()
 
 cc_library(
     name = "life_state",

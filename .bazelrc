@@ -1,0 +1,2 @@
+build:gcc --repo_env=BAZEL_CXXOPTS="-std=c++17" --//config:compiler_config=gcc
+build:cl --//config:compiler_config=cl
