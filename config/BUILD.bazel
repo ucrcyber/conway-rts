@@ -4,7 +4,7 @@ load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
 
 string_flag(
     name = "compiler_config",
-    build_setting_default = "gcc",
+    build_setting_default = "cl",
 )
 
 config_setting(
