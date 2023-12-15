@@ -1,7 +1,6 @@
 # game logic for handling player interactions
 
-load("//:cc_config.bzl", "get_cc_opts")
-CC_OPTS = get_cc_opts()
+load("//:cc_config.bzl", "CC_OPTS")
 
 cc_library(
     name = "array_buffer",
