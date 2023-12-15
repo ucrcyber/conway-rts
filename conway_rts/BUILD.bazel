@@ -19,7 +19,7 @@ cc_test(
     name = "client_test",
     size = "small",
     srcs = ["client_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":client"],
+    deps = ["@googletest//:gtest_main", ":client"],
 )
 
 cc_library(
@@ -33,7 +33,7 @@ cc_test(
     name = "event_test",
     size = "small",
     srcs = ["event_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":event"],
+    deps = ["@googletest//:gtest_main", ":event"],
 )
 
 cc_library(
@@ -53,7 +53,7 @@ cc_test(
     name = "room_test",
     size = "small",
     srcs = ["room_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":room"],
+    deps = ["@googletest//:gtest_main", ":room"],
 )
 
 cc_library(
@@ -68,5 +68,5 @@ cc_test(
     name = "team_test",
     size = "small",
     srcs = ["team_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":team"],
+    deps = ["@googletest//:gtest_main", ":team"],
 )

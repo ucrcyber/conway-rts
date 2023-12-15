@@ -21,7 +21,7 @@ cc_test(
     name = "life_grid_test",
     size = "small",
     srcs = ["life_grid_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":life_grid"],
+    deps = ["@googletest//:gtest_main", ":life_grid"],
 )
 
 cc_library(
@@ -37,7 +37,7 @@ cc_test(
     name = "structure_test",
     size = "small",
     srcs = ["structure_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":structure"],
+    deps = ["@googletest//:gtest_main", ":structure"],
 )
 
 cc_library(
@@ -52,5 +52,5 @@ cc_test(
     name = "structure_properties_test",
     size = "small",
     srcs = ["structure_properties_test.cc"],
-    deps = ["@com_google_googletest//:gtest_main", ":structure_properties"],
+    deps = ["@googletest//:gtest_main", ":structure_properties"],
 )

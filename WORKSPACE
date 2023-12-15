@@ -29,24 +29,8 @@ gcc_register_toolchain(
 )
 
 ####
-# google test
-####
-http_archive(
-    name = "com_google_googletest",
-    urls = ["https://github.com/google/googletest/archive/5ab508a01f9eb089207ee87fd547d290da39d015.zip"],
-    strip_prefix = "googletest-5ab508a01f9eb089207ee87fd547d290da39d015",
-)
-
-####
 # aspect rules JS (for emscripten)
 ####
-http_archive(
-    name = "aspect_rules_js",
-    sha256 = "77c4ea46c27f96e4aadcc580cd608369208422cf774988594ae8a01df6642c82",
-    strip_prefix = "rules_js-1.32.2",
-    url = "https://github.com/aspect-build/rules_js/releases/download/v1.32.2/rules_js-v1.32.2.tar.gz",
-)
-
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 rules_js_dependencies()
 
@@ -55,6 +39,20 @@ nodejs_register_toolchains(
     name = "nodejs",
     node_version = DEFAULT_NODE_VERSION,
 )
+
+# npm
+# Uses the pnpm-lock.yaml file to automate creation of npm_import rules
+load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock")
+npm_translate_lock(
+    # Creates a new repository named "@npm" - you could choose any name you like
+    name = "npm",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    # Recommended attribute that also checks the .bazelignore file
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+
+load("@npm//:repositories.bzl", "npm_repositories")
+npm_repositories()
 
 ########################
 # Emscripten toolchain #
