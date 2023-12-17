@@ -1,3 +1,5 @@
+""" emscripten compilation to wasm, used for client """
+
 load("@emsdk//emscripten_toolchain:wasm_rules.bzl", "wasm_cc_binary")
 
 package(default_visibility = ["//:__pkg__"])

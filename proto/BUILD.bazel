@@ -14,8 +14,8 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 #   deps = [":place_proto"],
 # )
 
-load("@build_stack_rules_proto//rules:proto_compile.bzl", "proto_compile")
-load("@build_stack_rules_proto//rules/nodejs:proto_nodejs_library.bzl", "proto_nodejs_library")
+# load("@build_stack_rules_proto//rules:proto_compile.bzl", "proto_compile")
+# load("@build_stack_rules_proto//rules/nodejs:proto_nodejs_library.bzl", "proto_nodejs_library")
 
 # proto_compile(
 #   name = "vector2_node_js_compile",
