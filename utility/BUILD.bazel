@@ -5,6 +5,12 @@ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
 # load("@build_stack_rules_proto//rules/ts:proto_ts_library.bzl", "proto_ts_library")
 # load("@build_stack_rules_proto//rules:proto_compile.bzl", "proto_compile")
 
+filegroup(
+    name = "protos",
+    srcs = glob(["*.proto"]),
+    visibility = ["//:__pkg__"],
+)
+
 cc_library(
     name = "vector2",
     srcs = ["vector2.cc"],

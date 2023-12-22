@@ -1,7 +1,35 @@
+load("//tools/protobufjs:rules.bzl", "protobufjs_library")
+
 filegroup(
     name = "conway",
     srcs = [
         "//client_wasm:conway_lib_wasm",
         # "//proto:vector2_proto_js",
     ],
+)
+
+# protobufjs-cli, its BROKEN
+# protobufjs_library(
+#     name = "proto_bundle",
+#     srcs = [
+#         "//utility:protos",
+#     ],
+#     visibility = ["//tools/protobufjs:__pkg__"],
+# )
+
+# aliases for protobufjs build tools, aspect is too pain to set up so nodejs stuff will happen outside bazel
+exports_files(
+    ["node_modules/protobufjs-cli/bin/pbjs", "node_modules/protobufjs-cli/bin/pbts"],
+)
+
+alias(
+    name = "pbjs",
+    actual = "node_modules/protobufjs-cli/bin/pbjs",
+    visibility = ["//tools/protobufjs:__pkg__"],
+)
+
+alias(
+    name = "pbts",
+    actual = "node_modules/protobufjs-cli/bin/pbts",
+    visibility = ["//tools/protobufjs:__pkg__"],
 )

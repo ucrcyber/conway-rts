@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/ucrcyber/conway-rts#readme",
   "devDependencies": {
-    "@bazel/bazelisk": "^1.18.0"
+    "@bazel/bazelisk": "^1.18.0",
+    "protobufjs": "^7.2.5",
+    "protobufjs-cli": "^1.1.2"
   }
 }
