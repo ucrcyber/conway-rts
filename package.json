@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "npx http-server client/public",
-    "build": "npm run build:bazel",
+    "build": "npm run build:pbjs && npm run build:bazel",
+    "build:pbjs": "npx pbjs -t static-module -w es6 -o ./build/bundle_proto.js ./**/*.proto && npx pbts -o ./build/bundle_proto.d.ts ./build/bundle_proto.js",
     "build:bazel": "npx bazel build //:conway",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
