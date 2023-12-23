@@ -1,7 +1,7 @@
 # Utility classes
 
-load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
 # load("@build_stack_rules_proto//rules/ts:proto_ts_library.bzl", "proto_ts_library")
 # load("@build_stack_rules_proto//rules:proto_compile.bzl", "proto_compile")
 

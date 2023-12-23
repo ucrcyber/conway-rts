@@ -10,9 +10,6 @@ def _protobufjs_library_impl(ctx):
     output_file = ctx.actions.declare_file(ctx.label.name + ".js")
     outputs = [output_file]
 
-    print(ctx)
-    print(ctx.files.srcs)
-
     args = ctx.actions.args()
     args.add("-t", "static_module")
     args.add("-w", "es6")

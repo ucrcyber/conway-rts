@@ -1,6 +1,5 @@
 # Base game logic
 
-load("@rules_proto//proto:defs.bzl", "proto_library")
 load("//:cc_config.bzl", "CC_OPTS")
 
 cc_library(
