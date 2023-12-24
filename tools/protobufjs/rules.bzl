@@ -28,8 +28,8 @@ def _protobufjs_library_impl(ctx):
 protobufjs_library = rule(
     implementation = _protobufjs_library_impl,
     attrs = {
-        "srcs": attr.label_list(allow_files=True, doc=""".proto files to generate js library for"""),
-        "_pbjs": attr.label(allow_files=True, default=Label("//:pbjs"), executable=True, cfg="exec", doc="""protobufjs-cli pbjs binary"""),
-        "_pbts": attr.label(allow_files=True, default=Label("//:pbts"), executable=True, cfg="exec", doc="""protobufjs-cli pbts binary"""),
+        "srcs": attr.label_list(allow_files = True, doc = """.proto files to generate js library for"""),
+        "_pbjs": attr.label(allow_files = True, default = Label("//:pbjs"), executable = True, cfg = "exec", doc = """protobufjs-cli pbjs binary"""),
+        "_pbts": attr.label(allow_files = True, default = Label("//:pbts"), executable = True, cfg = "exec", doc = """protobufjs-cli pbts binary"""),
     },
 )

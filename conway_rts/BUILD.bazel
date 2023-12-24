@@ -12,14 +12,21 @@ cc_library(
     name = "client",
     srcs = ["client.cc"],
     hdrs = ["client.hh"],
-    deps = ["//conway:structure", ":array_buffer", ":event"],
+    deps = [
+        ":array_buffer",
+        ":event",
+        "//conway:structure",
+    ],
 )
 
 cc_test(
     name = "client_test",
     size = "small",
     srcs = ["client_test.cc"],
-    deps = ["@googletest//:gtest_main", ":client"],
+    deps = [
+        ":client",
+        "@googletest//:gtest_main",
+    ],
 )
 
 cc_library(
@@ -33,7 +40,10 @@ cc_test(
     name = "event_test",
     size = "small",
     srcs = ["event_test.cc"],
-    deps = ["@googletest//:gtest_main", ":event"],
+    deps = [
+        ":event",
+        "@googletest//:gtest_main",
+    ],
 )
 
 cc_library(
@@ -46,27 +56,44 @@ cc_library(
     name = "room",
     srcs = ["room.cc"],
     hdrs = ["room.hh"],
-    deps = [":client", "//conway:structure_properties", ":event", ":event_queue", ":team"],
+    deps = [
+        ":client",
+        ":event",
+        ":event_queue",
+        ":team",
+        "//conway:structure_properties",
+    ],
 )
 
 cc_test(
     name = "room_test",
     size = "small",
     srcs = ["room_test.cc"],
-    deps = ["@googletest//:gtest_main", ":room"],
+    deps = [
+        ":room",
+        "@googletest//:gtest_main",
+    ],
 )
 
 cc_library(
     name = "team",
     srcs = ["team.cc"],
     hdrs = ["team.hh"],
-    deps = ["//conway:structure", ":client", ":event", ":event_queue"],
     copts = CC_OPTS,
+    deps = [
+        ":client",
+        ":event",
+        ":event_queue",
+        "//conway:structure",
+    ],
 )
 
 cc_test(
     name = "team_test",
     size = "small",
     srcs = ["team_test.cc"],
-    deps = ["@googletest//:gtest_main", ":team"],
+    deps = [
+        ":team",
+        "@googletest//:gtest_main",
+    ],
 )

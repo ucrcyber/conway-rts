@@ -5,8 +5,11 @@ CC_OPTS = select({
 
 cc_library(
     name = "boringssl",
+    srcs = glob([
+        "crypto/*.c",
+        "ssl/*.c",
+    ]),
     hdrs = glob(["include/openssl/*.h"]),
-    srcs = glob(["crypto/*.c", "ssl/*.c"]),
     copts = CC_OPTS,
     includes = ["./include"],
     visibility = ["//visibility:public"],

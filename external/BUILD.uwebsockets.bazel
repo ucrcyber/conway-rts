@@ -5,10 +5,14 @@ CC_OPTS = select({
 
 cc_library(
     name = "uwebsockets",
-    hdrs = glob(["src/*.h"]),
     srcs = glob(["src/*.c"]),
+    hdrs = glob(["src/*.h"]),
     copts = CC_OPTS,
     includes = ["./src"],
     visibility = ["//visibility:public"],
-    deps = ["@usockets//:usockets", "@libuv", "@zlib//:zlib"],
+    deps = [
+        "@libuv",
+        "@usockets",
+        "@zlib",
+    ],
 )

@@ -15,20 +15,27 @@ cc_library(
     name = "vector2",
     srcs = ["vector2.cc"],
     hdrs = ["vector2.hh"],
-    visibility = ["//conway:__pkg__", "//client_wasm:__pkg__"],
+    visibility = [
+        "//client_wasm:__pkg__",
+        "//conway:__pkg__",
+    ],
 )
 
 cc_test(
     name = "vector2_test",
     size = "small",
     srcs = ["vector2_test.cc"],
-    deps = ["@googletest//:gtest_main", ":vector2", ":vector2_cc_proto"],
+    deps = [
+        ":vector2",
+        ":vector2_cc_proto",
+        "@googletest//:gtest_main",
+    ],
 )
 
 proto_library(
     name = "vector2_proto",
     srcs = ["vector2.proto"],
-    visibility = [], # set later
+    visibility = [],  # set later
 )
 
 cc_proto_library(

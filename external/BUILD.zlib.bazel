@@ -5,8 +5,8 @@ CC_OPTS = select({
 
 cc_library(
     name = "zlib",
-    hdrs = glob(["*.h"]),
     srcs = glob(["*.c"]),
+    hdrs = glob(["*.h"]),
     copts = CC_OPTS,
     includes = ["."],
     visibility = ["//visibility:public"],
