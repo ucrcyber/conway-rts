@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package conway.event.base;
+
+import "structure_lookup.proto";
+import "team.proto";
+import "vector2.proto";
+
+message Build {
+  int32 id = 1;
+  int32 time = 2;
+  int32 building_id = 3;
+  conway.Vector2 position = 4;
+}
+
+message Initialize {
+  conway.StructureLookup structures = 1;
+  conway.Team teams = 2;
+}

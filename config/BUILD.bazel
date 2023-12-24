@@ -1,0 +1,22 @@
+# configuration settings (currently just to use c++17 when compiling for cc files but not emcc)
+
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+
+string_flag(
+    name = "compiler_config",
+    build_setting_default = "cl",
+)
+
+config_setting(
+    name = "compiler_gcc",
+    flag_values = {
+        ":compiler_config": "gcc",
+    },
+)
+
+config_setting(
+    name = "compiler_cl",
+    flag_values = {
+        ":compiler_config": "cl",
+    },
+)

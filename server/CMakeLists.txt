@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
 set(SRCS main.cpp)
 
+include_directories(${external_include_dirs})
+
 add_executable(${PROJECT_NAME} ${SRCS})
 
 # find_path(UWEBSOCKETS_INCLUDE_DIRS uwebsockets/App.h REQUIRED)

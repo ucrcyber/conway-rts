@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package conway;
+
+import "vector2.proto";
+
+message Structure {
+  // which structure this maps to in a StructureLookup
+  int32 structure_type = 1;
+
+  conway.Vector2 position = 2;
+}

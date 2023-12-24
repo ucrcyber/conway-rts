@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package conway;
+
+import "client.proto";
+import "team.proto";
+import "vector2.proto";
+
+message Room {
+  int32 id = 1;
+  string name = 2;
+  conway.Vector2 dimensions = 3;
+  repeated conway.Client clients = 4;
+  repeated conway.Team teams = 5;
+}

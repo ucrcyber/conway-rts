@@ -1,0 +1,72 @@
+# game logic for handling player interactions
+
+load("//:cc_config.bzl", "CC_OPTS")
+
+cc_library(
+    name = "array_buffer",
+    srcs = [],
+    hdrs = ["array_buffer.hh"],
+)
+
+cc_library(
+    name = "client",
+    srcs = ["client.cc"],
+    hdrs = ["client.hh"],
+    deps = ["//conway:structure", ":array_buffer", ":event"],
+)
+
+cc_test(
+    name = "client_test",
+    size = "small",
+    srcs = ["client_test.cc"],
+    deps = ["@googletest//:gtest_main", ":client"],
+)
+
+cc_library(
+    name = "event",
+    srcs = ["event.cc"],
+    hdrs = ["event.hh"],
+    deps = [":array_buffer"],
+)
+
+cc_test(
+    name = "event_test",
+    size = "small",
+    srcs = ["event_test.cc"],
+    deps = ["@googletest//:gtest_main", ":event"],
+)
+
+cc_library(
+    name = "event_queue",
+    srcs = [],
+    hdrs = ["event_queue.hh"],
+)
+
+cc_library(
+    name = "room",
+    srcs = ["room.cc"],
+    hdrs = ["room.hh"],
+    deps = [":client", "//conway:structure_properties", ":event", ":event_queue", ":team"],
+)
+
+cc_test(
+    name = "room_test",
+    size = "small",
+    srcs = ["room_test.cc"],
+    deps = ["@googletest//:gtest_main", ":room"],
+)
+
+cc_library(
+    name = "team",
+    srcs = ["team.cc"],
+    hdrs = ["team.hh"],
+    deps = ["//conway:structure", ":client", ":event", ":event_queue"],
+    copts = CC_OPTS,
+)
+
+cc_test(
+    name = "team_test",
+    size = "small",
+    srcs = ["team_test.cc"],
+    deps = ["@googletest//:gtest_main", ":team"],
+)

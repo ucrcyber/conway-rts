@@ -1,0 +1,15 @@
+CC_OPTS = select({
+    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
+    "//conditions:default": ["--std=c++17"],
+})
+
+cc_library(
+    name = "usockets",
+    hdrs = glob(["src/**/*.h"]),
+    srcs = glob(["src/**/*.c"]),
+    copts = CC_OPTS,
+    includes = ["./src"],
+    defines = ["LIBUS_NO_SSL"], # ssl isn't linked properly (results in even more unresolved external symbols)
+    visibility = ["//visibility:public"],
+    deps = ["@libuv", "@boringssl//:boringssl", "@lsquic//:lsquic"],
+)

@@ -2,6 +2,9 @@
 /.vs
 /.vscode
 
+# node
+/node_modules
+
 # output
 /bin
 /build
@@ -13,3 +16,9 @@
 *.cmake
 Makefile
 CMakeCache.txt
+
+# bazel
+bazel-bin
+bazel-conway-rts
+bazel-out
+bazel-testlogs

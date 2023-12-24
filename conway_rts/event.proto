@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package conway;
+
+import "event_base.proto";
+import "event_room.proto";
+
+// wrapper class for every type of event
+message Event {
+  int32 id = 1;
+  oneof event {
+    conway.event.base.Initialize base_initialize = 2;
+    conway.event.base.Build base_build = 3;
+    conway.event.room.Create room_create = 4;
+    conway.event.room.Join room_join = 5;
+    conway.event.room.Leave room_leave = 6;
+  }
+}

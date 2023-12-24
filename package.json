@@ -1,0 +1,32 @@
+{
+  "name": "conway-rts",
+  "version": "0.0.1",
+  "description": "a realtime strategy game based on conway's game of life",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "npx http-server client/public",
+    "build": "npm run build:pbjs && npm run build:bazel",
+    "build:pbjs": "npx pbjs -t static-module -w es6 -o ./build/bundle_proto.js ./**/*.proto && npx pbts -o ./build/bundle_proto.d.ts ./build/bundle_proto.js",
+    "build:bazel": "npx bazel build //:conway",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucrcyber/conway-rts.git"
+  },
+  "author": "NovaSagittarii",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ucrcyber/conway-rts/issues"
+  },
+  "homepage": "https://github.com/ucrcyber/conway-rts#readme",
+  "devDependencies": {
+    "@bazel/bazelisk": "^1.18.0",
+    "protobufjs": "^7.2.5",
+    "protobufjs-cli": "^1.1.2"
+  }
+}

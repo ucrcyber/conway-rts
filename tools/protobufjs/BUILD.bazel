@@ -1,0 +1,9 @@
+"""
+Invokes pbjs/pbts to build protobuf library for the JS client.
+Though it's actually done from root so it can glob all the protos.
+"""
+
+# filegroup(
+#     name = "protobufjs",
+#     srcs = ["//:proto_bundle"],
+# )

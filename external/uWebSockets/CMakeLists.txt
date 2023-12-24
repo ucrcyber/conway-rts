@@ -8,7 +8,6 @@ FetchContent_Declare(
   GIT_SUBMODULES ""
 )
 FetchContent_MakeAvailable(uWebSockets_content)
-find_package(ZLIB)
 add_library(uWebSockets INTERFACE)
-target_include_directories(uWebSockets INTERFACE ${uwebsockets_content_SOURCE_DIR}/src/)
-target_link_libraries(uWebSockets INTERFACE uSockets ${ZLIB_LIBRARIES})
+target_include_directories(uWebSockets INTERFACE ${uwebsockets_content_SOURCE_DIR}/src/ ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY})
+target_link_libraries(uWebSockets INTERFACE uSockets uv zlibstatic)

@@ -1,0 +1,13 @@
+CC_OPTS = select({
+    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
+    "//conditions:default": ["--std=c++17"],
+})
+
+cc_library(
+    name = "boringssl",
+    hdrs = glob(["include/openssl/*.h"]),
+    srcs = glob(["crypto/*.c", "ssl/*.c"]),
+    copts = CC_OPTS,
+    includes = ["./include"],
+    visibility = ["//visibility:public"],
+)

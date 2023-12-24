@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package conway.event.room;
+
+import "client.proto";
+import "room.proto";
+
+message Create {
+  conway.Room room = 1;
+}
+
+message Join {
+  int32 room_id = 1;
+  conway.Client client = 2;
+}
+
+message Leave {
+  int32 room_id = 1;
+  conway.Client client = 2;
+}

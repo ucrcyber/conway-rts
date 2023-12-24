@@ -1,0 +1,7 @@
+"""
+Modules
+
+There's emsdk in WORKSPACE but it's not added to the Bazel Central Registry yet
+"""
+
+bazel_dep(name = "googletest", version = "1.14.0")
