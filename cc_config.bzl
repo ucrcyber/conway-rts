@@ -1,5 +1,8 @@
+"""
+CC Compiler options to be used for all project files.
+"""
+
 CC_OPTS = select({
-    "//config:compiler_gcc": [], # gets set in .bazelrc
-    "//config:compiler_cl": ["/std:c++17"],
-    "//conditions:default": [],
+    "@bazel_tools//src/conditions:windows": ["/std:c++20"],
+    "//conditions:default": ["--std=c++20"],
 })

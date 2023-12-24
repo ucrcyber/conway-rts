@@ -1,0 +1,26 @@
+CC_OPTS = select({
+    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
+    "//conditions:default": ["--std=c++17"],
+})
+
+cc_library(
+    name = "lsquic",
+    hdrs = glob(["include/*.h"]),
+    srcs = glob(["src/liblsquic/*.c"]),
+    copts = CC_OPTS,
+    includes = ["./lsquic/include", "./lsquic/src"] + select({
+        "@bazel_tools//src/conditions:windows": ["./lsquic/wincompat"],
+        "//conditions:default": [],
+    }),
+    visibility = ["//visibility:public"],
+    deps = [":xxhash"],
+)
+
+cc_library(
+    name = "xxhash",
+    hdrs = ["src/lshpack/deps/xxhash/xxhash.h"],
+    srcs = ["src/lshpack/deps/xxhash/xxhash.c"],
+    copts = CC_OPTS
+)
+
+
