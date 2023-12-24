@@ -7,23 +7,23 @@ package(default_visibility = ["//:__pkg__"])
 DEFAULT_EMSCRIPTEN_LINKOPTS = [
     # LTO broken when using hermetic emsdk
     # "-flto",                          # Specify lto (has to be set on for compiler as well)
-    "--bind",                           # Compiles the source code using the Embind bindings to connect C/C++ and JavaScript
-    "--closure 1",                      # Run the closure compiler
-    "-s MALLOC=emmalloc",               # Switch to using the much smaller implementation
-    "-s ALLOW_MEMORY_GROWTH=0",         # Our example doesn't need memory growth
-    "-s USE_PTHREADS=0",                # Disable pthreads
-    "-s ASSERTIONS=0",                  # Turn off assertions
+    "--bind",  # Compiles the source code using the Embind bindings to connect C/C++ and JavaScript
+    "--closure 1",  # Run the closure compiler
+    "-s MALLOC=emmalloc",  # Switch to using the much smaller implementation
+    "-s ALLOW_MEMORY_GROWTH=0",  # Our example doesn't need memory growth
+    "-s USE_PTHREADS=0",  # Disable pthreads
+    "-s ASSERTIONS=0",  # Turn off assertions
     # "-s EXPORT_ES6=1",                  # Export as es6 module, used for rollup
-    "-s MODULARIZE=1",                  # Allows us to manually invoke the initializatio of wasm
-    "-s EXPORT_NAME=createModule",      # Not used, but good to specify
+    "-s MODULARIZE=1",  # Allows us to manually invoke the initializatio of wasm
+    "-s EXPORT_NAME=createModule",  # Not used, but good to specify
     # "-s USE_ES6_IMPORT_META=1",         # needed for somethingggg --- Disable loading from import meta since we use rollup
-    "-s SINGLE_FILE=1",                 # Pack all webassembly into base64
+    "-s SINGLE_FILE=1",  # Pack all webassembly into base64
     "-s DISABLE_EXCEPTION_CATCHING=1",  # Disable all exception catching
-    "-s NODEJS_CATCH_EXIT=0",           # We don't have a 'main' so disable exit() catching
+    "-s NODEJS_CATCH_EXIT=0",  # We don't have a 'main' so disable exit() catching
 ]
 
 WASM_LINKOPTS = [
-    "-s WASM=1",          # Specify wasm output
+    "-s WASM=1",  # Specify wasm output
 ]
 
 cc_binary(
@@ -31,13 +31,13 @@ cc_binary(
     srcs = ["bindings.cpp"],
     # features = ["emcc_debug_link"], # idk what this does
     linkopts = DEFAULT_EMSCRIPTEN_LINKOPTS + WASM_LINKOPTS,
+    # This target won't build successfully on its own because of missing emscripten
+    # headers etc. Therefore, we hide it from wildcards.
+    tags = ["manual"],
     deps = [
         "//utility:vector2",
         # "//hello-world/cpp:localtime",
     ],
-    # This target won't build successfully on its own because of missing emscripten
-    # headers etc. Therefore, we hide it from wildcards.
-    tags = ["manual"],
     # this isn't a problem as long as you don't wildcard... wildcarding still breaks this though
 )
 

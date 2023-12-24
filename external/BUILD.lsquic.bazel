@@ -5,10 +5,13 @@ CC_OPTS = select({
 
 cc_library(
     name = "lsquic",
-    hdrs = glob(["include/*.h"]),
     srcs = glob(["src/liblsquic/*.c"]),
+    hdrs = glob(["include/*.h"]),
     copts = CC_OPTS,
-    includes = ["./lsquic/include", "./lsquic/src"] + select({
+    includes = [
+        "./lsquic/include",
+        "./lsquic/src",
+    ] + select({
         "@bazel_tools//src/conditions:windows": ["./lsquic/wincompat"],
         "//conditions:default": [],
     }),
@@ -18,9 +21,7 @@ cc_library(
 
 cc_library(
     name = "xxhash",
-    hdrs = ["src/lshpack/deps/xxhash/xxhash.h"],
     srcs = ["src/lshpack/deps/xxhash/xxhash.c"],
-    copts = CC_OPTS
+    hdrs = ["src/lshpack/deps/xxhash/xxhash.h"],
+    copts = CC_OPTS,
 )
-
-

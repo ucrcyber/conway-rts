@@ -5,11 +5,15 @@ CC_OPTS = select({
 
 cc_library(
     name = "usockets",
-    hdrs = glob(["src/**/*.h"]),
     srcs = glob(["src/**/*.c"]),
+    hdrs = glob(["src/**/*.h"]),
     copts = CC_OPTS,
+    defines = ["LIBUS_NO_SSL"],  # ssl isn't linked properly (results in even more unresolved external symbols)
     includes = ["./src"],
-    defines = ["LIBUS_NO_SSL"], # ssl isn't linked properly (results in even more unresolved external symbols)
     visibility = ["//visibility:public"],
-    deps = ["@libuv", "@boringssl//:boringssl", "@lsquic//:lsquic"],
+    deps = [
+        "@boringssl",
+        "@libuv",
+        "@lsquic",
+    ],
 )

@@ -4,5 +4,5 @@ cc_binary(
     name = "server",
     srcs = ["main.cpp"],
     copts = CC_OPTS,
-    deps = ["@uwebsockets//:uwebsockets"],
+    deps = ["@uwebsockets"],
 )
