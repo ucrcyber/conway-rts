@@ -7,7 +7,7 @@
 
 TEST(Room, initialization) {
   Room room("kitchen");
-  EXPECT_EQ(room.name, "kitchen");
+  EXPECT_EQ(room.name(), "kitchen");
   // std::cout << room;
 }
 
