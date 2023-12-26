@@ -1,27 +1,60 @@
+"""
+lsquic bazel build file
+"""
+
+# c++17 needed for sys/uio.h on windows
 CC_OPTS = select({
-    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
-    "//conditions:default": ["--std=c++17"],
+    "@bazel_tools//src/conditions:windows": ["/std:c++20"],
+    "//conditions:default": ["--std=c++20"],
 })
 
 cc_library(
     name = "lsquic",
-    srcs = glob(["src/liblsquic/*.c"]),
-    hdrs = glob(["include/*.h"]),
+    srcs = glob(["src/liblsquic/ls*.c"]) + ["src/liblsquic/ls-qpack/lsqpack.c"],
+    hdrs = glob([
+        "include/*.h",
+        "src/**/*.h",
+    ]),
     copts = CC_OPTS,
+    defines = select({
+        "@bazel_tools//src/conditions:windows": [
+            "WIN32",
+            "WIN32_LEAN_AND_MEAN",
+            "NOMINMAX",
+            "_CRT_SECURE_NO_WARNINGS",
+        ],
+        "//conditions:default": [],
+    }),
     includes = [
-        "./lsquic/include",
-        "./lsquic/src",
+        "include",
+        "src",
+        "src/liblsquic/ls-qpack",
+        "src/liblsquic/ls-qpack/deps/xxhash",
+        "src/lshpack",
+        "src/lshpack/deps/xxhash",
     ] + select({
-        "@bazel_tools//src/conditions:windows": ["./lsquic/wincompat"],
+        "@bazel_tools//src/conditions:windows": ["./wincompat"],
         "//conditions:default": [],
     }),
     visibility = ["//visibility:public"],
-    deps = [":xxhash"],
+    deps = [
+        ":ls_hpack_xxhash",
+        ":ls_qpack_xxhash",
+        "@boringssl",
+        "@zlib",
+    ],
 )
 
 cc_library(
-    name = "xxhash",
+    name = "ls_hpack_xxhash",
     srcs = ["src/lshpack/deps/xxhash/xxhash.c"],
     hdrs = ["src/lshpack/deps/xxhash/xxhash.h"],
+    copts = CC_OPTS,
+)
+
+cc_library(
+    name = "ls_qpack_xxhash",
+    srcs = ["src/liblsquic/ls-qpack/deps/xxhash/xxhash.c"],
+    hdrs = ["src/liblsquic/ls-qpack/deps/xxhash/xxhash.h"],
     copts = CC_OPTS,
 )
