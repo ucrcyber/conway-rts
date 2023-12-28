@@ -13,9 +13,9 @@ Room::Room(const std::string& name):
   Room::Room(name, Vector2(50, 50))
 {}
 
-Room::Room(const std::string& name, const Vector2& dimensions): _name(name)
+Room::Room(const std::string& name, const Vector2& dimensions): name_(name)
 {
-  _grid = LifeGrid(dimensions);
+  grid_ = LifeGrid(dimensions);
 }
 
 // Room::Room(const Room& other): Room() {
@@ -40,36 +40,36 @@ Room::Room(const std::string& name, const Vector2& dimensions): _name(name)
 // }
 
 void Room::Initialize() {
-  _grid = LifeGrid(grid.dimensions);
+  grid_ = LifeGrid(grid().dimensions());
   
 }
 
 void Room::SetName(const std::string& new_name) {
-  _name = new_name;
+  name_ = new_name;
 }
 
 void Room::LoadStructures(const std::vector<StructureProperties>& new_structures) {
-  _structure_lookup = new_structures;
+  structure_lookup_ = new_structures;
 }
 
 void Room::Tick(EventQueue& next_queue) {
   // this processes events that have been filtered by Team::Tick
-  while (!event_queue.empty() && event_queue.front().time <= _time) {
-    const Event event = std::move(_event_queue.front());
-    _event_queue.pop_front();
+  while (!event_queue().empty() && event_queue().front().time() <= time()) {
+    const Event event = std::move(event_queue_.front());
+    event_queue_.pop_front();
     
-    if(event.data.size() != 4) throw std::logic_error("invalid event data");
-    const int building_id = event.data[3];
-    if(building_id < 0 || building_id >= event.data.size()) throw std::logic_error("invalid event building_id");
+    if(event.data().size() != 4) throw std::logic_error("invalid event data");
+    const int building_id = event.data()[3];
+    if(building_id < 0 || building_id >= event.data().size()) throw std::logic_error("invalid event building_id");
     
-    const StructureProperties& props = structure_lookup[building_id];
-    const Vector2 position(event.data[1], event.data[2]);
-    const int refund = props.grid.dimensions.x * props.grid.dimensions.y - grid.Compare(props.grid, position);
-    _grid.Load(props.grid, position);
+    const StructureProperties& props = structure_lookup()[building_id];
+    const Vector2 position(event.data()[1], event.data()[2]);
+    const int refund = props.grid().dimensions().x() * props.grid().dimensions().y() - grid().Compare(props.grid(), position);
+    grid_.Load(props.grid(), position);
 
     next_queue.push_back(event);
   }
-  _time ++;
+  ++time_;
 }
 
 // ### Format
@@ -93,9 +93,9 @@ void Room::Tick(EventQueue& next_queue) {
 // ```
 std::ostream& operator<<(std::ostream& out, const Room& rhs) {
   // TODO: make no trailing whitespace
-  out << rhs.name << "\n" << rhs.grid << "\n"
-    << rhs.teams.size() << " " << rhs.clients.size() << "\n";
-  for(const auto& team : rhs.teams) out << team << "\n";
+  out << rhs.name() << "\n" << rhs.grid() << "\n"
+    << rhs.teams().size() << " " << rhs.clients().size() << "\n";
+  for(const auto& team : rhs.teams()) out << team << "\n";
   return out;
 }
 

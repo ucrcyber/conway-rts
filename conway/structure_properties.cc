@@ -20,8 +20,8 @@ StructureProperties::StructureProperties(
   const std::string& name, const int activation_cost, const int income,
   const int build_area, const LifeGrid& grid, const std::vector<Vector2>& checks
 ): 
-  _name(name), _activation_cost(activation_cost), _income(income),
-  _build_area(build_area), _grid(grid), _checks(checks)
+  name_(name), activation_cost_(activation_cost), income_(income),
+  build_area_(build_area), grid_(grid), checks_(checks)
 {}
 
 StructureProperties::StructureProperties(const StructureProperties& other): StructureProperties() {
@@ -30,24 +30,24 @@ StructureProperties::StructureProperties(const StructureProperties& other): Stru
 
 StructureProperties& StructureProperties::operator=(const StructureProperties& rhs) {
   if(this !=& rhs) {
-    _name = rhs.name;
-    _activation_cost = rhs.activation_cost;
-    _grid = rhs.grid;
-    _income = rhs.income;
-    _build_area = rhs.build_area;
-    _checks = rhs.checks;
+    name_ = rhs.name();
+    activation_cost_ = rhs.activation_cost();
+    grid_ = rhs.grid();
+    income_ = rhs.income();
+    build_area_ = rhs.build_area();
+    checks_ = rhs.checks();
   }
   return *this;
 }
 
 bool StructureProperties::operator==(const StructureProperties& other) const {
   if(this == &other) return true;
-  if(activation_cost != other.activation_cost) return false;
-  if(build_area != other.build_area) return false;
-  if(checks != other.checks) return false;
-  if(income != other.income) return false;
-  if(name != other.name) return false;
-  if(grid != other.grid) return false;
+  if(activation_cost_ != other.activation_cost()) return false;
+  if(build_area_ != other.build_area()) return false;
+  if(checks_ != other.checks()) return false;
+  if(income_ != other.income()) return false;
+  if(name_ != other.name()) return false;
+  if(grid_ != other.grid()) return false;
   return true;
 }
 
@@ -75,21 +75,24 @@ bool StructureProperties::operator!=(const StructureProperties& other) const {
 //     ##
 // ```
 std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs){
-  out << rhs.name << "\n" << rhs.activation_cost << " " << rhs.income << " "
-    << rhs.build_area << "\n"
-    << rhs.grid.dimensions.y << " " << rhs.grid.dimensions.x << "\n";
+  const int height = rhs.grid().dimensions().x();
+  const int width = rhs.grid().dimensions().y();
+
+  out << rhs.name() << "\n" << rhs.activation_cost() << " " << rhs.income() << " "
+    << rhs.build_area() << "\n"
+    << height << " " << width << "\n";
   const std::string grid_symbols = ".#:%";
 
   // std::cout << "??" << std::endl << rhs.grid.dimensions << std::endl;
 
   int k = 0;
-  for(int i = 0; i < rhs.grid.dimensions.y; ++i){
-    for(int j = 0; j < rhs.grid.dimensions.x; ++j){
+  for(int i = 0; i < height; ++i){
+    for(int j = 0; j < width; ++j){
       const Vector2 pos(j, i);
-      const bool set = rhs.grid.GetCell(pos) == LifeState::ALIVE;
+      const bool set = rhs.grid().GetCell(pos) == LifeState::ALIVE;
       bool ok = false;
-      if(k < rhs.checks.size()){
-        if(rhs.checks[k] == pos){
+      if(k < rhs.checks().size()){
+        if(rhs.checks()[k] == pos){
           ok = true;
           ++k;
         }
@@ -105,9 +108,9 @@ std::ostream& operator<<(std::ostream& out, const StructureProperties& rhs){
 std::istream& operator>>(std::istream& in, StructureProperties& rhs){
   int height, width;
 
-  std::getline(in >> std::ws, rhs._name);
+  std::getline(in >> std::ws, rhs.name_);
   
-  in >> rhs._activation_cost >> rhs._income >> rhs._build_area;
+  in >> rhs.activation_cost_ >> rhs.income_ >> rhs.build_area_;
   in >> height >> width;
 
   std::ostringstream grid_filtered;
@@ -120,7 +123,7 @@ std::istream& operator>>(std::istream& in, StructureProperties& rhs){
     {'%', 3},
   };
 
-  rhs._checks.clear();
+  rhs.checks_.clear();
   for(int i = 0; i < height; i ++){
     for(int j = 0; j < width; j ++){
       char c;
@@ -128,13 +131,13 @@ std::istream& operator>>(std::istream& in, StructureProperties& rhs){
       const int id = grid_symbols[c];
       grid_filtered << (id & 1 ? '#' : '.');
       if(id & 2){
-        rhs._checks.push_back(Vector2(j, i));
+        rhs.checks_.push_back(Vector2(j, i));
       }
     }
     grid_filtered << '\n';
   }
   std::istringstream grid_in(grid_filtered.str());
-  grid_in >> rhs._grid;
+  grid_in >> rhs.grid_;
   
   return in;
 }

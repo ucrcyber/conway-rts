@@ -9,7 +9,11 @@ cc_library(
         "crypto/*.c",
         "ssl/*.c",
     ]),
-    hdrs = glob(["include/openssl/*.h"]),
+    hdrs = glob([
+        "include/openssl/*.h",
+        "crypto/**/*.h",
+        "ssl/**/*.h",
+    ]),
     copts = CC_OPTS,
     includes = ["./include"],
     visibility = ["//visibility:public"],

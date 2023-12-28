@@ -7,7 +7,7 @@ LifeGrid::LifeGrid(int width, int height):
 {}
 
 LifeGrid::LifeGrid(const Vector2& dimensions):
-  LifeGrid::LifeGrid(dimensions.x, dimensions.y)
+  LifeGrid::LifeGrid(dimensions.x(), dimensions.y())
 {}
 
 LifeGrid::LifeGrid(const std::vector<std::vector<bool>>& new_grid) {
@@ -20,15 +20,15 @@ LifeGrid::LifeGrid(const LifeGrid& other): LifeGrid() {
 
 LifeGrid& LifeGrid::operator=(const LifeGrid& other) {
   if(this != &other) {
-    _dimensions = other.dimensions;
-    grid = other.grid;
+    dimensions_ = other.dimensions_;
+    grid_ = other.grid_;
   }
   return *this;
 }
 
 bool LifeGrid::operator==(const LifeGrid& other) const {
   if(this == &other) return true;
-  if(dimensions != other.dimensions) return false;
+  if(dimensions_ != other.dimensions_) return false;
   if(Compare(other, Vector2(0, 0)) > 0) return false;
   return true;
 }
@@ -38,23 +38,23 @@ bool LifeGrid::operator!=(const LifeGrid& other) const {
 }
 
 void LifeGrid::Initialize(const std::vector<std::vector<bool>>& new_grid) {
-  _dimensions = std::move(Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size()));
-  grid = new_grid;
+  dimensions_ = std::move(Vector2(new_grid.empty() ? 0 : new_grid.front().size(), new_grid.size()));
+  grid_ = new_grid;
 }
 
 LifeState LifeGrid::GetCell(const Vector2& coordinate) const {
-  return grid[coordinate.y][coordinate.x] ? LifeState::ALIVE : LifeState::DEAD;
+  return grid_[coordinate.y()][coordinate.x()] ? LifeState::ALIVE : LifeState::DEAD;
 }
 
 bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
-  const Vector2 bottom_right = offset + life_grid.dimensions;
-  if(bottom_right.x > dimensions.x || bottom_right.y > dimensions.y) return false;
+  const Vector2 bottom_right = offset + life_grid.dimensions_;
+  if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return false;
 
-  int oy = offset.y;
-  int ox = offset.x;
-  for(int i = 0; i < life_grid.dimensions.y; ++i) {
-    for(int j = 0; j < life_grid.dimensions.x; ++j) {
-      grid[oy+i][ox+j] = life_grid.grid[i][j]; 
+  int oy = offset.y();
+  int ox = offset.x();
+  for(int i = 0; i < life_grid.dimensions_.y(); ++i) {
+    for(int j = 0; j < life_grid.dimensions_.x(); ++j) {
+      grid_[oy+i][ox+j] = life_grid.grid_[i][j];
     }
   }
   return true;
@@ -62,11 +62,11 @@ bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
 
 int LifeGrid::Compare(const LifeGrid& life_grid, const Vector2& offset) const {
   int diff_count = 0;
-  int oy = offset.y;
-  int ox = offset.x;
-  for(int i = 0; i < life_grid.dimensions.y; ++i) {
-    for(int j = 0; j < life_grid.dimensions.x; ++j) {
-      if(this->grid[oy+i][ox+j] != life_grid.grid[i][j]) {
+  int oy = offset.y();
+  int ox = offset.x();
+  for(int i = 0; i < life_grid.dimensions_.y(); ++i) {
+    for(int j = 0; j < life_grid.dimensions_.x(); ++j) {
+      if(grid_[oy+i][ox+j] != life_grid.grid_[i][j]) {
         ++diff_count;
       }
     }
@@ -76,8 +76,8 @@ int LifeGrid::Compare(const LifeGrid& life_grid, const Vector2& offset) const {
 
 void LifeGrid::Tick() {
   // very unoptimized code
-  std::vector<std::vector<bool>> new_grid(grid);
-  const int width = dimensions.x, height = dimensions.y;
+  std::vector<std::vector<bool>> new_grid(grid_);
+  const int width = dimensions_.x(), height = dimensions_.y();
   for(int i = 0; i < height; i++) {
     for(int j = 0; j < width; j++) {
       // count live neighbors
@@ -88,7 +88,7 @@ void LifeGrid::Tick() {
           int ny = i+dy;
           int nx = j+dx;
           if(ny < 0 || nx < 0 || ny >= height || nx >= width) continue;
-          if(this->grid[ny][nx]) ++live_neighbors;
+          if(grid_[ny][nx]) ++live_neighbors;
         }
       }
 
@@ -98,11 +98,11 @@ void LifeGrid::Tick() {
       // =  3 - born
       // > 3 - dies
       new_grid[i][j] =
-        (grid[i][j] && (live_neighbors == 2 || live_neighbors == 3))
-        || (!grid[i][j] && live_neighbors == 3);
+        (grid_[i][j] && (live_neighbors == 2 || live_neighbors == 3))
+        || (!grid_[i][j] && live_neighbors == 3);
     }
   }
-  grid = new_grid;
+  grid_ = new_grid;
 }
 
 // ### Format
@@ -120,8 +120,8 @@ void LifeGrid::Tick() {
 //     ..##.
 // ```
 std::ostream& operator<<(std::ostream& out, const LifeGrid& rhs) {
-  out << rhs.dimensions.y << ' ' << rhs.dimensions.x << '\n';
-  for(const auto &row : rhs.grid) {
+  out << rhs.dimensions_.y() << ' ' << rhs.dimensions_.x() << '\n';
+  for(const auto &row : rhs.grid_) {
     for(auto x : row) {
       out << (x ? '#' : '.');
     }

@@ -4,7 +4,7 @@ Client::Client(): Client::Client(0, "")
 {}
 
 Client::Client(const int id, const std::string& name):
-  _id(id), _name(name)
+  id_(id), name_(name)
 {}
 
 Client::Client(const Client& other): Client() {
@@ -13,16 +13,16 @@ Client::Client(const Client& other): Client() {
 
 Client& Client::operator=(const Client& other) {
   if(this != &other) {
-    _id = other.id;
-    _name = other.name;
+    id_ = other.id();
+    name_ = other.name();
   }
   return *this;
 }
 
 bool Client::operator==(const Client& other) const {
   if(this == &other) return true;
-  if(id != other.id) return false;
-  if(name != other.name) return false;
+  if(id() != other.id()) return false;
+  if(name() != other.name()) return false;
   return true;
 }
 
@@ -33,7 +33,7 @@ bool Client::operator!=(const Client& other) const {
 const Event Client::CreateBuildEvent(
   const int time, const int building_id, const Vector2& position
 ) const {
-  ArrayBuffer payload {id, position.x, position.y, building_id};
+  ArrayBuffer payload {id(), position.x(), position.y(), building_id};
   Event event(time, 0, payload);
   return event;
 }
@@ -48,14 +48,14 @@ const Event Client::CreateBuildEvent(
 //     5 Hello world
 // ```
 std::ostream& operator<<(std::ostream& out, const Client& rhs) {
-  out << rhs.id << " " << rhs.name;
+  out << rhs.id() << " " << rhs.name();
   return out;
 }
 
 std::istream& operator>>(std::istream& in, Client& rhs) {
-  in >> rhs._id;
+  in >> rhs.id_;
   in.ignore(1);
-  std::getline(in, rhs._name);
+  std::getline(in, rhs.name_);
   return in;
 }
 

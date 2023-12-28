@@ -15,39 +15,41 @@
 
 /// this is exclusively the BUILD EVENT (for now)
 class Event {
-  private:
-    int _time = 0;
-    int _id = 0;
-    ArrayBuffer _data;
-  public:
-    // https://stackoverflow.com/a/5424521/21507383 public readonly, private variables
+ public:
+  Event();
+  Event(const int time, const int id, const ArrayBuffer& data);
 
-    /// @brief readonly time
-    const int& time = _time;
+  Event(const Event& other);
+  Event& operator=(const Event& rhs);
 
-    /// @brief readonly id -- ids are not assigned until they are broadcast
-    // to determine the order they should be processed in, and to detect
-    // missing events
-    const int& id = _id;
+  bool operator<(const Event& other) const;
+  bool operator>(const Event& other) const;
+  bool operator==(const Event& other) const;
+  bool operator!=(const Event& other) const;
 
-    /// @brief readonly data
-    const ArrayBuffer& data = _data;
+  friend std::ostream& operator<<(std::ostream& out, const Event& rhs);
+  friend std::istream& operator>>(std::istream& in, Event& rhs);
+  bool SerializeToOstream(std::ostream& out) const;
+  bool ParseFromIstream(std::istream& in);
 
-    Event();
-    Event(const int time, const int id, const ArrayBuffer& data);
+  int time() const {
+    return time_;
+  }
+  int id() const {
+    return id_;
+  }
+  const ArrayBuffer& data() const {
+    return data_;
+  }
 
-    Event(const Event& other);
-    Event& operator=(const Event& rhs);
+ private:
+  int time_ = 0;
 
-    bool operator<(const Event& other) const;
-    bool operator>(const Event& other) const;
-    bool operator==(const Event& other) const;
-    bool operator!=(const Event& other) const;
-
-    friend std::ostream& operator<<(std::ostream& out, const Event& rhs);
-    friend std::istream& operator>>(std::istream& in, Event& rhs);
-    bool SerializeToOstream(std::ostream& out) const;
-    bool ParseFromIstream(std::istream& in);
+  /// @brief ids are not assigned until they are broadcast
+  // to determine the order they should be processed in, and to detect
+  // missing events
+  int id_ = 0;
+  ArrayBuffer data_;
 };
 
 #endif // CONWAY_INCLUDE_EVENT_HPP
