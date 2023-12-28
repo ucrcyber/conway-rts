@@ -1,12 +1,46 @@
 #include "emscripten/bind.h"
+
+#include "conway/life_grid.hh"
+#include "conway/structure.hh"
+#include "conway/structure_properties.hh"
 #include "utility/vector2.hh"
 
 EMSCRIPTEN_BINDINGS(Vector2) {
   emscripten::class_<Vector2>("Vector2")
-    .constructor<int, int>()
-    .function("x", &Vector2::x)
-    .function("y", &Vector2::y)
-    .function("set_x", &Vector2::set_x)
-    .function("set_y", &Vector2::set_y)
-    ;
+      .constructor<int, int>()
+      .function("x", &Vector2::x)
+      .function("y", &Vector2::y)
+      .function("set_x", &Vector2::set_x)
+      .function("set_y", &Vector2::set_y);
+}
+
+EMSCRIPTEN_BINDINGS(LifeGrid) {
+  emscripten::class_<LifeGrid>("LifeGrid")
+      .constructor<const Vector2 &>()
+      .function("dimensions", &LifeGrid::dimensions)
+      .function("GetCell", &LifeGrid::GetCell)
+      .function("Load", &LifeGrid::Load)
+      .function("Compare", &LifeGrid::Compare)
+      .function("Tick", &LifeGrid::Tick);
+}
+
+EMSCRIPTEN_BINDINGS(StructureProperties) {
+  emscripten::class_<StructureProperties>("StructureProperties")
+      .constructor<const std::string &, int, int, int, const LifeGrid &,
+                   const std::vector<Vector2> &>()
+      .function("name", &StructureProperties::name)
+      .function("activation_cost", &StructureProperties::activation_cost)
+      .function("grid", &StructureProperties::grid)
+      .function("income", &StructureProperties::income)
+      .function("build_area", &StructureProperties::build_area)
+      .function("checks", &StructureProperties::checks);
+}
+
+EMSCRIPTEN_BINDINGS(Structure) {
+  emscripten::class_<Structure>("Structure")
+      .constructor<const StructureProperties &, const Vector2 &>()
+      .function("CheckIntegrity", &Structure::CheckIntegrity)
+      .function("active", &Structure::active)
+      .function("position", &Structure::position)
+      .function("properties", &Structure::properties);
 }

@@ -50,7 +50,7 @@ bool Structure::operator!=(const Structure& other) const {
 
 bool Structure::CheckIntegrity(const LifeGrid& life_grid) {
   active_ = true;
-  for (const auto offset : properties().checks()) {
+  for (const Vector2& offset : properties().checks()) {
     if (life_grid.GetCell(position() + offset) != properties().grid().GetCell(offset)) {
       active_ = false;
       break;

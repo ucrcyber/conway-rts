@@ -36,6 +36,9 @@ cc_binary(
     tags = ["manual"],
     deps = [
         "//utility:vector2",
+        "//conway:life_grid",
+        "//conway:structure_properties",
+        "//conway:structure",
         # "//hello-world/cpp:localtime",
     ],
     # this isn't a problem as long as you don't wildcard... wildcarding still breaks this though

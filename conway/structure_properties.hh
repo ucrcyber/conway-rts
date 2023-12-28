@@ -63,9 +63,9 @@ class StructureProperties {
  private:
   std::string name_;
   int activation_cost_;
-  LifeGrid grid_;
   int income_;
   int build_area_;
+  LifeGrid grid_;
 
   /// @brief coordinate offsets to check during an structure integrity check
   // (this *should* be sorted by y first then x from construction)
