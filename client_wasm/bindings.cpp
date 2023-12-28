@@ -5,7 +5,7 @@
 #include "conway/structure_properties.hh"
 #include "utility/vector2.hh"
 
-EMSCRIPTEN_BINDINGS(Vector2) {
+EMSCRIPTEN_BINDINGS(Utility) {
   emscripten::class_<Vector2>("Vector2")
       .constructor<int, int>()
       .function("x", &Vector2::x)
@@ -14,7 +14,7 @@ EMSCRIPTEN_BINDINGS(Vector2) {
       .function("set_y", &Vector2::set_y);
 }
 
-EMSCRIPTEN_BINDINGS(LifeGrid) {
+EMSCRIPTEN_BINDINGS(Conway) {
   emscripten::class_<LifeGrid>("LifeGrid")
       .constructor<const Vector2 &>()
       .function("dimensions", &LifeGrid::dimensions)
@@ -22,9 +22,7 @@ EMSCRIPTEN_BINDINGS(LifeGrid) {
       .function("Load", &LifeGrid::Load)
       .function("Compare", &LifeGrid::Compare)
       .function("Tick", &LifeGrid::Tick);
-}
 
-EMSCRIPTEN_BINDINGS(StructureProperties) {
   emscripten::class_<StructureProperties>("StructureProperties")
       .constructor<const std::string &, int, int, int, const LifeGrid &,
                    const std::vector<Vector2> &>()
@@ -34,9 +32,7 @@ EMSCRIPTEN_BINDINGS(StructureProperties) {
       .function("income", &StructureProperties::income)
       .function("build_area", &StructureProperties::build_area)
       .function("checks", &StructureProperties::checks);
-}
 
-EMSCRIPTEN_BINDINGS(Structure) {
   emscripten::class_<Structure>("Structure")
       .constructor<const StructureProperties &, const Vector2 &>()
       .function("CheckIntegrity", &Structure::CheckIntegrity)
