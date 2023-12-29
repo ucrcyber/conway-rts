@@ -8,10 +8,16 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "npx http-server client/public",
-    "build": "npm run build:pbjs && npm run build:bazel",
+    "dev": "vite dev ./client",
+    "dev:test": "npx http-server client/public",
+    "build": "npm run build:pbjs && npm run build:bazel && npm run build:client",
     "build:pbjs": "npx pbjs -t static-module -w es6 -o ./build/bundle_proto.js ./**/*.proto && npx pbts -o ./build/bundle_proto.d.ts ./build/bundle_proto.js",
     "build:bazel": "npx bazel build //:conway",
+    "build:client": "tsc && vite build",
+    "format": "npx prettier client client_wasm --write",
+    "format:check": "npx prettier client client_wasm --check",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,7 +32,23 @@
   "homepage": "https://github.com/ucrcyber/conway-rts#readme",
   "devDependencies": {
     "@bazel/bazelisk": "^1.18.0",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.1.1",
     "protobufjs": "^7.2.5",
-    "protobufjs-cli": "^1.1.2"
+    "protobufjs-cli": "^1.1.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vitest": "^1.1.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
