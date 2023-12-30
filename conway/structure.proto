@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package conway;
 
-import "vector2.proto";
+import "utility/vector2.proto";
 
 message Structure {
   // which structure this maps to in a StructureLookup

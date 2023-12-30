@@ -22,6 +22,17 @@ cc_library(
     ],
 )
 
+proto_library(
+    name = "life_grid_proto",
+    srcs = ["life_grid.proto"],
+    deps = ["//utility:vector2_proto"],
+)
+
+cc_proto_library(
+    name = "life_grid_cc_proto",
+    deps = [":life_grid_proto"],
+)
+
 cc_test(
     name = "life_grid_test",
     size = "small",
@@ -48,6 +59,18 @@ cc_library(
     ],
 )
 
+proto_library(
+    name = "structure_proto",
+    srcs = ["structure.proto"],
+    visibility = ["//conway_rts:__pkg__"],
+    deps = ["//utility:vector2_proto"],
+)
+
+cc_proto_library(
+    name = "structure_cc_proto",
+    deps = [":structure_proto"],
+)
+
 cc_test(
     name = "structure_test",
     size = "small",
@@ -71,6 +94,21 @@ cc_library(
         ":life_state",
         "//utility:vector2",
     ],
+)
+
+proto_library(
+    name = "structure_properties_proto",
+    srcs = ["structure_properties.proto"],
+    visibility = ["//conway_rts:__pkg__"],
+    deps = [
+        ":life_grid_proto",
+        "//utility:vector2_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "structure_properties_cc_proto",
+    deps = [":structure_properties_proto"],
 )
 
 cc_test(
