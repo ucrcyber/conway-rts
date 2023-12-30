@@ -3,7 +3,7 @@
  */
 
 import { expect, test } from "vitest";
-import Conway from '@/lib';
+import Conway from "@/lib";
 
 test("constructor", () => {
   const lifeGrid = new Conway.LifeGrid(new Conway.Vector2(10, 15));

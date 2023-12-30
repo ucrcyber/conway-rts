@@ -1,3 +1,25 @@
 :root {
   font-family: "Courier New", Courier, monospace;
 }
+
+.lifegrid {
+  display: flex;
+  flex-direction: column;
+  background: gray;
+  margin: auto;
+  width: fit-content;
+}
+.lifegrid-row {
+  display: flex;
+  flex-direction: row;
+}
+.lifegrid-row > * {
+  width: 10px;
+  height: 10px;
+}
+.lifegrid-alive {
+  background: white;
+}
+.lifegrid-dead {
+  background: black;
+}

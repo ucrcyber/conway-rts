@@ -4,7 +4,8 @@
 
 import ConwayWasm from "@/lib-wasm";
 
-interface Type<T> extends Function { // eslint-disable-line @typescript-eslint/ban-types
+interface Type<T> extends Function {
+  // eslint-disable-line @typescript-eslint/ban-types
   new (...args: any[]): T; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
