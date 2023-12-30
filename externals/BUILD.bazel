@@ -1,0 +1,6 @@
+"""
+This folder includes BUILD.bazel files for external libraries.
+
+This file exists to mark the //externals folder as a package so its contents
+are accessible from WORKSPACE to be used for http_archive build_file's.
+"""
