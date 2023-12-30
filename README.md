@@ -4,11 +4,14 @@ conway rts cyber project (but still being designed)
 ## Running
 Install [bazelisk](https://github.com/bazelbuild/bazelisk)
 ```
-bazelisk # installs bazel with specific version
-bazel query ...             # list targets
-bazel test ... --config=cl  # run all tests (windows, cl.exe)
-bazel test ... --config=gcc # run all tests (linux, gcc)
-balze build ...             # build all targets (config pattern still applies)
+bazelisk                              # installs bazel with specific version
+bazel query ...                       # list targets
+bazel test ...                        # run all tests
+bazel build ...                       # build all targets (config pattern still applies)
+bazel run //:refresh_compile_commands # initialize intellisense files
+bazel run //server                    # builds and starts the game server
+npm run test                          # runs vitest (clientside tests)
+npm run dev                           # runs the client
 ```
 
 # Rough UML Diagram

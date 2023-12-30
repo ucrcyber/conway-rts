@@ -1,5 +1,12 @@
 # load("//tools/protobufjs:rules.bzl", "protobufjs_library")
 
+load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+
+refresh_compile_commands(
+    name = "refresh_compile_commands",
+    # targets = ["//server"],
+)
+
 filegroup(
     name = "conway",
     srcs = [
