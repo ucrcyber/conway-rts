@@ -6,6 +6,12 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    "baseUrl": ".",
+    "paths": {
+      "@/lib-wasm": ["bazel-bin/client_wasm/conway_lib_wasm/conway_lib_wasm_embind"],
+      "@/lib": ["client_wasm/conway"]
+    },
+
     /* Bundler Mode */
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
@@ -20,5 +26,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["client/src", "client/vite.config.ts"]
+  "include": ["client/src", "client/vite.config.ts", "client_wasm"]
 }
