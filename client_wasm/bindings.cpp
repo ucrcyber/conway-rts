@@ -7,6 +7,7 @@
 
 EMSCRIPTEN_BINDINGS(Utility) {
   emscripten::class_<Vector2>("Vector2")
+      .constructor<>()
       .constructor<int, int>()
       .function("x", &Vector2::x)
       .function("y", &Vector2::y)
