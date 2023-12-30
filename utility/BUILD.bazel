@@ -35,7 +35,10 @@ cc_test(
 proto_library(
     name = "vector2_proto",
     srcs = ["vector2.proto"],
-    visibility = [],  # set later
+    visibility = [
+        "//conway:__pkg__",
+        "//conway_rts:__pkg__",
+    ],
 )
 
 cc_proto_library(
