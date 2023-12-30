@@ -16,10 +16,16 @@ EMSCRIPTEN_BINDINGS(Utility) {
 }
 
 EMSCRIPTEN_BINDINGS(Conway) {
+  emscripten::enum_<LifeState>("LifeState")
+      .value("DEAD", LifeState::DEAD)
+      .value("ALIVE", LifeState::ALIVE);
+
   emscripten::class_<LifeGrid>("LifeGrid")
       .constructor<const Vector2 &>()
       .function("dimensions", &LifeGrid::dimensions)
-      .function("GetCell", &LifeGrid::GetCell)
+      .function("GetCell", &LifeGrid::IsCellAlive)
+      .function("SetCell", &LifeGrid::SetCell)
+      .function("ResetCell", &LifeGrid::ResetCell)
       .function("Load", &LifeGrid::Load)
       .function("Compare", &LifeGrid::Compare)
       .function("Tick", &LifeGrid::Tick);

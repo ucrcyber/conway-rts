@@ -35,8 +35,21 @@ class LifeGrid {
 
   /// @brief query the status of a single cell
   /// @param position which cell
-  /// @return whether the cell is alive or dead
+  /// @return cell state
   LifeState GetCell(const Vector2& position) const;
+
+  /// @brief query the status of a single cell
+  /// @param position which cell
+  /// @return whether the cell is alive or dead
+  bool IsCellAlive(const Vector2& position) const;
+
+  /// @brief sets the specified cell as alive (set)
+  /// @param position which cell
+  void SetCell(const Vector2& position);
+
+  /// @brief sets the specified cell as dead (reset)
+  /// @param position which cell
+  void ResetCell(const Vector2& position);
 
   /// @brief loads a payload LifeGrid onto the LifeGrid;
   /// used for loading templates when players build something

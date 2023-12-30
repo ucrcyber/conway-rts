@@ -46,6 +46,18 @@ LifeState LifeGrid::GetCell(const Vector2& coordinate) const {
   return grid_[coordinate.y()][coordinate.x()] ? LifeState::ALIVE : LifeState::DEAD;
 }
 
+bool LifeGrid::IsCellAlive(const Vector2& coordinate) const {
+  return grid_[coordinate.y()][coordinate.x()];
+}
+
+void LifeGrid::SetCell(const Vector2& coordinate) {
+  grid_[coordinate.y()][coordinate.x()] = true;
+}
+
+void LifeGrid::ResetCell(const Vector2& coordinate) {
+  grid_[coordinate.y()][coordinate.x()] = false;
+}
+
 bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
   const Vector2 bottom_right = offset + life_grid.dimensions_;
   if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return false;
