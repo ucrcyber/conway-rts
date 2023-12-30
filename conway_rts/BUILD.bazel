@@ -12,11 +12,22 @@ cc_library(
     name = "client",
     srcs = ["client.cc"],
     hdrs = ["client.hh"],
+    visibility = ["//server:__pkg__"],
     deps = [
         ":array_buffer",
         ":event",
         "//conway:structure",
     ],
+)
+
+proto_library(
+    name = "client_proto",
+    srcs = ["client.proto"],
+)
+
+cc_proto_library(
+    name = "client_cc_proto",
+    deps = [":client_proto"],
 )
 
 cc_test(
@@ -34,6 +45,20 @@ cc_library(
     srcs = ["event.cc"],
     hdrs = ["event.hh"],
     deps = [":array_buffer"],
+)
+
+proto_library(
+    name = "event_proto",
+    srcs = ["event.proto"],
+    deps = [
+        ":event_base_proto",
+        ":event_room_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "event_cc_proto",
+    deps = [":event_proto"],
 )
 
 cc_test(
@@ -56,6 +81,7 @@ cc_library(
     name = "room",
     srcs = ["room.cc"],
     hdrs = ["room.hh"],
+    visibility = ["//server:__pkg__"],
     deps = [
         ":client",
         ":event",
@@ -63,6 +89,22 @@ cc_library(
         ":team",
         "//conway:structure_properties",
     ],
+)
+
+proto_library(
+    name = "room_proto",
+    srcs = ["room.proto"],
+    visibility = ["//server:__pkg__"],
+    deps = [
+        ":client_proto",
+        ":team_proto",
+        "//utility:vector2_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "room_cc_proto",
+    deps = [":room_proto"],
 )
 
 cc_test(
@@ -80,12 +122,29 @@ cc_library(
     srcs = ["team.cc"],
     hdrs = ["team.hh"],
     copts = CC_OPTS,
+    visibility = ["//server:__pkg__"],
     deps = [
         ":client",
         ":event",
         ":event_queue",
         "//conway:structure",
     ],
+)
+
+proto_library(
+    name = "team_proto",
+    srcs = ["team.proto"],
+    visibility = ["//server:__pkg__"],
+    deps = [
+        ":client_proto",
+        "//conway:structure_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "team_cc_proto",
+    visibility = ["//server:__pkg__"],
+    deps = [":team_proto"],
 )
 
 cc_test(
@@ -96,4 +155,46 @@ cc_test(
         ":team",
         "@googletest//:gtest_main",
     ],
+)
+
+proto_library(
+    name = "event_base_proto",
+    srcs = ["event_base.proto"],
+    deps = [
+        ":structure_lookup_proto",
+        ":team_proto",
+        "//utility:vector2_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "event_base_cc_proto",
+    visibility = ["//server:__pkg__"],
+    deps = [":event_base_proto"],
+)
+
+proto_library(
+    name = "event_room_proto",
+    srcs = ["event_room.proto"],
+    deps = [
+        ":client_proto",
+        ":room_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "event_room_cc_proto",
+    visibility = ["//server:__pkg__"],
+    deps = [":event_room_proto"],
+)
+
+proto_library(
+    name = "structure_lookup_proto",
+    srcs = ["structure_lookup.proto"],
+    deps = ["//conway:structure_properties_proto"],
+)
+
+cc_proto_library(
+    name = "structure_lookup_cc_proto",
+    deps = [":structure_lookup_proto"],
 )

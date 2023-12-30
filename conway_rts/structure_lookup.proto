@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package conway;
 
-import "structure_properties.proto";
+import "conway/structure_properties.proto";
 
 message StructureLookup {
   repeated conway.StructureProperties table = 1;

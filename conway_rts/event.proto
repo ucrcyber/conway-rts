@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package conway;
 
-import "event_base.proto";
-import "event_room.proto";
+import "conway_rts/event_base.proto";
+import "conway_rts/event_room.proto";
 
 // wrapper class for every type of event
 message Event {

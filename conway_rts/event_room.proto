@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package conway.event.room;
 
-import "client.proto";
-import "room.proto";
+import "conway_rts/client.proto";
+import "conway_rts/room.proto";
 
 message Create {
   conway.Room room = 1;
