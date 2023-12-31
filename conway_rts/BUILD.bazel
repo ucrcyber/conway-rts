@@ -50,6 +50,7 @@ cc_library(
 proto_library(
     name = "event_proto",
     srcs = ["event.proto"],
+    visibility = ["//server:__pkg__"],
     deps = [
         ":event_base_proto",
         ":event_room_proto",

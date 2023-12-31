@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { UseSocket } from "./SocketUtils";
 
-type SocketLoggerProps = {
-  socket: WebSocket;
-};
-
-function SocketLogger({ socket }: SocketLoggerProps) {
+function SocketLogger({ socket }: UseSocket) {
   const [logs, setLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    const processEvent = (event: MessageEvent) => {
-      setLogs(logs => [...logs, event.data as string]);
+    const processEvent = async (event: MessageEvent) => {
+      console.log(event.data);
+      if (event.data instanceof Blob) {
+        const arrayBuffer = await event.data.arrayBuffer();
+        const view = new Uint8Array(arrayBuffer);
+        setLogs((logs) => [...logs, view.join(", ")]);
+      } else {
+        setLogs((logs) => [...logs, event.data as string]);
+      }
     };
     socket.addEventListener("message", processEvent);
     return () => socket.removeEventListener("message", processEvent);

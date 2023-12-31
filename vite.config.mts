@@ -11,6 +11,10 @@ export const ALIASES = [
     find: "@/lib",
     replacement: resolve(__dirname, "client_wasm/conway"),
   },
+  {
+    find: "@/proto",
+    replacement: resolve(__dirname, "build/bundle_proto"),
+  }
 ];
 
 // https://vitejs.dev/config/
