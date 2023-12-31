@@ -10,7 +10,10 @@ function SocketLogger({ socket }: UseSocket) {
       if (event.data instanceof Blob) {
         const arrayBuffer = await event.data.arrayBuffer();
         const view = new Uint8Array(arrayBuffer);
-        setLogs((logs) => [...logs, view.join(", ")]);
+        const log = [...view]
+          .map((x: number) => x.toString(16).padStart(2, "0"))
+          .join(" ");
+        setLogs((logs) => [...logs, log]);
       } else {
         setLogs((logs) => [...logs, event.data as string]);
       }
