@@ -2,7 +2,6 @@
 #define CONWAY_INCLUDE_TEAM_HPP
 
 #include <iostream>
-#include <string>
 #include <vector>
 #include <map>
 
