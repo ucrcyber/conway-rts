@@ -166,3 +166,14 @@ bool LifeGrid::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }
+
+conway::LifeGrid& LifeGrid::CopyToProtobuf(conway::LifeGrid& pb) const {
+  dimensions().CopyToProtobuf(*pb.mutable_dimensions());
+  pb.clear_flat_grid();
+  for (int i = 0; i < dimensions().y(); ++i) {
+    for (int j = 0; j < dimensions().x(); ++j) {
+      pb.add_flat_grid(IsCellAlive(Vector2(j, i)));
+    }
+  }
+  return pb;
+}

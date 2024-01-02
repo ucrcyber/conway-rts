@@ -104,3 +104,23 @@ TEST(LifeGrid, nextGeneration){
     offset = offset + Vector2(1, 1);
   }
 }
+
+TEST(LifeGrid, copy_into_proto) {
+  conway::LifeGrid pb;
+  LifeGrid glider;
+
+  // .#.
+  // ..#
+  // ###
+  // ...
+  std::istringstream in("4 3 .#. ..# ### ...");
+  in >> glider;
+
+  glider.CopyToProtobuf(pb);
+  EXPECT_EQ(pb.dimensions().x(), 3);
+  EXPECT_EQ(pb.dimensions().y(), 4);
+  const std::vector<bool> expected { 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 };
+  for (int i = 0; i < 12; ++i) {
+    EXPECT_EQ(pb.flat_grid().at(i), expected[i]) << "checking i=" << i;
+  }
+}

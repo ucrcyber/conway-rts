@@ -17,6 +17,7 @@ cc_library(
         "//conway_rts:__pkg__",
     ],
     deps = [
+        ":life_grid_cc_proto",
         ":life_state",
         "//utility:vector2",
     ],
@@ -55,6 +56,7 @@ cc_library(
     deps = [
         ":life_grid",
         ":structure_properties",
+        ":structure_cc_proto",
         "//utility:vector2",
     ],
 )
@@ -92,6 +94,7 @@ cc_library(
     deps = [
         ":life_grid",
         ":life_state",
+        ":structure_properties_cc_proto",
         "//utility:vector2",
     ],
 )

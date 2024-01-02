@@ -1,11 +1,11 @@
 #ifndef CONWAY_INCLUDE_STRUCTURE_HPP
 #define CONWAY_INCLUDE_STRUCTURE_HPP
 
-#include <string>
 #include <tuple>
 #include <iostream>
 
 #include "conway/structure_properties.hh"
+#include "conway/structure.pb.h"
 #include "utility/vector2.hh"
 
 /// @brief used for sorting, but when you still want to modify non-sort properties
@@ -40,6 +40,10 @@ class Structure {
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
 
+  // Note: only copies position! Internal structure doesn't know about what its structure_id is.
+  conway::Structure& CopyToProtobuf(conway::Structure &pb) const;
+
+  // accessors/mutators
   bool active() const {
     return active_;
   }

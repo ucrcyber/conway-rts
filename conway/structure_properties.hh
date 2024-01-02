@@ -1,11 +1,11 @@
 #ifndef CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 #define CONWAY_INCLUDE_STRUCTUREPROPERTIES_HPP
 
-#include <sstream>
 #include <string>
 #include <vector>
 
 #include "conway/life_grid.hh"
+#include "conway/structure_properties.pb.h"
 #include "utility/vector2.hh"
 
 class StructureProperties {
@@ -40,6 +40,8 @@ class StructureProperties {
   friend std::istream& operator>>(std::istream& in, StructureProperties& rhs);
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
+
+  conway::StructureProperties& CopyToProtobuf(conway::StructureProperties &pb) const;
 
   // accessors/mutators
   const std::string& name() const {

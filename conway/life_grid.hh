@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "conway/life_state.hh"
+#include "conway/life_grid.pb.h"
 #include "utility/vector2.hh"
 
 // TODO: write iterators (they should exist?)
@@ -72,6 +73,8 @@ class LifeGrid {
   friend std::istream& operator>>(std::istream& in, LifeGrid& rhs);
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
+
+  conway::LifeGrid& CopyToProtobuf(conway::LifeGrid& pb) const;
 
   // accessor/mutators
   Vector2 dimensions() const {
