@@ -102,11 +102,3 @@ http_archive(
     strip_prefix = "libuv-1.47.0",
     url = "https://github.com/libuv/libuv/archive/refs/tags/v1.47.0.tar.gz",
 )
-
-http_archive(
-    name = "zlib",
-    build_file = "@//externals:BUILD.zlib.bazel",
-    sha256 = "ff0ba4c292013dbc27530b3a81e1f9a813cd39de01ca5e0f8bf355702efa593e",
-    strip_prefix = "zlib-1.3",
-    url = "https://github.com/madler/zlib/releases/download/v1.3/zlib-1.3.tar.gz",
-)
