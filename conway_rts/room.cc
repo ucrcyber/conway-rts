@@ -175,3 +175,27 @@ bool Room::ParseFromIstream(std::istream &in) {
   in >> *this;
   return true;
 }
+
+conway::Room& Room::CopyToProtobuf(conway::Room &pb, int id) const {
+  pb.set_id(id);
+  pb.set_name(name());
+  grid().dimensions().CopyToProtobuf(*pb.mutable_dimensions());
+  pb.clear_clients();
+  for (const std::pair<int, Client>& client_entry : clients()) {
+    conway::Client *client_pb = pb.add_clients();
+    client_entry.second.CopyToProtobuf(*client_pb);
+  }
+  pb.clear_teams();
+  for (const std::pair<int, Team>& team_entry : teams()) {
+    conway::Team *team_pb = pb.add_teams();
+    team_entry.second.CopyToProtobuf(*team_pb);
+  }
+  return pb;
+}
+
+conway::RoomListing& Room::CopyToProtobuf(conway::RoomListing &pb, int id) const {
+  pb.set_id(id);
+  pb.set_name(name());
+  pb.set_client_count(clients().size());
+  return pb;
+}

@@ -9,6 +9,7 @@
 #include "conway_rts/client.hh"
 #include "conway_rts/event_queue.hh"
 #include "conway_rts/team.hh"
+#include "conway_rts/room.pb.h"
 
 /// @brief game instance
 class Room {
@@ -67,6 +68,9 @@ public:
   friend std::istream &operator>>(std::istream &in, Room &rhs);
   bool SerializeToOstream(std::ostream &out) const;
   bool ParseFromIstream(std::istream &in);
+
+  conway::Room& CopyToProtobuf(conway::Room &pb, int id) const;
+  conway::RoomListing& CopyToProtobuf(conway::RoomListing &pb, int id) const;
 
   // accessor/mutators
   const std::string &name() const { return name_; }

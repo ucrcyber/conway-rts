@@ -142,3 +142,20 @@ bool Team::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }
+
+conway::Team& Team::CopyToProtobuf(conway::Team& pb) const {
+  pb.set_id(id());
+  // pb.set_name(name());
+  pb.clear_name();
+  pb.set_resources(resources());
+  pb.set_income(income());
+  pb.clear_members();
+  for (const Client member : members()) {
+    conway::Client *client_pb = pb.add_members();
+    member.CopyToProtobuf(*client_pb);
+  }
+  pb.clear_structures();
+  /// TODO: no way to know what the structure_lookup table
+  /// is supposed to be??
+  return pb;
+}

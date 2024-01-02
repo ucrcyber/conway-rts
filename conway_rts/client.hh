@@ -3,7 +3,7 @@
 
 #include <string>
 
-// #include "conway_rts/client.pb.h"
+#include "conway_rts/client.pb.h"
 #include "conway_rts/event.hh"
 #include "utility/vector2.hh"
 
@@ -32,6 +32,9 @@ class Client {
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
 
+  conway::Client& CopyToProtobuf(conway::Client &pb) const;
+
+  // accessors/mutators
   const std::string& name() const {
     return name_;
   }

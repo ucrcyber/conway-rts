@@ -15,6 +15,7 @@ cc_library(
     visibility = ["//server:__pkg__"],
     deps = [
         ":array_buffer",
+        ":client_cc_proto",
         ":event",
         "//utility:vector2",
     ],
@@ -87,6 +88,7 @@ cc_library(
         ":client",
         ":event",
         ":event_queue",
+        ":room_cc_proto",
         ":team",
         "//conway:structure_properties",
     ],
@@ -128,6 +130,7 @@ cc_library(
         ":client",
         ":event",
         ":event_queue",
+        ":team_cc_proto",
         "//conway:structure",
     ],
 )

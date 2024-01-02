@@ -9,6 +9,7 @@
 #include "conway_rts/client.hh"
 #include "conway_rts/event.hh"
 #include "conway_rts/event_queue.hh"
+#include "conway_rts/team.pb.h"
 
 /// @brief a single team and the actions it wants to do (controlled from client actions)
 class Team {
@@ -65,6 +66,8 @@ class Team {
   friend std::istream& operator>>(std::istream& in, Team& rhs);
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
+
+  conway::Team& CopyToProtobuf(conway::Team &pb) const;
 
   // accessors/mutators
   int id() const {
