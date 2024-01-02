@@ -19,6 +19,7 @@ cc_library(
         "//client_wasm:__pkg__",
         "//conway:__pkg__",
     ],
+    deps = [":vector2_cc_proto"],
 )
 
 cc_test(
