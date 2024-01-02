@@ -1,12 +1,11 @@
 #ifndef CONWAY_INCLUDE_CLIENT_HPP
 #define CONWAY_INCLUDE_CLIENT_HPP
 
-#include <vector>
 #include <string>
 
-#include "conway/structure.hh"
-#include "conway_rts/array_buffer.hh"
+// #include "conway_rts/client.pb.h"
 #include "conway_rts/event.hh"
+#include "utility/vector2.hh"
 
 /// @brief a single client and the actions they want to do
 class Client {

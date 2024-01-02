@@ -16,7 +16,7 @@ cc_library(
     deps = [
         ":array_buffer",
         ":event",
-        "//conway:structure",
+        "//utility:vector2",
     ],
 )
 

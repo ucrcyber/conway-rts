@@ -18,6 +18,7 @@ cc_library(
     visibility = [
         "//client_wasm:__pkg__",
         "//conway:__pkg__",
+        "//conway_rts:__pkg__",
     ],
     deps = [":vector2_cc_proto"],
 )
