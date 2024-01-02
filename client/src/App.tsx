@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import SocketLogger from "./SocketLogger";
 import SocketUtils from "./SocketUtils";
+import { ClientWebSocket } from "./Socket";
+import RoomListing from "./RoomListing";
 
 const server_url = "ws://localhost:3000";
 
 function App() {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [clientSocket, setClientSocket] = useState<ClientWebSocket | null>(
+    null,
+  );
 
   useEffect(() => {
-    console.log("Creating websocket");
-    const s = new WebSocket(server_url);
-    s.onopen = ({ timeStamp }) => console.log(timeStamp, "opened");
-    s.onclose = ({ timeStamp }) => console.log(timeStamp, "closed");
-    s.addEventListener("message", ({ data }) => console.log(data));
-    setSocket(s);
+    const s = new ClientWebSocket(server_url);
+    setClientSocket(s);
     return () => s?.close();
   }, []);
 
   return (
     <>
       <div>Hello world</div>
-      {socket && <SocketUtils socket={socket} />}
-      {socket && <SocketLogger socket={socket} />}
+      {clientSocket && <SocketUtils socket={clientSocket.socket} />}
+      {clientSocket && <SocketLogger socket={clientSocket.socket} />}
+      {clientSocket && <RoomListing clientSocket={clientSocket} />}
     </>
   );
 }

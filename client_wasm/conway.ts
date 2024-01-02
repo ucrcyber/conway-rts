@@ -9,7 +9,7 @@ interface Type<T> extends Function {
   new (...args: any[]): T; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-interface Vector2 {
+export interface Vector2 {
   x: () => number;
   y: () => number;
   set_x: (x: number) => void;

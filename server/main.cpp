@@ -17,8 +17,11 @@ typedef uWS::WebSocket<using_SSL, true, PerSocketData> WebSocket;
 // Note: make sure you're using C++20 for VScode intellisense
 
 int main() {
+  const Vector2 kDefaultDimensions(100, 100);
+  int room_instance_count = 1;
   std::map<int, Room> rooms;
-  rooms[-1] = Room("kitchen", Vector2(100, 100));
+  rooms[-1] = Room("kitchen", kDefaultDimensions);
+  rooms[-2] = Room("cellar", kDefaultDimensions);
 
   uWS::SSLApp({
     .key_file_name = "misc/key.pem",
@@ -50,7 +53,11 @@ int main() {
       
       server::Event event;
       if (event.ParseFromArray(&*message.begin(), message.size())) {
-        std::cout << "[rx] event\n";
+        std::cout << "[rx] event #" << user_data.client.id();
+        // the first processed event MUST be to register
+        if (!(event.has_register_() || user_data.IsInitialized())) {
+          return;
+        }
         switch (event.event_case()) {
           case server::Event::EventCase::EVENT_NOT_SET:
             std::cout << "unset event??";
@@ -67,11 +74,9 @@ int main() {
           }
           case server::Event::EventCase::kRoomList: {
             event.mutable_room_list()->clear_rooms();
-            for (const auto& [room_key, room] : rooms) {
-              conway::RoomListing &room_listing = *event.mutable_room_list()->add_rooms();
-              room_listing.set_id(room_key);
-              room_listing.set_client_count(room.clients().size());
-              room_listing.set_name(room.name());
+            for (const auto& [room_id, room] : rooms) {
+              conway::RoomListing *room_listing = event.mutable_room_list()->add_rooms();
+              room.CopyToProtobuf(*room_listing, room_id);
             }
             std::string ack;
             event.SerializeToString(&ack);
@@ -81,10 +86,36 @@ int main() {
           case server::Event::EventCase::kAction: {
             switch (event.action().event_case()) {
               case conway::Event::EventCase::EVENT_NOT_SET: break;
-              case conway::Event::EventCase::kRoomCreate: {
-                break;
-              }
+              case conway::Event::EventCase::kRoomCreate:
               case conway::Event::EventCase::kRoomJoin: {
+                std::cout << " {create}";
+                if (user_data.room == nullptr) { // don't allow making multiple empty rooms
+                  int room_id = -1;
+                  if (event.action().event_case() == conway::Event::EventCase::kRoomCreate) {
+                    // create room
+                    room_id = ++room_instance_count;
+                    rooms[room_id] = Room("Test room", kDefaultDimensions);
+                  } else {
+                    // join existing room
+                    room_id = event.action().room_join().room_id();
+                    if (rooms.count(room_id) == 0) {
+                      // invalid room_id (doesn't exist)
+                      break;
+                    }
+                  }
+                  Room& room = rooms[room_id];
+                  user_data.room = &room;
+
+                  const int team_id = room.AddTeam({user_data.client});
+                  user_data.team = room.GetTeam(team_id);
+
+                  server::Event event;
+                  conway::Room *room_pb = event.mutable_action()->mutable_room_create()->mutable_room();
+                  room.CopyToProtobuf(*room_pb, room_id);
+                  std::string response;
+                  event.SerializeToString(&response);
+                  ws->send(response);
+                }
                 break;
               }
               case conway::Event::EventCase::kRoomLeave: {
