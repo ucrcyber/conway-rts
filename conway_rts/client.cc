@@ -74,3 +74,5 @@ conway::Client& Client::CopyToProtobuf(conway::Client &pb) const {
   pb.set_id(id());
   return pb;
 }
+
+Client Client::placeholder = Client(-1, "");

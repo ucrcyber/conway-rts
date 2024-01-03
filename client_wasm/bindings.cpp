@@ -3,6 +3,9 @@
 #include "conway/life_grid.hh"
 #include "conway/structure.hh"
 #include "conway/structure_properties.hh"
+#include "conway_rts/client.hh"
+// #include "conway_rts/room.hh"
+#include "conway_rts/team.hh"
 #include "utility/vector2.hh"
 
 EMSCRIPTEN_BINDINGS(Utility) {
@@ -46,4 +49,52 @@ EMSCRIPTEN_BINDINGS(Conway) {
       .function("active", &Structure::active)
       .function("position", &Structure::position)
       .function("properties", &Structure::properties);
+}
+
+EMSCRIPTEN_BINDINGS(ConwayRTS) {
+  emscripten::class_<Client>("Client")
+      .constructor<int, const std::string &>()
+      .function("name", &Client::name)
+      .function("id", &Client::id);
+  
+  /*
+  emscripten::class_<Room>("Room")
+      .constructor<const std::string &, const Vector2 &>()
+      .function("Initialize", &Room::Initialize)
+      .function("SetName", &Room::SetName)
+      .function("AddClient", &Room::AddClient)
+      .function("AddTeam", &Room::AddTeam)
+      .function("AddToTeam", &Room::AddToTeam)
+      .function("RemoveFromTeam", &Room::RemoveFromTeam)
+      .function("RemoveClient", &Room::RemoveClient)
+      .function("LoadStructures", &Room::LoadStructures)
+      .function("Tick", &Room::Tick)
+      .function("name", &Room::name)
+      .function("structure_lookup", &Room::structure_lookup)
+      .function("time", &Room::time)
+      .function("clients", &Room::clients)
+      .function("teams", &Room::teams)
+      .function("grid", &Room::grid)
+      .function("event_queue", &Room::event_queue);
+  */
+
+  emscripten::class_<Team>("Team")
+      .constructor<>()
+      .constructor<int>()
+      .constructor<int, const std::vector<Client> &>()
+      .function("AddMember", &Team::AddMember)
+      .function("GetLeader", &Team::GetLeader) // these methods seem to break emcc
+      .function("SetLeader", &Team::SetLeader)
+      .function("AddEventToQueue", &Team::AddEventToQueue)
+      .function("Tick", &Team::Tick)
+      .function("CheckStructureIntegrity", &Team::CheckStructureIntegrity)
+      .function("AddStructure", &Team::AddStructure)
+      .function("id", &Team::id)
+      .function("members", &Team::members)
+      .function("structures", &Team::structures)
+      .function("event_queue", &Team::event_queue)
+      .function("resources", &Team::resources)
+      .function("income", &Team::income)
+      .function("last_income_update", &Team::last_income_update)
+      ;
 }

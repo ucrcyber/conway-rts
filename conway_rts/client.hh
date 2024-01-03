@@ -42,6 +42,10 @@ class Client {
     return id_;
   }
 
+  // placeholder class that can be returned when needed
+  // such as when you can't throw an exception since -fno-exception
+  static Client placeholder;
+
  private:
   int id_;
   std::string name_;

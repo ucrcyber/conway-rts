@@ -12,7 +12,10 @@ cc_library(
     name = "client",
     srcs = ["client.cc"],
     hdrs = ["client.hh"],
-    visibility = ["//server:__pkg__"],
+    visibility = [
+        "//client_wasm:__pkg__",
+        "//server:__pkg__",
+    ],
     deps = [
         ":array_buffer",
         ":client_cc_proto",
@@ -83,7 +86,10 @@ cc_library(
     name = "room",
     srcs = ["room.cc"],
     hdrs = ["room.hh"],
-    visibility = ["//server:__pkg__"],
+    visibility = [
+        "//client_wasm:__pkg__",
+        "//server:__pkg__",
+    ],
     deps = [
         ":client",
         ":event",
@@ -125,7 +131,10 @@ cc_library(
     srcs = ["team.cc"],
     hdrs = ["team.hh"],
     copts = CC_OPTS,
-    visibility = ["//server:__pkg__"],
+    visibility = [
+        "//client_wasm:__pkg__",
+        "//server:__pkg__",
+    ],
     deps = [
         ":client",
         ":event",

@@ -48,7 +48,13 @@ bool Team::AddMember(const Client& new_member) {
 }
 
 const Client& Team::GetLeader() const {
-  if(members().empty()) throw std::logic_error("cannot Team::GetLeader(), no members in team");
+  if(members().empty()) {
+#ifdef __cpp_exceptions
+    throw std::logic_error("cannot Team::GetLeader(), no members in team");
+#else
+    return Client::placeholder;
+#endif // __cpp_exceptions
+  }
   return members().front();
 }
 
@@ -79,9 +85,21 @@ void Team::Tick(const int current_time, EventQueue& next_queue, const LifeGrid& 
     event_queue_.pop_front();
     // client event validation before passing to the next queue (room)
     
-    if(event.data().size() != 4) throw std::logic_error("invalid event data");
+    if(event.data().size() != 4) {
+#ifdef __cpp_exceptions
+      throw std::logic_error("invalid event data");
+#else
+      continue;
+#endif // __cpp_exceptions
+    }
     const int building_id = event.data()[3];
-    if(building_id < 0 || building_id >= event.data().size()) throw std::logic_error("invalid event building_id");
+    if(building_id < 0 || building_id >= event.data().size()) {
+#ifdef __cpp_exceptions
+      throw std::logic_error("invalid event building_id");
+#else
+      continue;
+#endif // __cpp_exceptions
+    }
     const StructureProperties& props = structure_lookup[building_id];
     const int cost = props.grid().dimensions().x() * props.grid().dimensions().y() + props.activation_cost();
     const Structure new_structure(props, Vector2(event.data()[1], event.data()[2]));
@@ -150,7 +168,7 @@ conway::Team& Team::CopyToProtobuf(conway::Team& pb) const {
   pb.set_resources(resources());
   pb.set_income(income());
   pb.clear_members();
-  for (const Client member : members()) {
+  for (const Client& member : members()) {
     conway::Client *client_pb = pb.add_members();
     member.CopyToProtobuf(*client_pb);
   }
