@@ -101,8 +101,8 @@ class Team {
   /// @brief events from `Client`s to process
   EventQueue event_queue_;
 
-  int resources_ = 0;
   int income_ = 0;
+  int resources_ = 0;
 
   /// @brief when the last income update was processed
   int last_income_update_ = 0;

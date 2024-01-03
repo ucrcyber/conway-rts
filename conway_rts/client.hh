@@ -43,8 +43,8 @@ class Client {
   }
 
  private:
-  std::string name_;
   int id_;
+  std::string name_;
 };
 
 #endif // CONWAY_INCLUDE_CLIENT_HPP
