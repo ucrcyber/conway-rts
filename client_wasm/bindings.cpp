@@ -23,6 +23,7 @@ EMSCRIPTEN_BINDINGS(Conway) {
       .value("DEAD", LifeState::DEAD)
       .value("ALIVE", LifeState::ALIVE);
 
+  emscripten::register_vector<std::vector<bool>>("Bool2DVector");
   emscripten::class_<LifeGrid>("LifeGrid")
       .constructor<const Vector2 &>()
       .function("dimensions", &LifeGrid::dimensions)
@@ -32,8 +33,9 @@ EMSCRIPTEN_BINDINGS(Conway) {
       .function("Load", &LifeGrid::Load)
       .function("Compare", &LifeGrid::Compare)
       .function("Tick", &LifeGrid::Tick);
-
-  emscripten::class_<StructureProperties>("StructureProperties")
+  
+  emscripten::register_vector<Vector2>("Vector2Vector");
+  emscripten::class_<StructureProperties>("StructureProperties");
       .constructor<const std::string &, int, int, int, const LifeGrid &,
                    const std::vector<Vector2> &>()
       .function("name", &StructureProperties::name)
@@ -52,6 +54,8 @@ EMSCRIPTEN_BINDINGS(Conway) {
 }
 
 EMSCRIPTEN_BINDINGS(ConwayRTS) {
+  emscripten::register_vector<StructureProperties>("StructurePropertiesVector");
+
   emscripten::class_<Client>("Client")
       .constructor<int, const std::string &>()
       .function("name", &Client::name)
@@ -69,12 +73,12 @@ EMSCRIPTEN_BINDINGS(ConwayRTS) {
       .function("LoadStructures", &Room::LoadStructures)
       .function("Tick", &Room::Tick)
       .function("name", &Room::name)
-      .function("structure_lookup", &Room::structure_lookup)
+      .function("structureLookup", &Room::structure_lookup)
       .function("time", &Room::time)
       .function("clients", &Room::clients)
       .function("teams", &Room::teams)
       .function("grid", &Room::grid)
-      .function("event_queue", &Room::event_queue);
+      .function("eventQueue", &Room::event_queue);
 
   emscripten::class_<Team>("Team")
       .constructor<>()

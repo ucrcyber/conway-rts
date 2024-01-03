@@ -53,27 +53,54 @@ export interface Team {
 }
 
 namespace wasm {
+  export interface HasDestructor {
+    delete(): void;
+  }
   export interface Vector2 {
-    x: () => number;
-    y: () => number;
-    set_x: (x: number) => void;
-    set_y: (y: number) => void;
+    x(): number;
+    y(): number;
+    set_x(x: number): void;
+    set_y(y: number): void;
   }
   export interface LifeGrid {
-    dimensions: () => Vector2;
-    GetCell: (position: Vector2) => boolean;
-    SetCell: (position: Vector2) => void;
-    ResetCell: (position: Vector2) => void;
-    Load: (payload: LifeGrid, position: Vector2) => void;
-    Compare: (payload: LifeGrid, position: Vector2) => number;
-    Tick: () => void;
+    dimensions(): Vector2;
+    GetCell(position: Vector2): boolean;
+    SetCell(position: Vector2): void;
+    ResetCell(position: Vector2): void;
+    Load(payload: LifeGrid, position: Vector2): void;
+    Compare(payload: LifeGrid, position: Vector2): number;
+    Tick(): void;
   }
+  export interface Client {
+    name(): string;
+    id(): number;
+  }
+  export interface Room {
+    Initialize(): void;
+    SetName(newName: string): void;
+    // AddClient(client: Client): boolean;
+    AddTeam(teamMembers: Client[]): number;
+    // AddToTeam(teamId: Team, client: Client): boolean;
+    GetTeam(teamId: number): Team;
+    LoadStructures(structures: StructureProperties[]): void;
+    Tick(): void;
+    name(): string;
+    structureLookup(): StructureProperties[];
+    time(): number;
+    // clients(): any;
+    // teams(): any;
+    grid(): LifeGrid;
+  }
+  export interface Team {}
 }
 
 interface ConwayLib {
   Vector2: Type<wasm.Vector2>;
   LifeState: typeof LifeState;
   LifeGrid: Type<wasm.LifeGrid>;
+  Client: Type<wasm.Client>;
+  Room: Type<wasm.Room>;
+  Team: Type<wasm.Team>;
 }
 
 const Conway = (await ConwayWasm()) as ConwayLib;
