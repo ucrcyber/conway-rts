@@ -10,10 +10,8 @@ interface Type<T> extends Function {
 }
 
 export interface Vector2 {
-  x: () => number;
-  y: () => number;
-  set_x: (x: number) => void;
-  set_y: (y: number) => void;
+  x: number;
+  y: number;
 }
 
 enum LifeState {
@@ -21,20 +19,61 @@ enum LifeState {
   ALIVE,
 }
 
-interface LifeGrid {
-  dimensions: () => Vector2;
-  GetCell: (position: Vector2) => boolean;
-  SetCell: (position: Vector2) => void;
-  ResetCell: (position: Vector2) => void;
-  Load: (payload: LifeGrid, position: Vector2) => void;
-  Compare: (payload: LifeGrid, position: Vector2) => number;
-  Tick: () => void;
+export interface LifeGrid {
+  dimensions: Vector2;
+  contents: boolean[][];
+}
+
+export interface StructureProperties {
+  grid: LifeGrid;
+  name: string;
+  activationCost: number;
+  income: number;
+  buildArea: number;
+  checks: Vector2[];
+}
+
+export interface Structure {
+  position: Vector2;
+  properties: StructureProperties;
+}
+
+export interface Client {
+  id: number;
+  name: string;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  resources: number;
+  income: number;
+  members: Client[];
+  structures: Structure[];
+}
+
+namespace wasm {
+  export interface Vector2 {
+    x: () => number;
+    y: () => number;
+    set_x: (x: number) => void;
+    set_y: (y: number) => void;
+  }
+  export interface LifeGrid {
+    dimensions: () => Vector2;
+    GetCell: (position: Vector2) => boolean;
+    SetCell: (position: Vector2) => void;
+    ResetCell: (position: Vector2) => void;
+    Load: (payload: LifeGrid, position: Vector2) => void;
+    Compare: (payload: LifeGrid, position: Vector2) => number;
+    Tick: () => void;
+  }
 }
 
 interface ConwayLib {
-  Vector2: Type<Vector2>;
+  Vector2: Type<wasm.Vector2>;
   LifeState: typeof LifeState;
-  LifeGrid: Type<LifeGrid>;
+  LifeGrid: Type<wasm.LifeGrid>;
 }
 
 const Conway = (await ConwayWasm()) as ConwayLib;

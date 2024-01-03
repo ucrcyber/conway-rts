@@ -2,9 +2,10 @@
  * Methods for interacting with the server.
  */
 
+import { Client, Team, Vector2 } from "@/lib";
 import * as Proto from "@/proto";
-import { Vector2 } from "@/lib";
 import { TypedEventTarget } from "typescript-event-target";
+import { decodePbClient } from "./protobufDecoder";
 
 export type UseClientSocket = {
   clientSocket: ClientWebSocket;
@@ -56,13 +57,23 @@ export interface RoomCreateData {
   id: number;
   name: string;
   dimensions: Vector2;
+  clients: Client[];
+  teams: Team[];
+}
+
+/**
+ * Sent to client when someone else joins a room.
+ * Contains the joining client's data.
+ */
+export interface RoomJoinData {
+  newClient: Client;
 }
 
 interface ClientWebSocketEventMap {
   register: CustomEvent<RegisterData>;
   roomList: CustomEvent<RoomListData>;
-  roomCreate: CustomEvent<number>;
-  roomJoin: CustomEvent<number>;
+  roomCreate: CustomEvent<RoomCreateData>;
+  roomJoin: CustomEvent<RoomJoinData>;
   roomLeave: CustomEvent<number>;
 }
 
@@ -141,5 +152,44 @@ export class ClientWebSocket extends TypedEventTarget<ClientWebSocketEventMap> {
     }
   }
 
-  private processActionEvent(actionEvent: Proto.conway.Event) {}
+  private processActionEvent(actionEvent: Proto.conway.Event) {
+    switch (actionEvent.event) {
+      case "roomCreate":
+        {
+          const event = actionEvent.roomCreate;
+          this.dispatchTypedEvent(
+            "roomCreate",
+            new CustomEvent("roomCreate", {
+              detail: {
+                id: event?.room?.id ?? -1,
+                name: event?.room?.name ?? "",
+                dimensions: { x: 0, y: 0 },
+                clients: event?.room?.clients?.map(decodePbClient) ?? [],
+                teams: [],
+              },
+            }),
+          );
+        }
+        break;
+      case "roomJoin":
+        {
+          const event = actionEvent.roomJoin;
+          this.dispatchTypedEvent(
+            "roomJoin",
+            new CustomEvent("roomJoin", {
+              detail: {
+                newClient: decodePbClient(event?.client),
+              },
+            }),
+          );
+        }
+        break;
+      case "roomLeave":
+        break;
+      case "baseInitialize":
+        break;
+      case "baseBuild":
+        break;
+    }
+  }
 }

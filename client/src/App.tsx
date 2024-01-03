@@ -3,6 +3,7 @@ import SocketLogger from "./SocketLogger";
 import SocketUtils from "./SocketUtils";
 import { ClientWebSocket } from "./Socket";
 import RoomListing from "./RoomListing";
+import Lobby from "./Lobby";
 
 const server_url = "ws://localhost:3000";
 
@@ -23,6 +24,7 @@ function App() {
       {clientSocket && <SocketUtils socket={clientSocket.socket} />}
       {clientSocket && <SocketLogger socket={clientSocket.socket} />}
       {clientSocket && <RoomListing clientSocket={clientSocket} />}
+      {clientSocket && <Lobby clientSocket={clientSocket} />}
     </>
   );
 }

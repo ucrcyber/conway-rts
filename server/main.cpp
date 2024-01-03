@@ -20,6 +20,7 @@ int main() {
   const Vector2 kDefaultDimensions(100, 100);
   int room_instance_count = 1;
   std::map<int, Room> rooms;
+  std::map<int, std::set<WebSocket*>> room_subscriptions;
   rooms[-1] = Room("kitchen", kDefaultDimensions);
   rooms[-2] = Room("cellar", kDefaultDimensions);
 
@@ -115,6 +116,18 @@ int main() {
                   std::string response;
                   event.SerializeToString(&response);
                   ws->send(response);
+
+                  // broadcast to all other room members
+                  server::Event join_event;
+                  user_data.client.CopyToProtobuf(*join_event.mutable_action()->mutable_room_join()->mutable_client());
+                  std::string new_member_message;
+                  join_event.SerializeToString(&new_member_message);
+                  for (WebSocket* client_ws : room_subscriptions[room_id]) {
+                    client_ws->send(new_member_message);
+                  }
+
+                  // then add the ws of the client who just joined to the mailing list
+                  room_subscriptions[room_id].insert(ws);
                 }
                 break;
               }
