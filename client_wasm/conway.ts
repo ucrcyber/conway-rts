@@ -56,13 +56,13 @@ namespace wasm {
   export interface HasDestructor {
     delete(): void;
   }
-  export interface Vector2 {
+  export interface Vector2 extends HasDestructor {
     x(): number;
     y(): number;
     set_x(x: number): void;
     set_y(y: number): void;
   }
-  export interface LifeGrid {
+  export interface LifeGrid extends HasDestructor {
     dimensions(): Vector2;
     GetCell(position: Vector2): boolean;
     SetCell(position: Vector2): void;
@@ -71,11 +71,11 @@ namespace wasm {
     Compare(payload: LifeGrid, position: Vector2): number;
     Tick(): void;
   }
-  export interface Client {
+  export interface Client extends HasDestructor {
     name(): string;
     id(): number;
   }
-  export interface Room {
+  export interface Room extends HasDestructor {
     Initialize(): void;
     SetName(newName: string): void;
     // AddClient(client: Client): boolean;
@@ -91,7 +91,7 @@ namespace wasm {
     // teams(): any;
     grid(): LifeGrid;
   }
-  export interface Team {}
+  export interface Team extends HasDestructor {}
 }
 
 interface ConwayLib {
