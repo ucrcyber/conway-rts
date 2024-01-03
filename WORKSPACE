@@ -43,11 +43,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 ########################
 # Emscripten toolchain #
 ########################
-http_archive(
+git_repository(
     name = "emsdk",
-    sha256 = "5dd94e557b720800a60387ec078bf3b3a527cbd916ad74a696fe399f1544474f",
-    strip_prefix = "emsdk-3.1.46/bazel",
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.46.tar.gz",
+    commit = "9347bc393b94a17b93450bbc98bc3f66cef2aeb0",  # 3.1.51 + 2 commits (to patch windows bazel wasm_cc_binary)
+    remote = "git@github.com:emscripten-core/emsdk.git",
+    strip_prefix = "bazel",
 )
 
 load("@emsdk//:deps.bzl", emsdk_deps = "deps")
