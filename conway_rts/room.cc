@@ -50,9 +50,7 @@ bool Room::AddClient(const Client &client) {
 int Room::AddTeam(const std::vector<Client> &team_members) {
   ++team_instance_count;
   Team new_team(team_instance_count);
-  if (teams_.count(new_team.id())) {
-    throw std::runtime_error("team id exists");
-  }
+  assert(!(teams_.count(new_team.id())) && "team id shouldn't exist");
 
   const int new_team_id = new_team.id();
   teams_[new_team.id()] = std::move(new_team);
@@ -81,8 +79,8 @@ bool Room::RemoveFromTeam(int team_id, const Client &client) {
   if (teams_.count(team_id) == 0) {
     return false;
   }
-  throw std::exception("not implemented, depends on Team::RemoveMember but "
-                       "this doesn't exist yet");
+  assert("not implemented, depends on Team::RemoveMember but this doesn't exist yet");
+  return false;
   // return teams_[team_id].RemoveMember(client);
 }
 
@@ -111,20 +109,16 @@ void Room::Tick(EventQueue &next_queue) {
   while (!event_queue().empty() && event_queue().front().time() <= time()) {
     const Event event = std::move(event_queue_.front());
     event_queue_.pop_front();
-    if (event.data().size() != 4) {
-      throw std::logic_error("invalid event data");
-    }
+    assert(!(event.data().size() != 4) && "invalid event data");
 
     const int building_id = event.data()[3];
-    if (building_id < 0 || building_id >= event.data().size()) {
-      throw std::logic_error("invalid event building_id");
-    }
+    assert(!(building_id < 0 || building_id >= event.data().size()) && "invalid event building_id");
 
     const StructureProperties &props = structure_lookup()[building_id];
     const Vector2 position(event.data()[1], event.data()[2]);
-    const int refund =
-        props.grid().dimensions().x() * props.grid().dimensions().y() -
-        grid().Compare(props.grid(), position);
+    // const int refund =
+    //     props.grid().dimensions().x() * props.grid().dimensions().y() -
+    //     grid().Compare(props.grid(), position);
     grid_.Load(props.grid(), position);
 
     next_queue.push_back(event);
@@ -162,7 +156,7 @@ std::ostream &operator<<(std::ostream &out, const Room &rhs) {
 }
 
 std::istream &operator>>(std::istream &in, Room &rhs) {
-  throw "not implemented";
+  assert("not implemented");
   return in;
 }
 
@@ -181,12 +175,12 @@ conway::Room& Room::CopyToProtobuf(conway::Room &pb, int id) const {
   pb.set_name(name());
   grid().dimensions().CopyToProtobuf(*pb.mutable_dimensions());
   pb.clear_clients();
-  for (const std::pair<int, Client>& client_entry : clients()) {
+  for (const std::pair<const int, Client>& client_entry : clients()) {
     conway::Client *client_pb = pb.add_clients();
     client_entry.second.CopyToProtobuf(*client_pb);
   }
   pb.clear_teams();
-  for (const std::pair<int, Team>& team_entry : teams()) {
+  for (const std::pair<const int, Team>& team_entry : teams()) {
     conway::Team *team_pb = pb.add_teams();
     team_entry.second.CopyToProtobuf(*team_pb);
   }

@@ -4,7 +4,7 @@
 #include "conway/structure.hh"
 #include "conway/structure_properties.hh"
 #include "conway_rts/client.hh"
-// #include "conway_rts/room.hh"
+#include "conway_rts/room.hh"
 #include "conway_rts/team.hh"
 #include "utility/vector2.hh"
 
@@ -57,7 +57,6 @@ EMSCRIPTEN_BINDINGS(ConwayRTS) {
       .function("name", &Client::name)
       .function("id", &Client::id);
   
-  /*
   emscripten::class_<Room>("Room")
       .constructor<const std::string &, const Vector2 &>()
       .function("Initialize", &Room::Initialize)
@@ -76,7 +75,6 @@ EMSCRIPTEN_BINDINGS(ConwayRTS) {
       .function("teams", &Room::teams)
       .function("grid", &Room::grid)
       .function("event_queue", &Room::event_queue);
-  */
 
   emscripten::class_<Team>("Team")
       .constructor<>()

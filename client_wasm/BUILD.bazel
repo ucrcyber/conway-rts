@@ -42,7 +42,7 @@ cc_binary(
         "//conway:structure_properties",
         "//conway:structure",
         "//conway_rts:client",
-        # "//conway_rts:room",
+        "//conway_rts:room",
         "//conway_rts:team",
     ],
     # this isn't a problem as long as you don't wildcard... wildcarding still breaks this though
