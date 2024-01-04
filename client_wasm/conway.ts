@@ -56,6 +56,18 @@ namespace wasm {
   export interface HasDestructor {
     delete(): void;
   }
+  interface AssociativeContainer<K, V> extends HasDestructor {
+    size(): number;
+    set(key: K, value: V): boolean;
+    get(key: K): V;
+  }
+  export interface Map<K, V> extends AssociativeContainer<K, V> {
+    keys(): Vector<K>;
+  }
+  export interface Vector<T> extends AssociativeContainer<number, T> {
+    push_back(value: T): void;
+  }
+
   export interface Vector2 extends HasDestructor {
     x(): number;
     y(): number;
@@ -71,6 +83,23 @@ namespace wasm {
     Compare(payload: LifeGrid, position: Vector2): number;
     Tick(): void;
   }
+  export interface StructureProperties extends HasDestructor {
+    name(): string;
+    activationCost(): number;
+    grid(): LifeGrid;
+    income(): number;
+    buildArea(): number;
+    checks(): Vector<Vector2>;
+  }
+  /// a std::tuple of 4 ints
+  interface StructureKey {}
+  export interface Structure extends HasDestructor {
+    getKey(): StructureKey;
+    checkIntegrity(base: LifeGrid): boolean;
+    active(): boolean;
+    position(): Vector2;
+    properties(): StructureProperties;
+  }
   export interface Client extends HasDestructor {
     name(): string;
     id(): number;
@@ -78,30 +107,65 @@ namespace wasm {
   export interface Room extends HasDestructor {
     Initialize(): void;
     SetName(newName: string): void;
-    // AddClient(client: Client): boolean;
-    AddTeam(teamMembers: Client[]): number;
-    // AddToTeam(teamId: Team, client: Client): boolean;
+    AddClient(client: Client): boolean;
+    AddTeam(teamMembers: Vector<Client>): number;
+    AddToTeam(teamId: Team, client: Client): boolean;
     GetTeam(teamId: number): Team;
-    LoadStructures(structures: StructureProperties[]): void;
+    LoadStructures(structures: Vector<StructureProperties>): void;
     Tick(): void;
     name(): string;
-    structureLookup(): StructureProperties[];
+    structureLookup(): Vector<StructureProperties>;
     time(): number;
-    // clients(): any;
-    // teams(): any;
+    clients(): Map<number, Client>;
+    teams(): Map<number, Team>;
     grid(): LifeGrid;
   }
-  export interface Team extends HasDestructor {}
+  export interface Team extends HasDestructor {
+    checkStructureIntegrity(grid: LifeGrid): void;
+    addStructure(structure: Structure): void;
+    id(): number;
+    members(): Vector<Client>;
+    structures(): Map<StructureKey, Structure>;
+    resources(): number;
+    income(): number;
+    lastIncomeUpdate(): number;
+  }
+
+  export interface ConwayLib {
+    Vector2: {
+      new (x: number, y: number): Vector2;
+    };
+    LifeState: typeof LifeState;
+    LifeGrid: {
+      new (dimensions: Vector2): LifeGrid;
+    };
+    StructureProperties: {
+      new (
+        name: string,
+        activationCost: number,
+        income: number,
+        buildArea: number,
+        grid: LifeGrid,
+        checks: Vector<Vector2>,
+      ): StructureProperties;
+    };
+    Structure: {
+      new (properties: StructureProperties, position: Vector2): Structure;
+    };
+    Client: {
+      new (id: number, name: string): Client;
+    };
+    Room: {
+      new (name: string, dimensions: Vector2): Room;
+    };
+    Team: {
+      new (id: number, members: Vector<Client>): Team;
+    };
+    Vector2Vector: Type<Vector<Vector2>>;
+    ClientVector: Type<Vector<Client>>;
+    StructurePropertiesVector: Type<Vector<StructureProperties>>;
+  }
 }
 
-interface ConwayLib {
-  Vector2: Type<wasm.Vector2>;
-  LifeState: typeof LifeState;
-  LifeGrid: Type<wasm.LifeGrid>;
-  Client: Type<wasm.Client>;
-  Room: Type<wasm.Room>;
-  Team: Type<wasm.Team>;
-}
-
-const Conway = (await ConwayWasm()) as ConwayLib;
+const Conway = (await ConwayWasm()) as wasm.ConwayLib;
 export default Conway;

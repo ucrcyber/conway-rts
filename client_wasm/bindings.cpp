@@ -8,6 +8,26 @@
 #include "conway_rts/team.hh"
 #include "utility/vector2.hh"
 
+EMSCRIPTEN_BINDINGS(cc_stl) {
+  emscripten::class_<std::vector<bool>>("BoolVector");
+  emscripten::class_<std::vector<std::vector<bool>>>("Bool2DVector");
+  // emscripten::register_vector<std::vector<bool>>("Bool2DVector");
+  emscripten::register_vector<Vector2>("Vector2Vector");
+  emscripten::register_vector<Client>("ClientVector");
+  emscripten::register_vector<StructureProperties>("StructurePropertiesVector");
+  emscripten::register_vector<int>(
+      "IntVector"); // needed for std::map<int,Client>::keys()
+  emscripten::register_map<int, Client>("IntClientMap");
+  emscripten::register_map<int, Team>("IntTeamMap");
+  emscripten::class_<std::vector<StructureKey>>(
+      "StructureKeyVector"); // needed for
+                             // std::map<StructureKey,Structure>::keys()
+  emscripten::register_map<StructureKey, Structure>("StructureMap");
+  emscripten::class_<StructureKey>("StructureKey");
+  emscripten::class_<EventWithTime>("EventWithTime");
+  emscripten::class_<EventQueue>("EventQueue");
+}
+
 EMSCRIPTEN_BINDINGS(Utility) {
   emscripten::class_<Vector2>("Vector2")
       .constructor<>()
@@ -23,7 +43,6 @@ EMSCRIPTEN_BINDINGS(Conway) {
       .value("DEAD", LifeState::DEAD)
       .value("ALIVE", LifeState::ALIVE);
 
-  emscripten::register_vector<std::vector<bool>>("Bool2DVector");
   emscripten::class_<LifeGrid>("LifeGrid")
       .constructor<const Vector2 &>()
       .function("dimensions", &LifeGrid::dimensions)
@@ -33,34 +52,32 @@ EMSCRIPTEN_BINDINGS(Conway) {
       .function("Load", &LifeGrid::Load)
       .function("Compare", &LifeGrid::Compare)
       .function("Tick", &LifeGrid::Tick);
-  
-  emscripten::register_vector<Vector2>("Vector2Vector");
-  emscripten::class_<StructureProperties>("StructureProperties");
+
+  emscripten::class_<StructureProperties>("StructureProperties")
       .constructor<const std::string &, int, int, int, const LifeGrid &,
                    const std::vector<Vector2> &>()
       .function("name", &StructureProperties::name)
-      .function("activation_cost", &StructureProperties::activation_cost)
+      .function("activationCost", &StructureProperties::activation_cost)
       .function("grid", &StructureProperties::grid)
       .function("income", &StructureProperties::income)
-      .function("build_area", &StructureProperties::build_area)
+      .function("buildArea", &StructureProperties::build_area)
       .function("checks", &StructureProperties::checks);
 
   emscripten::class_<Structure>("Structure")
       .constructor<const StructureProperties &, const Vector2 &>()
-      .function("CheckIntegrity", &Structure::CheckIntegrity)
+      .function("getKey", &Structure::GetKey)
+      .function("checkIntegrity", &Structure::CheckIntegrity)
       .function("active", &Structure::active)
       .function("position", &Structure::position)
       .function("properties", &Structure::properties);
 }
 
 EMSCRIPTEN_BINDINGS(ConwayRTS) {
-  emscripten::register_vector<StructureProperties>("StructurePropertiesVector");
-
   emscripten::class_<Client>("Client")
       .constructor<int, const std::string &>()
       .function("name", &Client::name)
       .function("id", &Client::id);
-  
+
   emscripten::class_<Room>("Room")
       .constructor<const std::string &, const Vector2 &>()
       .function("Initialize", &Room::Initialize)
@@ -84,19 +101,19 @@ EMSCRIPTEN_BINDINGS(ConwayRTS) {
       .constructor<>()
       .constructor<int>()
       .constructor<int, const std::vector<Client> &>()
-      .function("AddMember", &Team::AddMember)
-      .function("GetLeader", &Team::GetLeader) // these methods seem to break emcc
-      .function("SetLeader", &Team::SetLeader)
-      .function("AddEventToQueue", &Team::AddEventToQueue)
-      .function("Tick", &Team::Tick)
-      .function("CheckStructureIntegrity", &Team::CheckStructureIntegrity)
-      .function("AddStructure", &Team::AddStructure)
+      .function("addMember", &Team::AddMember)
+      .function("getLeader",
+                &Team::GetLeader) // these methods seem to break emcc
+      .function("setLeader", &Team::SetLeader)
+      // .function("addEventToQueue", &Team::AddEventToQueue)
+      // .function("tick", &Team::Tick)
+      .function("checkStructureIntegrity", &Team::CheckStructureIntegrity)
+      .function("addStructure", &Team::AddStructure)
       .function("id", &Team::id)
       .function("members", &Team::members)
       .function("structures", &Team::structures)
-      .function("event_queue", &Team::event_queue)
+      // .function("event_queue", &Team::event_queue)
       .function("resources", &Team::resources)
       .function("income", &Team::income)
-      .function("last_income_update", &Team::last_income_update)
-      ;
+      .function("lastIncomeUpdate", &Team::last_income_update);
 }
