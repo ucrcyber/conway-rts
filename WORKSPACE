@@ -73,11 +73,12 @@ http_archive(
     url = "https://github.com/uNetworking/uWebSockets/archive/refs/tags/v20.51.0.tar.gz",
 )
 
-git_repository(
+http_archive(
     name = "usockets",
     build_file = "@//externals:BUILD.usockets.bazel",
-    commit = "8cd4cb66eb061b2594ca114b9ea1ead64613ad4b",  # v0.8.6
-    remote = "git@github.com:uNetworking/uSockets.git",
+    integrity = "sha256-FuuhM90z6t4vX43YdhLAS13XEQZuBHHGDWQaL2qYjxY=",
+    strip_prefix = "uSockets-0.8.6",
+    url = "https://github.com/uNetworking/uSockets/archive/refs/tags/v0.8.6.tar.gz",
 )
 
 git_repository(
