@@ -1,5 +1,5 @@
 {
-  "name": "conway-rts",
+  "name": "conway-rts-client",
   "version": "0.0.1",
   "description": "a realtime strategy game based on conway's game of life",
   "main": "index.js",
@@ -49,6 +49,7 @@
     "vitest": "^1.1.0"
   },
   "dependencies": {
+    "@p5-wrapper/react": "^4.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
