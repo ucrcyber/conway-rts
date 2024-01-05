@@ -1,10 +1,22 @@
 # conway-rts
 conway rts cyber project (but still being designed)
 
+## Dependencies
+
+### Windows
+- [chocolately](https://chocolatey.org/install)
+  - [bazelisk](https://github.com/bazelbuild/bazelisk)
+  - [git](https://community.chocolatey.org/packages/git.install)
+  - [python](https://community.chocolatey.org/packages/python/3.12.1)
+  - [nvm](https://community.chocolatey.org/packages/nvm)
+- [VS Build Tools, C++ compiler](https://visualstudio.microsoft.com/downloads/?q=build+tools#build-tools-for-visual-studio-2022)
+
+### Linux
+- [bazelisk](https://github.com/bazelbuild/bazelisk)
+- *work in progress
+
 ## Running
-Install [bazelisk](https://github.com/bazelbuild/bazelisk)
 ```
-bazelisk                              # installs bazel with specific version
 bazel query ...                       # list targets
 bazel test ...                        # run all tests
 bazel build ...                       # build all targets (config pattern still applies)
