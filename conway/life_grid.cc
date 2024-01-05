@@ -60,6 +60,7 @@ void LifeGrid::ResetCell(const Vector2& coordinate) {
 
 bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
   const Vector2 bottom_right = offset + life_grid.dimensions_;
+  if(offset.x() < 0 || offset.y() < 0) return false;
   if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return false;
 
   int oy = offset.y();
