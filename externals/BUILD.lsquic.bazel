@@ -4,8 +4,8 @@ lsquic bazel build file
 
 # c++17 needed for sys/uio.h on windows
 CC_OPTS = select({
-    "@bazel_tools//src/conditions:windows": ["/std:c++20"],
-    "//conditions:default": ["--std=c++20"],
+    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
+    "//conditions:default": [],
 })
 
 cc_library(
