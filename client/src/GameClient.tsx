@@ -65,9 +65,12 @@ function GameClient({ clientSocket }: UseClientSocket) {
       p5.rectMode(p5.CENTER);
       p5.textAlign(p5.CENTER, p5.CENTER);
     };
+    let placeNow = false;
     p5.keyTyped = () => {
       const { keyCode } = p5;
-      if (keyCode >= 49 && keyCode <= 57) {
+      if (keyCode === 32) {
+        placeNow = true;
+      } else if (keyCode >= 49 && keyCode <= 57) {
         const id = keyCode - 49;
         if (id < structureTypes.length) {
           selectedStructureType = structureTypes[id];
@@ -125,7 +128,6 @@ function GameClient({ clientSocket }: UseClientSocket) {
     }
     let mousePressed = false;
     p5.mousePressed = () => (mousePressed = true);
-    p5.keyPressed = () => ++timeMax;
     p5.draw = () => {
       if (time < timeMax) {
         ++time;
@@ -170,8 +172,9 @@ function GameClient({ clientSocket }: UseClientSocket) {
       p5.text(selectedStructureType.activationCost(), 0, (placeI+1) * SIDE_LENGTH); // prettier-ignore
       p5.text(selectedStructureType.income() + "/t", 0, (placeI+2) * SIDE_LENGTH); // prettier-ignore
       p5.pop();
-      if (mousePressed) {
+      if (placeNow) {
         grid.Load(selectedStructureType.grid(), placeVector);
+        placeNow = false;
       }
       p5.pop();
 
@@ -181,6 +184,7 @@ function GameClient({ clientSocket }: UseClientSocket) {
       p5.text(p5.frameRate().toFixed(1) + "FPS", 100, 10);
       p5.text(`${mouseJ},${mouseI}`, 100, 20);
       mousePressed = false;
+      placeNow = false;
     };
   }
 
