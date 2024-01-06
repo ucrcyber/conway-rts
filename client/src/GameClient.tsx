@@ -11,6 +11,13 @@ function GameClient({ clientSocket }: UseClientSocket) {
       [1, 1],
     ],
     [
+      [1, 1, 0, 1, 1],
+      [1, 1, 0, 1, 1],
+      [0, 0, 0, 0, 0],
+      [1, 1, 0, 1, 1],
+      [1, 1, 0, 1, 1],
+    ],
+    [
       [0, 1, 0],
       [0, 0, 1],
       [1, 1, 1],
@@ -33,6 +40,7 @@ function GameClient({ clientSocket }: UseClientSocket) {
     }
     return new Conway.StructureProperties("A", 0, 0, 0, layout, new Conway.Vector2Vector()); // prettier-ignore
   });
+  let selectedStructureType = structureTypes[0];
   let display = "";
 
   useEffect(() => {
@@ -57,6 +65,15 @@ function GameClient({ clientSocket }: UseClientSocket) {
       p5.rectMode(p5.CENTER);
       p5.textAlign(p5.CENTER, p5.CENTER);
     };
+    p5.keyTyped = () => {
+      const { keyCode } = p5;
+      if (keyCode >= 49 && keyCode <= 57) {
+        const id = keyCode - 49;
+        if (id < structureTypes.length) {
+          selectedStructureType = structureTypes[id];
+        }
+      }
+    };
     let cameraX = 0;
     let cameraY = 0;
     let time = 0;
@@ -65,9 +82,11 @@ function GameClient({ clientSocket }: UseClientSocket) {
       grid: InstanceType<typeof Conway.LifeGrid>,
       offsetI: number = 0,
       offsetJ: number = 0,
-      aliveColor: number | number[] = 0,
-      deadColor: number | number[] = 255,
+      aliveColor: number | number[] = [0],
+      deadColor: number | number[] = [255],
     ) {
+      if (aliveColor instanceof Number) aliveColor = [aliveColor as number];
+      if (deadColor instanceof Number) deadColor = [deadColor as number];
       const n = grid.dimensions().y();
       const m = grid.dimensions().x();
       const padding = 1;
@@ -83,14 +102,16 @@ function GameClient({ clientSocket }: UseClientSocket) {
       );
       p5.push();
       p5.translate(offsetJ * SIDE_LENGTH, offsetI * SIDE_LENGTH);
-      p5.fill(255, 0, 0);
+      p5.fill(255, 0, 0, 100); // corner markers
       p5.rect(0, 0, SIDE_LENGTH + 2, SIDE_LENGTH + 2);
-      p5.fill(0, 255, 0);
+      p5.fill(0, 255, 0, 100);
       p5.rect((m - 1) * SIDE_LENGTH, (n - 1) * SIDE_LENGTH, SIDE_LENGTH + 2, SIDE_LENGTH + 2); // prettier-ignore
       for (let i = i_begin; i < i_end; ++i) {
         for (let j = j_begin; j < j_end; ++j) {
           p5.fill(
-            grid.GetCell(new Conway.Vector2(j, i)) ? aliveColor : deadColor,
+            ...((grid.GetCell(new Conway.Vector2(j, i))
+              ? aliveColor
+              : deadColor) as number[]),
           );
           p5.rect(
             j * SIDE_LENGTH,
@@ -127,19 +148,33 @@ function GameClient({ clientSocket }: UseClientSocket) {
         Math.min(100, Math.round((p5.mouseX + cameraX) / SIDE_LENGTH)),
       );
       renderLifeGrid(grid, 0, 0);
-      const selectedStructureType = structureTypes[1];
+
+      const placeI =
+        mouseI - (selectedStructureType.grid().dimensions().y() >> 1);
+      const placeJ =
+        mouseJ - (selectedStructureType.grid().dimensions().x() >> 1);
+      const placeVector = new Conway.Vector2(placeJ, placeI);
       renderLifeGrid(
         selectedStructureType.grid(),
-        mouseI - (selectedStructureType.grid().dimensions().y() >> 1),
-        mouseJ - (selectedStructureType.grid().dimensions().x() >> 1),
+        placeI,
+        placeJ,
+        [50, 0, 0, 100],
+        [255, 200, 200, 100],
       );
-      if (mousePressed) {
-        const i = mouseI - (selectedStructureType.grid().dimensions().y() >> 1);
-        const j = mouseJ - (selectedStructureType.grid().dimensions().x() >> 1);
-        grid.Load(selectedStructureType.grid(), new Conway.Vector2(j, i));
-      }
-      // renderLifeGrid(structureTypes[2].grid(), 0, 0);
+      p5.push();
+      p5.fill(0);
+      p5.text(selectedStructureType.name(), mouseJ * SIDE_LENGTH, (placeI-1) * SIDE_LENGTH); // prettier-ignore
+      p5.textAlign(p5.RIGHT, p5.CENTER);
+      p5.translate((placeJ - 0.5) * SIDE_LENGTH, 0);
+      p5.text(grid.Compare(selectedStructureType.grid(), placeVector), 0, placeI * SIDE_LENGTH); // prettier-ignore
+      p5.text(selectedStructureType.activationCost(), 0, (placeI+1) * SIDE_LENGTH); // prettier-ignore
+      p5.text(selectedStructureType.income() + "/t", 0, (placeI+2) * SIDE_LENGTH); // prettier-ignore
       p5.pop();
+      if (mousePressed) {
+        grid.Load(selectedStructureType.grid(), placeVector);
+      }
+      p5.pop();
+
       p5.fill(200);
       p5.rect(100, 15, 50, 30);
       p5.fill(255, 0, 0);
