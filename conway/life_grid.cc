@@ -74,6 +74,10 @@ bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
 }
 
 int LifeGrid::Compare(const LifeGrid& life_grid, const Vector2& offset) const {
+  const Vector2 bottom_right = offset + life_grid.dimensions_;
+  if(offset.x() < 0 || offset.y() < 0) return -1;
+  if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return -1;
+
   int diff_count = 0;
   int oy = offset.y();
   int ox = offset.x();
