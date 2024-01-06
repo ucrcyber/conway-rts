@@ -65,8 +65,8 @@ function GameClient({ clientSocket }: UseClientSocket) {
       grid: InstanceType<typeof Conway.LifeGrid>,
       offsetI: number = 0,
       offsetJ: number = 0,
-      aliveColor: number | number[] = 255,
-      deadColor: number | number[] = 0,
+      aliveColor: number | number[] = 0,
+      deadColor: number | number[] = 255,
     ) {
       const n = grid.dimensions().y();
       const m = grid.dimensions().x();
