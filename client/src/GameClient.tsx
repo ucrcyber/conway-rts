@@ -83,6 +83,10 @@ function GameClient({ clientSocket }: UseClientSocket) {
       );
       p5.push();
       p5.translate(offsetJ * SIDE_LENGTH, offsetI * SIDE_LENGTH);
+      p5.fill(255, 0, 0);
+      p5.rect(0, 0, SIDE_LENGTH + 2, SIDE_LENGTH + 2);
+      p5.fill(0, 255, 0);
+      p5.rect((m - 1) * SIDE_LENGTH, (n - 1) * SIDE_LENGTH, SIDE_LENGTH + 2, SIDE_LENGTH + 2); // prettier-ignore
       for (let i = i_begin; i < i_end; ++i) {
         for (let j = j_begin; j < j_end; ++j) {
           p5.fill(
