@@ -4,7 +4,7 @@ import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
 import Conway from "@/lib";
 
 function GameClient({ clientSocket }: UseClientSocket) {
-  const grid = new Conway.LifeGrid(new Conway.Vector2(100, 100));
+  const grid = new Conway.LifeGrid(new Conway.Vector2(200, 200));
   const structureTypes = [
     [
       [1, 1],
@@ -143,11 +143,11 @@ function GameClient({ clientSocket }: UseClientSocket) {
       p5.translate(-cameraX, -cameraY);
       const mouseI = Math.max(
         0,
-        Math.min(100, Math.round((p5.mouseY + cameraY) / SIDE_LENGTH)),
+        Math.min(grid.dimensions().y(), Math.round((p5.mouseY + cameraY) / SIDE_LENGTH)),
       );
       const mouseJ = Math.max(
         0,
-        Math.min(100, Math.round((p5.mouseX + cameraX) / SIDE_LENGTH)),
+        Math.min(grid.dimensions().x(), Math.round((p5.mouseX + cameraX) / SIDE_LENGTH)),
       );
       renderLifeGrid(grid, 0, 0);
 
