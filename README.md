@@ -13,7 +13,8 @@ conway rts cyber project (but still being designed)
 
 ### Linux
 - [bazelisk](https://github.com/bazelbuild/bazelisk)
-- *work in progress
+- gcc version 8+ (using c++2a), ideally gcc version 10+ (for c++20 support)
+  - [gsrc](https://www.gnu.org/software/gsrc/) can be used if pre-built binaries aren't available.
 
 ## Running
 ```
