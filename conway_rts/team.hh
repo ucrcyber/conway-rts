@@ -2,7 +2,6 @@
 #define CONWAY_INCLUDE_TEAM_HPP
 
 #include <iostream>
-#include <string>
 #include <vector>
 #include <map>
 
@@ -10,6 +9,7 @@
 #include "conway_rts/client.hh"
 #include "conway_rts/event.hh"
 #include "conway_rts/event_queue.hh"
+#include "conway_rts/team.pb.h"
 
 /// @brief a single team and the actions it wants to do (controlled from client actions)
 class Team {
@@ -67,6 +67,8 @@ class Team {
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
 
+  conway::Team& CopyToProtobuf(conway::Team &pb) const;
+
   // accessors/mutators
   int id() const {
     return id_;
@@ -99,8 +101,8 @@ class Team {
   /// @brief events from `Client`s to process
   EventQueue event_queue_;
 
-  int resources_ = 0;
   int income_ = 0;
+  int resources_ = 0;
 
   /// @brief when the last income update was processed
   int last_income_update_ = 0;

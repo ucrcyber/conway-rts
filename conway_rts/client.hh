@@ -1,12 +1,11 @@
 #ifndef CONWAY_INCLUDE_CLIENT_HPP
 #define CONWAY_INCLUDE_CLIENT_HPP
 
-#include <vector>
 #include <string>
 
-#include "conway/structure.hh"
-#include "conway_rts/array_buffer.hh"
+#include "conway_rts/client.pb.h"
 #include "conway_rts/event.hh"
+#include "utility/vector2.hh"
 
 /// @brief a single client and the actions they want to do
 class Client {
@@ -33,6 +32,9 @@ class Client {
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
 
+  conway::Client& CopyToProtobuf(conway::Client &pb) const;
+
+  // accessors/mutators
   const std::string& name() const {
     return name_;
   }
@@ -40,9 +42,13 @@ class Client {
     return id_;
   }
 
+  // placeholder class that can be returned when needed
+  // such as when you can't throw an exception since -fno-exception
+  static Client placeholder;
+
  private:
-  std::string name_;
   int id_;
+  std::string name_;
 };
 
 #endif // CONWAY_INCLUDE_CLIENT_HPP

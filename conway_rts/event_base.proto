@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package conway.event.base;
 
-import "structure_lookup.proto";
-import "team.proto";
-import "vector2.proto";
+import "conway_rts/structure_lookup.proto";
+import "conway_rts/team.proto";
+import "utility/vector2.proto";
 
 message Build {
   int32 id = 1;

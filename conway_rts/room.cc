@@ -6,15 +6,11 @@
 
 // other includes
 
-Room::Room(): Room::Room("a room")
-{}
+Room::Room() : Room::Room("a room") {}
 
-Room::Room(const std::string& name):
-  Room::Room(name, Vector2(50, 50))
-{}
+Room::Room(const std::string &name) : Room::Room(name, Vector2(50, 50)) {}
 
-Room::Room(const std::string& name, const Vector2& dimensions): name_(name)
-{
+Room::Room(const std::string &name, const Vector2 &dimensions) : name_(name) {
   grid_ = LifeGrid(dimensions);
 }
 
@@ -31,7 +27,7 @@ Room::Room(const std::string& name, const Vector2& dimensions): name_(name)
 
 // bool Room::operator==(const Room& other) const {
 //   if(this == &other) return true;
-  
+
 //   return true;
 // }
 
@@ -39,32 +35,90 @@ Room::Room(const std::string& name, const Vector2& dimensions): name_(name)
 //   return !(*this == other);
 // }
 
-void Room::Initialize() {
-  grid_ = LifeGrid(grid().dimensions());
-  
+void Room::Initialize() { grid_ = LifeGrid(grid().dimensions()); }
+
+void Room::SetName(const std::string &new_name) { name_ = new_name; }
+
+bool Room::AddClient(const Client &client) {
+  if (clients_.count(client.id())) {
+    return false;
+  }
+  clients_[client.id()] = client;
+  return true;
 }
 
-void Room::SetName(const std::string& new_name) {
-  name_ = new_name;
+int Room::AddTeam(const std::vector<Client> &team_members) {
+  ++team_instance_count;
+  Team new_team(team_instance_count);
+  assert(!(teams_.count(new_team.id())) && "team id shouldn't exist");
+
+  const int new_team_id = new_team.id();
+  teams_[new_team.id()] = std::move(new_team);
+
+  // Add players using Room::AddToTeam which automatically
+  // removes players who are already in a team.
+  for (const Client &team_member : team_members) {
+    AddToTeam(new_team_id, team_member);
+  }
+  return new_team_id;
 }
 
-void Room::LoadStructures(const std::vector<StructureProperties>& new_structures) {
+bool Room::AddToTeam(int team_id, const Client &client) {
+  if (teams_.count(team_id) == 0) {
+    return false;
+  }
+  const bool added_successfully = teams_[team_id].AddMember(client);
+  if (added_successfully) {
+    AddClient(client);
+    /// TODO: Remove from other teams.
+  }
+  return added_successfully;
+}
+
+bool Room::RemoveFromTeam(int team_id, const Client &client) {
+  if (teams_.count(team_id) == 0) {
+    return false;
+  }
+  assert("not implemented, depends on Team::RemoveMember but this doesn't exist yet");
+  return false;
+  // return teams_[team_id].RemoveMember(client);
+}
+
+bool Room::RemoveClient(const Client &client) {
+  if (!clients_.count(client.id())) {
+    return false;
+  }
+  clients_.erase(client.id());
+  return true;
+}
+
+Team *Room::GetTeam(int team_id) {
+  if (teams_.count(team_id)) {
+    return &teams_.at(team_id);
+  }
+  return nullptr;
+}
+
+void Room::LoadStructures(
+    const std::vector<StructureProperties> &new_structures) {
   structure_lookup_ = new_structures;
 }
 
-void Room::Tick(EventQueue& next_queue) {
+void Room::Tick(EventQueue &next_queue) {
   // this processes events that have been filtered by Team::Tick
   while (!event_queue().empty() && event_queue().front().time() <= time()) {
     const Event event = std::move(event_queue_.front());
     event_queue_.pop_front();
-    
-    if(event.data().size() != 4) throw std::logic_error("invalid event data");
+    assert(!(event.data().size() != 4) && "invalid event data");
+
     const int building_id = event.data()[3];
-    if(building_id < 0 || building_id >= event.data().size()) throw std::logic_error("invalid event building_id");
-    
-    const StructureProperties& props = structure_lookup()[building_id];
+    assert(!(building_id < 0 || building_id >= event.data().size()) && "invalid event building_id");
+
+    const StructureProperties &props = structure_lookup()[building_id];
     const Vector2 position(event.data()[1], event.data()[2]);
-    const int refund = props.grid().dimensions().x() * props.grid().dimensions().y() - grid().Compare(props.grid(), position);
+    // const int refund =
+    //     props.grid().dimensions().x() * props.grid().dimensions().y() -
+    //     grid().Compare(props.grid(), position);
     grid_.Load(props.grid(), position);
 
     next_queue.push_back(event);
@@ -91,25 +145,51 @@ void Room::Tick(EventQueue& next_queue) {
 //     1 member-1
 //     2 member-2
 // ```
-std::ostream& operator<<(std::ostream& out, const Room& rhs) {
+std::ostream &operator<<(std::ostream &out, const Room &rhs) {
   // TODO: make no trailing whitespace
-  out << rhs.name() << "\n" << rhs.grid() << "\n"
-    << rhs.teams().size() << " " << rhs.clients().size() << "\n";
-  for(const auto& team : rhs.teams()) out << team << "\n";
+  out << rhs.name() << "\n"
+      << rhs.grid() << "\n"
+      << rhs.teams().size() << " " << rhs.clients().size() << "\n";
+  for (const std::pair<const int, Team> &team_entry : rhs.teams())
+    out << team_entry.second << "\n";
   return out;
 }
 
-std::istream& operator>>(std::istream& in, Room& rhs) {
-  throw "not implemented";
+std::istream &operator>>(std::istream &in, Room &rhs) {
+  assert("not implemented");
   return in;
 }
 
-bool Room::SerializeToOstream(std::ostream& out) const {
+bool Room::SerializeToOstream(std::ostream &out) const {
   out << *this;
   return true;
 }
 
-bool Room::ParseFromIstream(std::istream& in) {
+bool Room::ParseFromIstream(std::istream &in) {
   in >> *this;
   return true;
+}
+
+conway::Room& Room::CopyToProtobuf(conway::Room &pb, int id) const {
+  pb.set_id(id);
+  pb.set_name(name());
+  grid().dimensions().CopyToProtobuf(*pb.mutable_dimensions());
+  pb.clear_clients();
+  for (const std::pair<const int, Client>& client_entry : clients()) {
+    conway::Client *client_pb = pb.add_clients();
+    client_entry.second.CopyToProtobuf(*client_pb);
+  }
+  pb.clear_teams();
+  for (const std::pair<const int, Team>& team_entry : teams()) {
+    conway::Team *team_pb = pb.add_teams();
+    team_entry.second.CopyToProtobuf(*team_pb);
+  }
+  return pb;
+}
+
+conway::RoomListing& Room::CopyToProtobuf(conway::RoomListing &pb, int id) const {
+  pb.set_id(id);
+  pb.set_name(name());
+  pb.set_client_count(clients().size());
+  return pb;
 }

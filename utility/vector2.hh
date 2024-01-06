@@ -4,6 +4,8 @@
 #include <iostream>
 #include <utility>
 
+#include "utility/vector2.pb.h"
+
 /// 2D vector for positional coordinates (immutable)
 class Vector2 {
  public:
@@ -31,6 +33,8 @@ class Vector2 {
   friend std::istream& operator>>(std::istream& in, Vector2& rhs);
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
+
+  conway::Vector2& CopyToProtobuf(conway::Vector2& pb) const;
 
   // structured bindings -- https://devblogs.microsoft.com/oldnewthing/20201015-00/?p=104369
   template<std::size_t Index>

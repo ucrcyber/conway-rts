@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "conway/life_state.hh"
+#include "conway/life_grid.pb.h"
 #include "utility/vector2.hh"
 
 // TODO: write iterators (they should exist?)
@@ -35,8 +36,21 @@ class LifeGrid {
 
   /// @brief query the status of a single cell
   /// @param position which cell
-  /// @return whether the cell is alive or dead
+  /// @return cell state
   LifeState GetCell(const Vector2& position) const;
+
+  /// @brief query the status of a single cell
+  /// @param position which cell
+  /// @return whether the cell is alive or dead
+  bool IsCellAlive(const Vector2& position) const;
+
+  /// @brief sets the specified cell as alive (set)
+  /// @param position which cell
+  void SetCell(const Vector2& position);
+
+  /// @brief sets the specified cell as dead (reset)
+  /// @param position which cell
+  void ResetCell(const Vector2& position);
 
   /// @brief loads a payload LifeGrid onto the LifeGrid;
   /// used for loading templates when players build something
@@ -59,6 +73,8 @@ class LifeGrid {
   friend std::istream& operator>>(std::istream& in, LifeGrid& rhs);
   bool SerializeToOstream(std::ostream& out) const;
   bool ParseFromIstream(std::istream& in);
+
+  conway::LifeGrid& CopyToProtobuf(conway::LifeGrid& pb) const;
 
   // accessor/mutators
   Vector2 dimensions() const {

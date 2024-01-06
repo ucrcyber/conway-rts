@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package conway;
 
-import "life_grid.proto";
-import "vector2.proto";
+import "conway/life_grid.proto";
+import "utility/vector2.proto";
 
 message StructureProperties {
   conway.LifeGrid grid = 1;

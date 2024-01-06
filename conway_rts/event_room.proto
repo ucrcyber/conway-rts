@@ -2,15 +2,18 @@ syntax = "proto3";
 
 package conway.event.room;
 
-import "client.proto";
-import "room.proto";
+import "conway_rts/client.proto";
+import "conway_rts/room.proto";
 
 message Create {
   conway.Room room = 1;
 }
 
 message Join {
+  /// which room to join
   int32 room_id = 1;
+
+  /// client that is joining the room (set by server)
   conway.Client client = 2;
 }
 

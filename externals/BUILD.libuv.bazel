@@ -1,0 +1,108 @@
+"""
+https://github.com/libuv/help/issues/83
+https://github.com/bazelregistry/libuv/commit/b8e9b269bc7294f485e4be030b3340017745ca58
+https://github.com/libuv/libuv/blob/v1.47.0/CMakeLists.txt
+"""
+
+_win_srcs = glob(["src/win/**/*"])
+
+_unix_srcs = glob(["src/unix/**/*"])
+
+SRCS_COMMON = [
+    "src/fs-poll.c",
+    "src/idna.c",
+    "src/inet.c",
+    "src/random.c",
+    "src/strscpy.c",
+    "src/strtok.c",
+    "src/thread-common.c",
+    "src/threadpool.c",
+    "src/timer.c",
+    "src/uv-common.c",
+    "src/uv-data-getter-setters.c",
+    "src/version.c",
+]
+
+SRCS_UNIX = SRCS_COMMON + [
+    "src/unix/async.c",
+    "src/unix/core.c",
+    "src/unix/dl.c",
+    "src/unix/fs.c",
+    "src/unix/getaddrinfo.c",
+    "src/unix/getnameinfo.c",
+    "src/unix/loop-watcher.c",
+    "src/unix/loop.c",
+    "src/unix/pipe.c",
+    "src/unix/poll.c",
+    "src/unix/process.c",
+    "src/unix/random-devurandom.c",
+    "src/unix/signal.c",
+    "src/unix/stream.c",
+    "src/unix/tcp.c",
+    "src/unix/thread.c",
+    "src/unix/tty.c",
+    "src/unix/udp.c",
+]
+
+SRCS_DARWIN_ANDROID_LINUX = SRCS_UNIX + ["src/unix/proctitle.c"]
+
+SRCS_LINUX = SRCS_DARWIN_ANDROID_LINUX + [
+    "src/unix/linux.c",
+    "src/unix/procfs-exepath.c",
+    "src/unix/random-getrandom.c",
+    "src/unix/random-sysctl-linux.c",
+]
+
+DEFS_LINUX = [
+    "_GNU_SOURCE",
+    "_POSIX_C_SOURCE=200112",
+]
+
+_srcs = glob(["src/*"])
+
+_win_linkopts = [
+    "/DEFAULTLIB:psapi",
+    "/DEFAULTLIB:advapi32",
+    "/DEFAULTLIB:iphlpapi",
+    "/DEFAULTLIB:user32",  # added from the original commit, the others are referenced from the CMakeLists.txt file
+    "/DEFAULTLIB:userenv",
+    "/DEFAULTLIB:ws2_32",
+    "/DEFAULTLIB:dbghelp",
+    "/DEFAULTLIB:ole32",
+    "/DEFAULTLIB:shell32",
+]
+
+cc_library(
+    name = "libuv",
+    srcs = select({
+        "@bazel_tools//src/conditions:windows": _srcs + _win_srcs,
+        "@bazel_tools//src/conditions:linux": SRCS_LINUX,
+        "//conditions:default": _srcs + _unix_srcs,  # doesn't work since it includes too many (different Unix's)
+    }),
+    hdrs = glob([
+        "include/**/*",
+        "src/*.h",
+    ]) + select({
+        "@bazel_tools//src/conditions:linux": glob(["src/unix/*.h"]),
+        "//conditions:default": [],
+    }),
+    defines = select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux": DEFS_LINUX,
+        "//conditions:default": [],
+    }),
+    includes = [
+        "include",
+        "src",
+    ],
+    linkopts = select({
+        "@bazel_tools//src/conditions:windows": _win_linkopts,
+        "//conditions:default": [
+            "-lpthread",
+            "-ldl",
+            "-lrt",
+        ],
+    }),
+    linkstatic = True,
+    visibility = ["//visibility:public"],
+)

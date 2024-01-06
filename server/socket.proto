@@ -1,0 +1,31 @@
+// Server-client communication outside of the game (room coordination)
+syntax = "proto3";
+
+package server;
+
+import "conway_rts/room.proto";
+import "conway_rts/event.proto";
+
+/// Server-client data packet
+message Event {
+  oneof event {
+    Register register = 1;
+    RoomList room_list = 2;
+    conway.Event action = 3;
+  }
+}
+
+/// Event to register client name
+message Register {
+  /// name client wants to register
+  string name = 1;
+
+  /// whether the server accepted client name registration
+  bool acknowledged = 2;
+}
+
+/// Event to request the room list
+message RoomList {
+  /// rooms that can be joined
+  repeated conway.RoomListing rooms = 1;
+}

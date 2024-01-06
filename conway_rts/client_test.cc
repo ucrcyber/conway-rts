@@ -1,7 +1,5 @@
 #include "conway_rts/client.hh"
 
-#include <iostream>
-
 #include "gtest/gtest.h"
 
 TEST(Client, initialization) {
@@ -34,4 +32,12 @@ TEST(Client, CreateBuildEvent_format) {
   ArrayBuffer expected_data {10000, 1234, 5678, building_id};
   Event expected_event(time, 0, expected_data);
   EXPECT_EQ(result_event, expected_event);
+}
+
+TEST(Client, copy_into_proto) {
+  conway::Client pb;
+  Client client(1234, "hello world");
+  client.CopyToProtobuf(pb);
+  EXPECT_EQ(pb.id(), client.id());
+  EXPECT_EQ(pb.name(), client.name());
 }

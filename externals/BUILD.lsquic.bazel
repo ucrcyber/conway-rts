@@ -1,19 +1,24 @@
 """
 lsquic bazel build file
+
+lsquic v3.2.0
+https://github.com/litespeedtech/lsquic/blob/v3.2.0/CMakeLists.txt
+https://github.com/litespeedtech/lsquic/blob/v3.2.0/src/liblsquic/CMakeLists.txt
 """
 
 # c++17 needed for sys/uio.h on windows
 CC_OPTS = select({
-    "@bazel_tools//src/conditions:windows": ["/std:c++20"],
-    "//conditions:default": ["--std=c++20"],
+    "@bazel_tools//src/conditions:windows": ["/std:c++17"],
+    "//conditions:default": [],
 })
 
 cc_library(
     name = "lsquic",
-    srcs = glob(["src/liblsquic/ls*.c"]) + ["src/liblsquic/ls-qpack/lsqpack.c"],
+    srcs = glob(["src/liblsquic/lsquic_*.c"]) + ["src/liblsquic/ls-qpack/lsqpack.c"],
     hdrs = glob([
         "include/*.h",
         "src/**/*.h",
+        "src/liblsquic/common_*",
     ]),
     copts = CC_OPTS,
     defines = select({

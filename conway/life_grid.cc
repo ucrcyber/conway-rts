@@ -46,8 +46,21 @@ LifeState LifeGrid::GetCell(const Vector2& coordinate) const {
   return grid_[coordinate.y()][coordinate.x()] ? LifeState::ALIVE : LifeState::DEAD;
 }
 
+bool LifeGrid::IsCellAlive(const Vector2& coordinate) const {
+  return grid_[coordinate.y()][coordinate.x()];
+}
+
+void LifeGrid::SetCell(const Vector2& coordinate) {
+  grid_[coordinate.y()][coordinate.x()] = true;
+}
+
+void LifeGrid::ResetCell(const Vector2& coordinate) {
+  grid_[coordinate.y()][coordinate.x()] = false;
+}
+
 bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
   const Vector2 bottom_right = offset + life_grid.dimensions_;
+  if(offset.x() < 0 || offset.y() < 0) return false;
   if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return false;
 
   int oy = offset.y();
@@ -61,6 +74,10 @@ bool LifeGrid::Load(const LifeGrid& life_grid, const Vector2& offset) {
 }
 
 int LifeGrid::Compare(const LifeGrid& life_grid, const Vector2& offset) const {
+  const Vector2 bottom_right = offset + life_grid.dimensions_;
+  if(offset.x() < 0 || offset.y() < 0) return -1;
+  if(bottom_right.x() > dimensions_.x() || bottom_right.y() > dimensions_.y()) return -1;
+
   int diff_count = 0;
   int oy = offset.y();
   int ox = offset.x();
@@ -153,4 +170,15 @@ bool LifeGrid::SerializeToOstream(std::ostream& out) const {
 bool LifeGrid::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
+}
+
+conway::LifeGrid& LifeGrid::CopyToProtobuf(conway::LifeGrid& pb) const {
+  dimensions().CopyToProtobuf(*pb.mutable_dimensions());
+  pb.clear_flat_grid();
+  for (int i = 0; i < dimensions().y(); ++i) {
+    for (int j = 0; j < dimensions().x(); ++j) {
+      pb.add_flat_grid(IsCellAlive(Vector2(j, i)));
+    }
+  }
+  return pb;
 }

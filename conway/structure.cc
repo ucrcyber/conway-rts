@@ -98,3 +98,8 @@ bool Structure::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }
+
+conway::Structure& Structure::CopyToProtobuf(conway::Structure &pb) const {
+  position().CopyToProtobuf(*pb.mutable_position());
+  return pb;
+}

@@ -4,5 +4,34 @@ cc_binary(
     name = "server",
     srcs = ["main.cpp"],
     copts = CC_OPTS,
-    deps = ["@uwebsockets"],
+    deps = [
+        ":client_socket",
+        ":socket_cc_proto",
+        "@uwebsockets",
+    ],
+)
+
+cc_library(
+    name = "client_socket",
+    srcs = ["client_socket.cc"],
+    hdrs = ["client_socket.hh"],
+    deps = [
+        "//conway_rts:client",
+        "//conway_rts:room",
+        "//conway_rts:team",
+    ],
+)
+
+proto_library(
+    name = "socket_proto",
+    srcs = ["socket.proto"],
+    deps = [
+        "//conway_rts:event_proto",
+        "//conway_rts:room_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "socket_cc_proto",
+    deps = [":socket_proto"],
 )

@@ -22,3 +22,6 @@ bazel-bin
 bazel-conway-rts
 bazel-out
 bazel-testlogs
+
+# removeMODULE.bazel.lock after modules have been migrated
+MODULE.bazel.lock

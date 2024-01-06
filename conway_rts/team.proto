@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package conway;
 
-import "client.proto";
-import "structure.proto";
+import "conway_rts/client.proto";
+import "conway/structure.proto";
 
 message Team {
   int32 id = 1;

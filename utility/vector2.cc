@@ -1,7 +1,5 @@
 #include "vector2.hh"
 
-#include <exception>
-
 Vector2::Vector2() : Vector2(0, 0) {}
 
 Vector2::Vector2(int x, int y) : x_(x), y_(y) {}
@@ -50,6 +48,12 @@ bool Vector2::operator==(const Vector2& rhs) const {
 
 bool Vector2::operator!=(const Vector2& rhs) const {
   return !(*this == rhs);
+}
+
+conway::Vector2& Vector2::CopyToProtobuf(conway::Vector2& pb) const {
+  pb.set_x(x());
+  pb.set_y(y());
+  return pb;
 }
 
 // ### Format

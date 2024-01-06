@@ -68,3 +68,11 @@ bool Client::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
 }
+
+conway::Client& Client::CopyToProtobuf(conway::Client &pb) const {
+  pb.set_name(name());
+  pb.set_id(id());
+  return pb;
+}
+
+Client Client::placeholder = Client(-1, "");

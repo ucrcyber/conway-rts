@@ -9,11 +9,14 @@ DEFAULT_EMSCRIPTEN_LINKOPTS = [
     # "-flto",                          # Specify lto (has to be set on for compiler as well)
     "--bind",  # Compiles the source code using the Embind bindings to connect C/C++ and JavaScript
     "--closure 1",  # Run the closure compiler
+    "-O3",
+    # "--embind-emit-tsd interface.d.ts",  # emit typescript types file, doesn't work (doesn't seem to be supported)
+    # "-s EXPORTED_FUNCTIONS=_free,_malloc",
     "-s MALLOC=emmalloc",  # Switch to using the much smaller implementation
-    "-s ALLOW_MEMORY_GROWTH=0",  # Our example doesn't need memory growth
+    "-s ALLOW_MEMORY_GROWTH=1",
     "-s USE_PTHREADS=0",  # Disable pthreads
     "-s ASSERTIONS=0",  # Turn off assertions
-    # "-s EXPORT_ES6=1",                  # Export as es6 module, used for rollup
+    "-s EXPORT_ES6=1",  # Export as es6 module, used for rollup
     "-s MODULARIZE=1",  # Allows us to manually invoke the initializatio of wasm
     "-s EXPORT_NAME=createModule",  # Not used, but good to specify
     # "-s USE_ES6_IMPORT_META=1",         # needed for somethingggg --- Disable loading from import meta since we use rollup
@@ -26,6 +29,16 @@ WASM_LINKOPTS = [
     "-s WASM=1",  # Specify wasm output
 ]
 
+EMSCRIPTEN_CC_DEPS = [
+    "//conway:life_grid",
+    "//conway:structure",
+    "//conway:structure_properties",
+    "//conway_rts:client",
+    "//conway_rts:room",
+    "//conway_rts:team",
+    "//utility:vector2",
+]
+
 cc_binary(
     name = "conway_lib_wasm_embind",
     srcs = ["bindings.cpp"],
@@ -34,18 +47,33 @@ cc_binary(
     # This target won't build successfully on its own because of missing emscripten
     # headers etc. Therefore, we hide it from wildcards.
     tags = ["manual"],
-    deps = [
-        "//utility:vector2",
-        "//conway:life_grid",
-        "//conway:structure_properties",
-        "//conway:structure",
-        # "//hello-world/cpp:localtime",
-    ],
-    # this isn't a problem as long as you don't wildcard... wildcarding still breaks this though
+    deps = EMSCRIPTEN_CC_DEPS,
 )
 
 wasm_cc_binary(
     name = "conway_lib_wasm",
     cc_target = ":conway_lib_wasm_embind",
-    # simd = True, # adding this fixed FileExistsError, but it appeared again and removing this also fixed that error?
+    simd = True,
+)
+
+cc_binary(
+    name = "conway_lib_wasm_embind_ts",
+    srcs = ["bindings.cpp"],
+    # features = ["emcc_debug_link"], # idk what this does
+    linkopts = [
+        "--bind",
+        "-lembind",
+        "--embind-emit-tsd conway_lib_wasm_embind_ts.js",
+        "-s EXPORTED_FUNCTIONS=_malloc,_free",
+    ],
+    # This target won't build successfully on its own because of missing emscripten
+    # headers etc. Therefore, we hide it from wildcards.
+    tags = ["manual"],
+    deps = EMSCRIPTEN_CC_DEPS,
+)
+
+wasm_cc_binary(
+    name = "conway_lib_wasm_ts",
+    cc_target = ":conway_lib_wasm_embind_ts",
+    tags = ["manual"], # emscripten ts in bazel currently not supported
 )

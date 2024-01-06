@@ -1,5 +1,6 @@
 #include "conway/structure_properties.hh"
 
+#include <sstream>
 #include <map>
 
 StructureProperties::StructureProperties():
@@ -150,4 +151,18 @@ bool StructureProperties::SerializeToOstream(std::ostream& out) const {
 bool StructureProperties::ParseFromIstream(std::istream& in) {
   in >> *this;
   return true;
+}
+
+conway::StructureProperties& StructureProperties::CopyToProtobuf(conway::StructureProperties &pb) const {
+  pb.set_activation_cost(activation_cost());
+  pb.set_build_area(build_area());
+  pb.set_income(income());
+  pb.set_name(name());
+  grid().CopyToProtobuf(*pb.mutable_grid());
+  pb.clear_checks();
+  for (const Vector2 &check : checks()) {
+    conway::Vector2 *check_pb = pb.add_checks();
+    check.CopyToProtobuf(*check_pb);
+  }
+  return pb;
 }

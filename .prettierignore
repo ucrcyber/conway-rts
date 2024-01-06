@@ -1,0 +1,9 @@
+bazel-*
+build
+dist
+node_modules
+
+**/*.html
+**/*.md
+
+pnpm-lock.yaml

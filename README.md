@@ -1,14 +1,30 @@
 # conway-rts
 conway rts cyber project (but still being designed)
 
+## Dependencies
+
+### Windows
+- [chocolately](https://chocolatey.org/install)
+  - [bazelisk](https://github.com/bazelbuild/bazelisk)
+  - [git](https://community.chocolatey.org/packages/git.install)
+  - [python](https://community.chocolatey.org/packages/python/3.12.1)
+  - [nvm](https://community.chocolatey.org/packages/nvm)
+- [VS Build Tools, C++ compiler](https://visualstudio.microsoft.com/downloads/?q=build+tools#build-tools-for-visual-studio-2022)
+
+### Linux
+- [bazelisk](https://github.com/bazelbuild/bazelisk)
+- gcc version 8+ (using c++2a), ideally gcc version 10+ (for c++20 support)
+  - [gsrc](https://www.gnu.org/software/gsrc/) can be used if pre-built binaries aren't available.
+
 ## Running
-Install [bazelisk](https://github.com/bazelbuild/bazelisk)
 ```
-bazelisk # installs bazel with specific version
-bazel query ...             # list targets
-bazel test ... --config=cl  # run all tests (windows, cl.exe)
-bazel test ... --config=gcc # run all tests (linux, gcc)
-balze build ...             # build all targets (config pattern still applies)
+bazel query ...                       # list targets
+bazel test ...                        # run all tests
+bazel build ...                       # build all targets (config pattern still applies)
+bazel run //:refresh_compile_commands # initialize intellisense files
+bazel run //server                    # builds and starts the game server
+npm run test                          # runs vitest (clientside tests)
+npm run dev                           # runs the client
 ```
 
 # Rough UML Diagram

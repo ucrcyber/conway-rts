@@ -98,3 +98,12 @@ TEST(Vector2, cc_proto) {
   
   free(buffer);
 }
+
+TEST(Vector2, copy_into_proto) {
+  conway::Vector2 protobuf;
+  Vector2 vector(1234, 5678);
+  vector.CopyToProtobuf(protobuf);
+
+  EXPECT_EQ(protobuf.x(), vector.x()) << "x value should've been copied to protobuf";
+  EXPECT_EQ(protobuf.y(), vector.y()) << "y value should've been copied to protobuf";
+}

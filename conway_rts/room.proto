@@ -2,14 +2,22 @@ syntax = "proto3";
 
 package conway;
 
-import "client.proto";
-import "team.proto";
-import "vector2.proto";
+import "conway_rts/client.proto";
+import "conway_rts/team.proto";
+import "utility/vector2.proto";
 
+/// full room details to initialize a room
 message Room {
   int32 id = 1;
   string name = 2;
   conway.Vector2 dimensions = 3;
   repeated conway.Client clients = 4;
   repeated conway.Team teams = 5;
+}
+
+/// simplified room details for listing
+message RoomListing {
+  int32 id = 1;
+  string name = 2;
+  int32 client_count = 3;
 }
