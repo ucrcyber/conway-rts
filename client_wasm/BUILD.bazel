@@ -9,6 +9,7 @@ DEFAULT_EMSCRIPTEN_LINKOPTS = [
     # "-flto",                          # Specify lto (has to be set on for compiler as well)
     "--bind",  # Compiles the source code using the Embind bindings to connect C/C++ and JavaScript
     "--closure 1",  # Run the closure compiler
+    "-O3",
     # "--embind-emit-tsd interface.d.ts",  # emit typescript types file, doesn't work (doesn't seem to be supported)
     # "-s EXPORTED_FUNCTIONS=_free,_malloc",
     "-s MALLOC=emmalloc",  # Switch to using the much smaller implementation
@@ -52,6 +53,7 @@ cc_binary(
 wasm_cc_binary(
     name = "conway_lib_wasm",
     cc_target = ":conway_lib_wasm_embind",
+    simd = True,
 )
 
 cc_binary(
